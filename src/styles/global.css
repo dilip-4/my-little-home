@@ -1,0 +1,330 @@
+:root {
+  --ink: #5a3b2a;
+  --cream: #fffaf2;
+  --bg: #3b2a22;
+  --accent: #f5c343;
+  font-family: 'Fredoka', 'Trebuchet MS', system-ui, sans-serif;
+  color: var(--ink);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #4a352b 0%, var(--bg) 75%);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+  overscroll-behavior: none;
+}
+
+.game-root {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+.stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center center;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  background: #f3e6d4;
+}
+
+.room-layer {
+  position: absolute;
+  inset: 0;
+  animation: room-in 420ms ease-out;
+}
+
+.scene-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.room-loading {
+  position: absolute;
+  inset: 0;
+  background: #f8dccf;
+}
+
+/* ---------------- HUD ---------------- */
+.hud {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  right: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+.hud > * {
+  pointer-events: auto;
+}
+
+.logo-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px 6px 8px;
+  border-radius: 999px;
+  background: rgba(255, 250, 242, 0.85);
+  border: 3px solid var(--ink);
+  font-weight: 600;
+  font-size: 24px;
+  box-shadow: 0 4px 0 rgba(90, 59, 42, 0.25);
+  pointer-events: none !important;
+}
+
+.hud-btn {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 3px solid var(--ink);
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 5px 0 rgba(90, 59, 42, 0.35);
+  transition: transform 120ms;
+}
+
+.hud-btn:active {
+  transform: translateY(3px) scale(0.96);
+}
+
+.hud-btn svg {
+  width: 38px;
+  height: 38px;
+}
+
+.tap-hint {
+  position: absolute;
+  left: 50%;
+  top: 20px;
+  transform: translateX(-50%);
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: rgba(255, 250, 242, 0.92);
+  border: 3px solid var(--ink);
+  font-size: 28px;
+  font-weight: 600;
+  pointer-events: none;
+  animation: hint-in 600ms ease-out, hint-pulse 2s ease-in-out 600ms infinite;
+}
+
+.door-hint {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  top: 380px;
+  border: 6px solid rgba(255, 233, 160, 0.9);
+  pointer-events: none;
+  animation: door-ring 2.2s ease-out infinite;
+}
+
+.door-hint.papa-room {
+  left: 55px;
+}
+
+.door-hint.mummy-room {
+  left: 1283px;
+}
+
+.transition-veil {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, #4a352b, #2a1d17);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 360ms ease;
+}
+
+.transition-veil.out {
+  opacity: 1;
+}
+
+/* ---------------- dialogue ---------------- */
+.dialogue-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bubble {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  max-width: 400px;
+  min-width: 110px;
+  padding: 14px 24px;
+  background: #fffdf7;
+  border: 4px solid var(--ink);
+  border-radius: 28px;
+  font-size: 29px;
+  line-height: 1.2;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 6px 0 rgba(90, 59, 42, 0.2), inset 0 -6px 0 var(--accent);
+  pointer-events: auto;
+  cursor: pointer;
+  animation: bubble-pop 280ms cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+.bubble::after {
+  content: '';
+  position: absolute;
+  left: calc(50% + var(--tail, 0px) - 14px);
+  bottom: -22px;
+  width: 26px;
+  height: 26px;
+  background: #fffdf7;
+  border-right: 4px solid var(--ink);
+  border-bottom: 4px solid var(--ink);
+  transform: rotate(45deg) skew(10deg, 10deg);
+  border-bottom-right-radius: 6px;
+}
+
+.bubble-text {
+  display: inline-block;
+  animation: text-in 220ms ease-out;
+}
+
+/* ---------------- intro ---------------- */
+.intro {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  animation: intro-out 500ms ease-in 2.95s forwards;
+}
+
+.intro-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.intro-title {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.intro-title h1 {
+  margin: 0;
+  font-size: 104px;
+  font-weight: 600;
+  color: #fff;
+  -webkit-text-stroke: 4px var(--ink);
+  paint-order: stroke fill;
+  text-shadow: 0 8px 0 rgba(90, 59, 42, 0.35);
+  animation: title-drop 700ms cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+
+.intro-title p {
+  margin: 4px 0 0;
+  font-size: 38px;
+  font-weight: 600;
+  color: var(--ink);
+  animation: fade-in 900ms ease-out;
+}
+
+.intro-tap {
+  display: inline-block;
+  margin-top: 500px;
+  font-size: 26px;
+  padding: 8px 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 3px solid var(--ink);
+  animation: hint-pulse 1.6s ease-in-out infinite;
+}
+
+/* ---------------- rotate prompt ---------------- */
+.rotate-prompt {
+  position: fixed;
+  inset: 0;
+  background: rgba(42, 29, 23, 0.94);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 16px;
+  text-align: center;
+  font-size: 22px;
+  z-index: 10;
+}
+
+.rotate-phone {
+  animation: rotate-hint 2.4s ease-in-out infinite;
+}
+
+.pill-btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 12px 26px;
+  border-radius: 999px;
+  border: 3px solid var(--ink);
+  background: var(--accent);
+  color: var(--ink);
+  cursor: pointer;
+  min-height: 48px;
+}
+
+/* ---------------- character sheet ---------------- */
+.sheet {
+  height: 100%;
+  overflow: auto;
+  background: #fff8ee;
+  padding: 24px 16px 60px;
+  user-select: text;
+}
+
+.sheet h1 {
+  margin-top: 0;
+}
+
+.sheet-row {
+  width: 100%;
+  max-width: 1400px;
+  background: #fdf0de;
+  border-radius: 16px;
+  border: 2px solid #ead8bf;
+}
+
+.sheet-spec ul {
+  margin: 4px 0;
+}
+
+.swatches {
+  display: flex;
+  gap: 6px;
+  margin: 6px 0 10px;
+}
+
+.swatches span {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 2px solid var(--ink);
+}

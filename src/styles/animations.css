@@ -1,0 +1,77 @@
+@keyframes room-in { from { transform: scale(1.015); } to { transform: none; } }
+@keyframes bump { 0% { transform: scale(1); } 30% { transform: scale(1.05, 0.95); } 60% { transform: scale(0.98, 1.03); } 100% { transform: scale(1); } }
+@keyframes blink { 0%, 93%, 100% { transform: scaleY(1); } 95.5% { transform: scaleY(0.1); } }
+@keyframes talk { from { transform: scaleY(0.35); } to { transform: scaleY(1.1); } }
+@keyframes typing { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+@keyframes breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.018); } }
+@keyframes walk-bob { from { transform: translateY(0) rotate(-3deg); } to { transform: translateY(-7px) rotate(3deg); } }
+@keyframes jump { 0%, 100% { transform: translateY(0) scaleY(0.94); } 45% { transform: translateY(-62px) scaleY(1.04); } }
+@keyframes jump-small { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+@keyframes shake { 0% { transform: translateX(-2px); } 50% { transform: translateX(2px); } 100% { transform: translateX(-2px); } }
+@keyframes wiggle-soft { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+@keyframes dance { from { transform: rotate(-8deg) translateY(0); } to { transform: rotate(8deg) translateY(-8px); } }
+@keyframes strum { from { transform: translateY(0); } to { transform: translateY(-3px); } }
+@keyframes chair-spin { 0% { transform: scaleX(1); } 50% { transform: scaleX(-1); } 100% { transform: scaleX(1); } }
+@keyframes adjust { from { transform: translateY(0); } to { transform: translateY(6px); } }
+@keyframes groove { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
+@keyframes search { from { transform: translateX(-6px) rotate(-2deg); } to { transform: translateX(6px) rotate(2deg); } }
+@keyframes look-around { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-7px); } 75% { transform: translateX(7px); } }
+@keyframes head-wobble { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes sway { from { transform: rotate(-1.8deg); } to { transform: rotate(1.8deg); } }
+@keyframes curtain { from { transform: skewX(-0.8deg); } to { transform: skewX(0.8deg); } }
+@keyframes curtain-windy { from { transform: skewX(-4deg) scaleX(0.97); } to { transform: skewX(3deg) scaleX(1.01); } }
+@keyframes drift { from { transform: translateX(-20px); } to { transform: translateX(40px); } }
+@keyframes bird { 0% { transform: translateX(0) translateY(0); } 60% { transform: translateX(360px) translateY(-20px); } 100% { transform: translateX(360px) translateY(-20px); } }
+@keyframes twinkle { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
+@keyframes beam { from { opacity: 0.7; } to { opacity: 1; } }
+@keyframes zzz { 0% { opacity: 0; transform: translateY(6px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(-16px); } }
+@keyframes steam { 0% { opacity: 0; transform: translateY(6px); } 40% { opacity: 0.8; } 100% { opacity: 0; transform: translateY(-14px); } }
+@keyframes screen-scroll { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+@keyframes party { from { transform: scale(0.92); opacity: 0.8; } to { transform: scale(1.06); opacity: 1; } }
+@keyframes wiggle { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+@keyframes swing { from { transform: rotate(-14deg); } to { transform: rotate(14deg); } }
+@keyframes swing-idle { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
+@keyframes books { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+@keyframes photo-zoom { 0% { transform: scale(1); } 20%, 80% { transform: scale(1.7); } 100% { transform: scale(1); } }
+@keyframes squish { from { transform: scale(1.03, 0.95); } to { transform: scale(1, 1); } }
+@keyframes pop-in { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+@keyframes pop-up { 0% { transform: translateY(30px) scale(0.3); opacity: 0; } 100% { transform: none; opacity: 1; } }
+@keyframes toy-pop { 0% { transform: translateY(20px) scale(0.5); opacity: 0; } 40% { transform: translateY(-70px) rotate(20deg); opacity: 1; } 100% { transform: translateY(0) rotate(0); opacity: 1; } }
+@keyframes idle-bob { from { transform: translateY(0); } to { transform: translateY(-3px); } }
+@keyframes ring { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
+@keyframes key { from { transform: translateY(0); } to { transform: translateY(1.5px); } }
+@keyframes blanket { from { transform: scale(1, 1) rotate(-0.6deg); } to { transform: scale(1.01, 1.05) rotate(0.6deg); } }
+@keyframes spark { 0% { transform: translate(0, 0) scale(0.3); opacity: 1; } 70% { opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) scale(1); opacity: 0; } }
+@keyframes heart-float { 0% { transform: translateY(0) scale(0.6); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-90px) scale(1); opacity: 0; } }
+@keyframes disco { from { transform: translate(-80px, -40px); } to { transform: translate(80px, 60px); } }
+@keyframes bubble-pop { from { transform: translate(-50%, -100%) scale(0.6); opacity: 0; } to { transform: translate(-50%, -100%) scale(1); opacity: 1; } }
+@keyframes text-in { from { opacity: 0.2; } to { opacity: 1; } }
+@keyframes hint-in { from { opacity: 0; transform: translate(-50%, 14px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes hint-pulse { 0%, 100% { scale: 1; } 50% { scale: 1.05; } }
+@keyframes door-ring { 0% { transform: scale(0.6); opacity: 0.9; } 100% { transform: scale(1.5); opacity: 0; } }
+@keyframes intro-out { to { opacity: 0; visibility: hidden; } }
+@keyframes title-drop { from { transform: translateY(-80px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes house-in { from { transform: scale(0.6); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes rotate-hint { 0%, 30% { transform: rotate(0); } 60%, 100% { transform: rotate(-90deg); } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bubble-float {
+  0% { transform: translate(0, 0) scale(0.2); opacity: 0; }
+  8% { transform: translate(calc(var(--dx) * 0.1), calc(var(--rise) * 0.08)) scale(1); opacity: 1; }
+  35% { transform: translate(calc(var(--dx) * 0.45), calc(var(--rise) * 0.38)) scale(1); }
+  60% { transform: translate(calc(var(--dx) * 0.6), calc(var(--rise) * 0.62)) scale(1.04); }
+  88% { opacity: 1; }
+  100% { transform: translate(var(--dx), var(--rise)) scale(1); opacity: 0; }
+}
+@keyframes bubble-burst { from { transform: scale(0.5); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+@keyframes block-drop { from { transform: translateY(-40px); } 70% { transform: translateY(3px); } to { transform: translateY(0); } }
+@keyframes block-tumble { 0% { transform: translate(0, 0) rotate(0); } 100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); } }
+@keyframes tower-wobble { from { transform: rotate(-1.6deg); } to { transform: rotate(1.6deg); } }
+@keyframes car-zoom { from { transform: translateY(0); } to { transform: translateY(-2px); } }
+.bubble-float { animation: bubble-float 9s ease-in-out both; cursor: pointer; }
+.bubble-burst { animation: bubble-burst 320ms ease-out forwards; }
+.block-drop { animation: block-drop 380ms cubic-bezier(.3,1.4,.5,1); }
+.block-tumble { transform-box: fill-box; transform-origin: center; animation: block-tumble 650ms cubic-bezier(.4,0,.7,1) forwards; }
+.tower-wobble { animation: tower-wobble 0.6s ease-in-out infinite alternate; }
+.car-zoom { animation: car-zoom 90ms linear infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .tower-wobble, .car-zoom { animation: none; } }

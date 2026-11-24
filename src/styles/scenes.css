@@ -1,0 +1,344 @@
+/* Interactive objects: pointer cursor, hover glow (only where hover exists), bounce on tap */
+.hot {
+  cursor: pointer;
+  outline: none;
+}
+
+.hot .hit {
+  pointer-events: all;
+}
+
+@media (hover: hover) {
+  .hot:hover > :first-child {
+    filter: brightness(1.07) saturate(1.08);
+  }
+}
+
+.hot:focus-visible > .hit {
+  stroke: #ffd34d;
+  stroke-width: 5;
+  stroke-dasharray: 10 8;
+}
+
+.hot.bumping {
+  animation: bump 480ms cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+/* character parts ------------------------------------------------- */
+.blink,
+.talk-mouth,
+.laugh-mouth,
+.tuft,
+.pop-in,
+.pop-up,
+.toy-pop,
+.cuckoo-pop,
+.wiggle,
+.books-wiggle,
+.teddy-dance,
+.robot-dance,
+.phone-ring,
+.alarm-shake,
+.key-press,
+.idle-bob,
+.photo-zoom,
+.screen-party,
+.blanket-wiggle,
+.blanket-breathe,
+.k-breathe,
+.k-sleep {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.blink {
+  animation: blink 4.6s infinite;
+}
+
+.talk-mouth {
+  animation: talk 0.22s ease-in-out infinite alternate;
+}
+
+.laugh-mouth {
+  animation: talk 0.16s ease-in-out infinite alternate;
+}
+
+.typing-hand {
+  animation: typing 0.26s ease-in-out infinite alternate;
+}
+
+.tuft {
+  transform-origin: 50% 100%;
+  transition: transform 220ms cubic-bezier(0.3, 1.8, 0.5, 1);
+}
+
+.tuft.flat {
+  transform: scale(1.3, 0.15);
+}
+
+.k-breathe {
+  transform-origin: 50% 100%;
+  animation: breathe 3s ease-in-out infinite;
+}
+
+.k-sleep {
+  animation: breathe 2.6s ease-in-out infinite;
+}
+
+.k-walk {
+  animation: walk-bob 0.32s ease-in-out infinite alternate;
+}
+
+.k-jump {
+  animation: jump 0.48s ease-in-out infinite;
+}
+
+.k-jump-small {
+  animation: jump-small 0.5s ease-in-out infinite;
+}
+
+.k-shake {
+  animation: shake 0.12s linear infinite;
+}
+
+.k-wiggle {
+  animation: wiggle-soft 0.3s ease-in-out infinite alternate;
+}
+
+.k-dance {
+  animation: dance 0.55s ease-in-out infinite alternate;
+}
+
+.k-strum {
+  animation: strum 0.22s ease-in-out infinite alternate;
+}
+
+.k-bob {
+  animation: strum 0.4s ease-in-out infinite alternate;
+}
+
+.chair-spin {
+  animation: chair-spin 0.65s ease-in-out 2;
+}
+
+.adult-adjust {
+  animation: adjust 0.35s ease-in-out 4 alternate;
+}
+
+.adult-groove {
+  animation: groove 0.6s ease-in-out infinite alternate;
+}
+
+.adult-search {
+  animation: search 0.7s ease-in-out infinite alternate;
+}
+
+.look-around {
+  animation: look-around 2.4s ease-in-out infinite;
+}
+
+.head-wobble {
+  transform-origin: 0px 40px;
+  animation: head-wobble 0.45s ease-in-out infinite alternate;
+}
+
+/* environment ----------------------------------------------------- */
+.fan-slow {
+  animation: spin 1.4s linear infinite;
+}
+
+.fan-fast {
+  animation: spin 0.42s linear infinite;
+}
+
+.plant-sway {
+  animation: sway 5s ease-in-out infinite alternate;
+}
+
+.curtain-sway {
+  animation: curtain 6s ease-in-out infinite alternate;
+}
+
+.curtain-windy {
+  animation: curtain-windy 1.3s ease-in-out infinite alternate;
+}
+
+.cloud-drift {
+  animation: drift 24s ease-in-out infinite alternate;
+}
+
+.tree-sway {
+  animation: sway 4s ease-in-out infinite alternate;
+}
+
+.bird-fly {
+  animation: bird 14s linear infinite;
+  animation-delay: 3s;
+}
+
+.twinkle {
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+
+.sunbeam {
+  animation: beam 7s ease-in-out infinite alternate;
+}
+
+.zzz text {
+  animation: zzz 2.6s ease-in-out infinite;
+}
+
+.zzz text:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.zzz text:nth-child(3) {
+  animation-delay: 0.8s;
+}
+
+.steam path {
+  animation: steam 2.8s ease-in-out infinite;
+}
+
+.screen-scroll {
+  animation: screen-scroll 5s ease-in-out infinite alternate;
+}
+
+.screen-party {
+  animation: party 0.6s ease-in-out infinite alternate;
+}
+
+.wiggle {
+  transform-origin: 50% 100%;
+  animation: wiggle 0.14s ease-in-out 5 alternate;
+}
+
+.swing {
+  animation: swing 0.3s ease-in-out 4 alternate;
+}
+
+.swing-idle {
+  animation: swing-idle 5s ease-in-out infinite alternate;
+}
+
+.books-wiggle {
+  animation: books 0.12s ease-in-out 5 alternate;
+}
+
+.photo-zoom {
+  animation: photo-zoom 2.6s cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+
+.squish {
+  animation: squish 0.24s ease-in-out infinite alternate;
+}
+
+.pop-in {
+  animation: pop-in 420ms cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+.pop-up {
+  animation: pop-up 500ms cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+.toy-pop {
+  animation: toy-pop 900ms ease-out both;
+}
+
+.teddy-dance {
+  transform-origin: 50% 100%;
+  animation: dance 0.36s ease-in-out infinite alternate;
+}
+
+.robot-dance {
+  transform-origin: 50% 100%;
+  animation: wiggle-soft 0.3s ease-in-out infinite alternate;
+}
+
+.idle-bob {
+  animation: idle-bob 2.2s ease-in-out infinite alternate;
+}
+
+.phone-ring {
+  animation: ring 0.08s linear infinite alternate;
+}
+
+.key-press {
+  animation: key 0.16s ease-in-out 4 alternate;
+}
+
+.alarm-shake {
+  animation: ring 0.07s linear infinite alternate;
+}
+
+.blanket-wiggle {
+  transform-origin: 50% 100%;
+  animation: blanket 0.32s ease-in-out infinite alternate;
+}
+
+.blanket-breathe {
+  transform-origin: 50% 100%;
+  animation: breathe 2.6s ease-in-out infinite;
+}
+
+.meeting-wave {
+  animation: strum 0.3s ease-in-out infinite alternate;
+}
+
+.cuckoo-pop {
+  animation: pop-up 500ms cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+.spark {
+  animation: spark 1.3s ease-out forwards;
+}
+
+.heart-float {
+  animation: heart-float 2.2s ease-out infinite;
+}
+
+.disco-spot {
+  animation: disco 5s ease-in-out infinite alternate;
+}
+
+.disco-ball {
+  animation: twinkle 1.6s ease-in-out infinite;
+}
+
+.brush-move {
+  animation: strum 0.18s ease-in-out infinite alternate;
+}
+
+.type-in {
+  animation: fade-in 300ms ease-out;
+}
+
+.intro-house {
+  animation: house-in 900ms cubic-bezier(0.3, 1.4, 0.5, 1);
+  transform-origin: 720px 620px;
+}
+
+.smoke circle {
+  animation: steam 3s ease-in-out infinite;
+}
+
+/* pause everything while the tab is hidden */
+.paused *,
+.paused *::before,
+.paused *::after {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud-drift,
+  .bird-fly,
+  .curtain-sway,
+  .plant-sway,
+  .tree-sway,
+  .sunbeam,
+  .k-breathe,
+  .idle-bob,
+  .swing-idle {
+    animation: none;
+  }
+}
