@@ -1,7 +1,9 @@
 import { memo } from 'react';
 import { useGame } from '../../state/gameStore';
 import { OUTLINE } from '../../data/characters';
-import { BUBBLE_BOTTLE, MUMMY_SEAT } from '../../data/spots';
+import { BUBBLE_BOTTLE, COSTUME_CHEST, MUMMY_SEAT, PUP_BOWL } from '../../data/spots';
+import { CostumeChest, DogBowl } from '../../components/HomeExtras';
+import { PupActor } from '../../characters/Pup';
 import { Bubbles } from '../../components/Toys';
 import { InteractiveObject as Hot } from '../../components/InteractiveObject';
 import { RoomShell, WindowView, Curtains, CeilingFan, Plant, LightSwitch, Frame, FamilyMini } from '../../components/RoomParts';
@@ -421,6 +423,15 @@ export const MummyRoomScene = memo(function MummyRoomScene() {
           <BubbleBottle wand={!(kidHere && kid.prop === 'wand')} />
         </g>
       </Hot>
+
+      <Hot id="chest" label="Costume chest" hit={{ x: COSTUME_CHEST.x - 60, y: COSTUME_CHEST.y - 92, w: 120, h: 96 }}>
+        <CostumeChest x={COSTUME_CHEST.x} y={COSTUME_CHEST.y} open={!!fx[R + ':chestOpen']} />
+      </Hot>
+      <Hot id="bowl" label="Biscuit's bowl" hit={{ x: PUP_BOWL.x - 36, y: PUP_BOWL.y - 40, w: 72, h: 46 }}>
+        <DogBowl x={PUP_BOWL.x} y={PUP_BOWL.y} full={!!fx[R + ':bowlFull']} />
+      </Hot>
+      <PupActor room={R} />
+      {fx[R + ':pupHearts'] && <Hearts x={useGame.getState().pup.x} y={useGame.getState().pup.y - 110} />}
 
       <KidActor room={R} layer="front" />
 

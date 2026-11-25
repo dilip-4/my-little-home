@@ -1,5 +1,5 @@
 import { memo, type CSSProperties } from 'react';
-import type { Expression, HeldItem, KidPose, KidProp } from '../state/gameTypes';
+import type { Expression, HeldItem, KidPose, KidProp, Outfit } from '../state/gameTypes';
 import { KID_SPEC, OUTLINE } from '../data/characters';
 import { Face, Hand, Limb, limbEnd } from './parts';
 import {
@@ -60,9 +60,65 @@ export interface KidFigureProps {
   holding?: HeldItem;
   talking?: boolean;
   hairFlat?: boolean;
+  outfit?: Outfit;
+  balloon?: string | null;
 }
 
-export const KidFigure = memo(function KidFigure({ pose, expr, prop, holding, talking, hairFlat }: KidFigureProps) {
+const O = { stroke: OUTLINE, strokeWidth: 3, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const };
+
+/** Costume pieces drawn on the head (head-local coordinates, head centre = 0,0, radius ~50). */
+const HeadCostume = ({ outfit }: { outfit: Outfit }) => {
+  switch (outfit) {
+    case 'crown':
+      return (
+        <g transform="translate(0 -46)">
+          <path d="M -34 6 L -38 -30 L -18 -12 L 0 -38 L 18 -12 L 38 -30 L 34 6 Z" fill="#ffd23f" {...O} />
+          <rect x={-35} y={0} width={70} height={10} rx={3} fill="#f2b640" {...O} />
+          <circle cx={0} cy={-10} r={5} fill="#ff6f91" stroke={OUTLINE} strokeWidth={2} />
+          <circle cx={-20} cy={-4} r={3.5} fill="#5fd4ff" stroke={OUTLINE} strokeWidth={1.5} />
+          <circle cx={20} cy={-4} r={3.5} fill="#6fe08a" stroke={OUTLINE} strokeWidth={1.5} />
+        </g>
+      );
+    case 'pirate':
+      return (
+        <g transform="translate(0 -40)">
+          <path d="M -62 6 Q -40 -8 -30 -30 Q 0 -52 30 -30 Q 40 -8 62 6 Q 0 -6 -62 6 Z" fill="#2d2d3a" {...O} />
+          <path d="M -50 2 Q 0 -10 50 2" fill="none" stroke="#f2b640" strokeWidth={4} />
+          <path d="M 0 -30 l 4 8 l 9 1 l -7 6 l 2 9 l -8 -5 l -8 5 l 2 -9 l -7 -6 l 9 -1 Z" fill="#fff" stroke={OUTLINE} strokeWidth={1.5} />
+        </g>
+      );
+    case 'chef':
+      return (
+        <g transform="translate(0 -44)">
+          <path d="M -30 8 Q -52 -4 -40 -26 Q -36 -46 -14 -40 Q -4 -60 16 -46 Q 38 -50 40 -28 Q 54 -8 30 8 Z" fill="#fff" {...O} />
+          <rect x={-31} y={0} width={62} height={16} rx={4} fill="#fff" {...O} />
+          <path d="M -10 -14 Q -8 -2 -10 4 M 10 -16 Q 12 -4 10 4" stroke="#d8dde6" strokeWidth={3} fill="none" />
+        </g>
+      );
+    case 'dino':
+      return (
+        <g>
+          {[-46, -24, 0, 24, 46].map((x, i) => (
+            <path key={i} d={`M ${x - 9} ${-Math.sqrt(Math.max(0, 3200 - x * x)) + 2} l 9 -18 l 9 18 Z`} transform={`rotate(${x * 0.9} ${x} ${-Math.sqrt(Math.max(0, 3200 - x * x))})`} fill="#ff9f43" {...O} strokeWidth={2.5} />
+          ))}
+        </g>
+      );
+    default:
+      return null;
+  }
+};
+
+/** Dino hood shell behind the face. */
+const DinoHood = () => <ellipse cx={0} cy={-2} rx={60} ry={58} fill="#6fbf4a" stroke={OUTLINE} strokeWidth={3} />;
+
+const Cape = () => (
+  <g className="k-cape">
+    <path d="M -28 -120 Q -60 -60 -52 -8 Q 0 6 52 -8 Q 60 -60 28 -120 Q 0 -112 -28 -120 Z" fill="#e2483f" stroke={OUTLINE} strokeWidth={3} strokeLinejoin="round" />
+    <path d="M -20 -112 Q 0 -104 20 -112" fill="none" stroke="#b8322b" strokeWidth={3} />
+  </g>
+);
+
+export const KidFigure = memo(function KidFigure({ pose, expr, prop, holding, talking, hairFlat, outfit = 'none', balloon = null }: KidFigureProps) {
   let def = POSES[pose] ?? POSES.stand;
   const carrying = holding && holding !== 'sunglasses' && holding !== 'mouse';
   if (carrying && (pose === 'stand' || pose === 'walk')) def = { ...def, l: POSES.hold.l, r: POSES.hold.r };
@@ -125,6 +181,7 @@ export const KidFigure = memo(function KidFigure({ pose, expr, prop, holding, ta
       <g style={{ transform: lying ? 'rotate(-90deg)' : 'none', transition: 'transform 400ms ease' }}>
         <g className={def.cls}>
           <g style={{ transform: `translateY(${dy}px) rotate(${def.rot ?? 0}deg)`, transition: 'transform 300ms ease', transformOrigin: '0px -60px' }}>
+            {outfit === 'cape' && <Cape />}
             {/* legs */}
             <g style={{ transform: `translateY(${-dy}px)`, transition: 'transform 300ms ease' }}>
               <Limb x={-13} y={-52 + dy} a={lg} b={lk} len={26} len2={24} w={16} color={SKIN} end={shoe} />
@@ -143,6 +200,7 @@ export const KidFigure = memo(function KidFigure({ pose, expr, prop, holding, ta
             <g style={{ transform: `rotate(${def.headTilt ?? 0}deg)`, transformOrigin: '0px -128px', transition: 'transform 300ms ease' }}>
               <rect x={-9} y={-134} width={18} height={14} fill={SKIN} stroke={OUTLINE} strokeWidth={2.5} />
               <g transform="translate(0 -174)">
+                {outfit === 'dino' && <DinoHood />}
                 <circle cx={-49} cy={4} r={11} fill={SKIN} stroke={OUTLINE} strokeWidth={3} />
                 <circle cx={49} cy={4} r={11} fill={SKIN} stroke={OUTLINE} strokeWidth={3} />
                 <ellipse cx={0} cy={0} rx={50} ry={48} fill={SKIN} stroke={OUTLINE} strokeWidth={3} />
@@ -152,6 +210,7 @@ export const KidFigure = memo(function KidFigure({ pose, expr, prop, holding, ta
                 <g className={hairFlat ? 'tuft flat' : 'tuft'}>
                   <path d="M -4 -52 Q -10 -74 6 -78 Q 2 -66 12 -60 Q 18 -72 26 -68 Q 18 -58 14 -50 Z" fill={KID_SPEC.hair} stroke={OUTLINE} strokeWidth={3} strokeLinejoin="round" />
                 </g>
+                {outfit !== 'none' && outfit !== 'cape' && <HeadCostume outfit={outfit} />}
                 {holding === 'sunglasses' && <g transform="translate(0 -2) scale(1.05)"><Sunglasses /></g>}
               </g>
             </g>
@@ -161,6 +220,14 @@ export const KidFigure = memo(function KidFigure({ pose, expr, prop, holding, ta
           </g>
         </g>
       </g>
+      {balloon && !lying && (
+        <g className="k-balloon" pointerEvents="none">
+          <path d={`M ${lHand.x} ${lHand.y + dy} Q ${lHand.x - 60} ${-200} ${lHand.x - 62} ${-252}`} fill="none" stroke="#7a6a5a" strokeWidth={2} />
+          <ellipse cx={lHand.x - 64} cy={-282} rx={25} ry={30} fill={balloon} stroke={OUTLINE} strokeWidth={3} />
+          <path d={`M ${lHand.x - 69} ${-250} l 5 -5 l 5 5 Z`} fill={balloon} stroke={OUTLINE} strokeWidth={2} />
+          <ellipse cx={lHand.x - 74} cy={-294} rx={6} ry={9} fill="#fff" opacity={0.45} />
+        </g>
+      )}
       {pose === 'sleep' && (
         <g transform="translate(-200 -60)">
           <Zzz />

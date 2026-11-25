@@ -5,6 +5,8 @@ import { InteractionManager } from '../../engine/InteractionManager';
 import { initialPapaTap, PAPA_TAP_WINDOW_MS, resetPapaTap, tapPapa, type PapaTapState } from '../../engine/papaTapMachine';
 import { PAPA_SPOTS as SP } from '../../data/spots';
 import { papaToyDefs } from '../toys';
+import { pupInteractions } from '../pup';
+import { papaExtraDefs } from '../extras';
 import { aside, commonDefs, isToy, kidDefs, kidHolding, kidPresent, line, parentHead, say, startHoldTimeout } from '../shared';
 
 const R = 'papa-room' as const;
@@ -673,6 +675,8 @@ export const papaRoomInteractions: InteractionDefinition[] = [
   },
 
   ...papaToyDefs(),
+  ...papaExtraDefs(),
+  ...pupInteractions(R),
 
   ...kidDefs(R, null),
 ];

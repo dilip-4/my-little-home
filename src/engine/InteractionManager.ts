@@ -6,6 +6,7 @@ import type {
   MummyRoomState,
   PapaRoomState,
   ParentId,
+  PupState,
   RoomId,
 } from '../state/gameTypes';
 import { defaultAdult, getGame } from '../state/gameStore';
@@ -132,6 +133,22 @@ export class Ctx {
   kid(patch: Partial<KidState>) {
     this.check();
     getGame().setKid(patch);
+  }
+  pup(patch: Partial<PupState>) {
+    this.check();
+    getGame().setPup(patch);
+  }
+  /** Trots Biscuit to a spot (same room) and waits until he arrives. */
+  async pupTo(spot: { x: number; y?: number }, opts: { run?: boolean; pose?: PupState['pose'] } = {}) {
+    this.check();
+    const p = getGame().pup;
+    const y = spot.y ?? p.y;
+    const dist = Math.hypot(spot.x - p.x, y - p.y);
+    if (dist < 6) return;
+    const ms = Math.max(220, Math.min(1600, dist / (opts.run ? 0.9 : 0.5)));
+    this.pup({ x: spot.x, y, facing: spot.x >= p.x ? 1 : -1, moveMs: ms, pose: opts.run ? 'run' : 'walk' });
+    await this.wait(ms);
+    this.pup({ moveMs: 0, pose: opts.pose ?? 'sit' });
   }
   papaRoom(patch: Partial<PapaRoomState>) {
     getGame().patchPapaRoom(patch);
@@ -384,6 +401,8 @@ function defaultReset(actor: CharacterId) {
       Object.assign(patch, { y: 772, moveMs: 300 });
     }
     g.setKid(patch);
+  } else if (actor === 'pup') {
+    g.setPup({ pose: g.pup.pose === 'sleep' ? 'sleep' : 'sit', moveMs: 0, carry: null });
   } else {
     g.setAdult(actor, { ...defaultAdult() });
   }

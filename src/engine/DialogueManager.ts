@@ -22,8 +22,13 @@ export function readingTime(text: string): number {
   return Math.min(5200, Math.max(1700, 700 + text.length * 52));
 }
 
+/** The player's name (falls back to a friendly word before one is typed). */
+export const kidName = () => getGame().settings.kidName?.trim() || 'buddy';
+export const withName = (text: string) => text.replace(/\{name\}/g, kidName());
+
 function show(p: Pending) {
   const id = nextId++;
+  p = { ...p, text: withName(p.text) };
   const until = Date.now() + p.ms;
   getGame().showDialogue({ id, speaker: p.speaker, text: p.text, priority: p.priority, until });
   clearTimeout(timers.get(p.speaker));
@@ -66,6 +71,6 @@ export const DialogueManager = {
     timers.forEach((t) => clearTimeout(t));
     timers.clear();
     queues.clear();
-    (['papa', 'mummy', 'kid'] as CharacterId[]).forEach((c) => getGame().clearDialogue(c));
+    (['papa', 'mummy', 'kid', 'pup'] as CharacterId[]).forEach((c) => getGame().clearDialogue(c));
   },
 };

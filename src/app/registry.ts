@@ -4,6 +4,7 @@ import { mummyRoomInteractions } from '../scenes/MummyRoom/interactions';
 import { eligibleMoments, pickMoment } from '../scenes/moments';
 import { IdleDirector } from '../engine/IdleDirector';
 import { getGame } from '../state/gameStore';
+import { pupTick, wirePupReactions } from '../scenes/pup';
 
 let lastMoment: string | null = null;
 
@@ -14,6 +15,8 @@ export function registerInteractions() {
   done = true;
   InteractionManager.register(papaRoomInteractions);
   InteractionManager.register(mummyRoomInteractions);
+  IdleDirector.addTicker(pupTick);
+  wirePupReactions();
   IdleDirector.setMomentPicker(() => {
     const m = pickMoment(eligibleMoments(getGame(), (id) => InteractionManager.cooldowns.isCooling(id)), lastMoment);
     if (m) lastMoment = m.def.id;

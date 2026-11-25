@@ -125,6 +125,8 @@ const nextAt: Record<string, number> = {};
 /** Family moments (parents taking the initiative) are supplied by the scene layer. */
 type MomentPicker = () => InteractionDefinition | null;
 let momentPicker: MomentPicker | null = null;
+/** Extra per-second behaviours (e.g. the puppy) plugged in by the scene layer. */
+const tickers: (() => void)[] = [];
 let nextMomentAt = 0;
 /** How long the player must be quiet before a parent starts something on their own. */
 export const MOMENT_QUIET_MS = 7000;
@@ -138,6 +140,9 @@ export const IdleDirector = {
     nextAt.kid = now + randBetween(6000, 10000);
     nextMomentAt = now + randBetween(25000, 40000);
     timer = setInterval(() => this.tick(), 1000);
+  },
+  addTicker(fn: () => void) {
+    if (!tickers.includes(fn)) tickers.push(fn);
   },
   setMomentPicker(fn: MomentPicker) {
     momentPicker = fn;
@@ -153,9 +158,10 @@ export const IdleDirector = {
   tick() {
     if (typeof document !== 'undefined' && document.hidden) return;
     const s = getGame();
-    if (s.transitioning || !s.introDone) return;
+    if (s.transitioning || !s.introDone || s.fx['ui:drawing'] || s.fx['ui:stickers']) return;
     const now = Date.now();
     const parent: ParentId = s.currentRoom === 'papa-room' ? 'papa' : 'mummy';
+    tickers.forEach((t) => t());
     if (momentPicker && now >= nextMomentAt) {
       const quiet = now - InteractionManager.lastUserAt > MOMENT_QUIET_MS;
       const free =

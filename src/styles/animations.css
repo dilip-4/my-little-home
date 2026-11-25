@@ -75,3 +75,27 @@
 .tower-wobble { animation: tower-wobble 0.6s ease-in-out infinite alternate; }
 .car-zoom { animation: car-zoom 90ms linear infinite alternate; }
 @media (prefers-reduced-motion: reduce) { .tower-wobble, .car-zoom { animation: none; } }
+@keyframes cape { from { transform: skewX(-3deg); } to { transform: skewX(3deg); } }
+@keyframes balloon { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+.k-cape { transform-origin: 0px -120px; animation: cape 1.4s ease-in-out infinite alternate; }
+.k-balloon { transform-origin: 0px -80px; animation: balloon 2.2s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .k-cape, .k-balloon { animation: none; } }
+@keyframes pup-tail { from { transform: rotate(-10deg); } to { transform: rotate(14deg); } }
+@keyframes pup-walk { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+@keyframes pup-jump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-46px) rotate(-8deg); } }
+@keyframes pup-roll { from { transform: rotate(0); } to { transform: rotate(-360deg); } }
+@keyframes pup-ear { from { transform: rotate(-4deg); } to { transform: rotate(6deg); } }
+@keyframes pup-breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.04); } }
+.pup-tail { animation: pup-tail 0.9s ease-in-out infinite alternate; }
+.pup-tail.fast { animation-duration: 0.16s; }
+.pup-walk { animation: pup-walk 0.22s ease-in-out infinite alternate; }
+.pup-run { animation: pup-walk 0.12s ease-in-out infinite alternate; }
+.pup-jump { animation: pup-jump 0.55s ease-in-out infinite; }
+.pup-roll { transform-origin: 0px -34px; animation: pup-roll 0.9s ease-in-out 1; }
+.pup-spin { transform-origin: 0px -34px; animation: pup-roll 0.5s linear infinite; }
+.pup-beg { transform-origin: -20px 0px; transform: rotate(-18deg); }
+.pup-ear { transform-origin: 10px -76px; animation: pup-ear 1.6s ease-in-out infinite alternate; }
+.pup-breathe { transform-origin: 0px 0px; animation: pup-breathe 2.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .pup-tail, .pup-ear, .pup-breathe, .pup-walk, .pup-run { animation: none; } }
+@keyframes gift-bounce { 0%, 70%, 100% { transform: translateY(0) rotate(0); } 80% { transform: translateY(-14px) rotate(-4deg); } 90% { transform: translateY(0) rotate(3deg); } }
+.gift-bounce { animation: gift-bounce 2.4s ease-in-out infinite; }

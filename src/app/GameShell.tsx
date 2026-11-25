@@ -14,6 +14,9 @@ import { PapaRoomScene } from '../scenes/PapaRoom/PapaRoomScene';
 import { DialogueLayer } from '../components/DialogueBubble';
 import { SoundControl } from '../components/SoundControl';
 import { Intro } from './Intro';
+import { DrawingBoard } from '../components/DrawingBoard';
+import { StickerBook } from '../components/StickerBook';
+import { welcomeDef } from '../scenes/extras';
 
 registerInteractions();
 
@@ -51,6 +54,10 @@ export function GameShell() {
   const [portrait, setPortrait] = useState(false);
   const [portraitDismissed, setPortraitDismissed] = useState(false);
   const [doorHint, setDoorHint] = useState(true);
+  const drawingOpen = useGame((s) => !!s.fx['ui:drawing']);
+  const stickersOpen = useGame((s) => !!s.fx['ui:stickers']);
+  const newStickers = useGame((s) => s.discoveredEasterEggs.length);
+  const returning = useRef(!!getGame().settings.kidName);
 
   // engine lifecycle
   useEffect(() => {
@@ -94,6 +101,13 @@ export function GameShell() {
   useEffect(() => AudioManager.setEnabled(soundOn), [soundOn]);
   useEffect(() => AudioManager.setFan(fan), [fan]);
 
+  // "Welcome back, <name>!" (or a first hello) right after the title card
+  useEffect(() => {
+    if (!introDone) return;
+    const t = setTimeout(() => InteractionManager.start(welcomeDef(returning.current)), 600);
+    return () => clearTimeout(t);
+  }, [introDone]);
+
   useEffect(() => {
     if (!introDone) return;
     setHint(true);
@@ -136,10 +150,31 @@ export function GameShell() {
             </svg>
             <span>My Little Home</span>
           </div>
-          <SoundControl />
+          <div className="hud-right">
+            <button
+              className="hud-btn book"
+              aria-label={`Sticker book, ${newStickers} stickers`}
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                AudioManager.unlock();
+                AudioManager.play('pageFlip');
+                getGame().setFx('ui:stickers', true);
+              }}
+            >
+              <svg viewBox="0 0 64 64" aria-hidden>
+                <path d="M 8 14 Q 20 8 32 14 Q 44 8 56 14 L 56 54 Q 44 48 32 54 Q 20 48 8 54 Z" fill="#fffaf2" stroke="#5a3b2a" strokeWidth="4" strokeLinejoin="round" />
+                <path d="M 32 14 L 32 54" stroke="#5a3b2a" strokeWidth="3" />
+                <path d="M 20 24 l 2.5 5 l 5.5 .6 l -4 3.8 l 1 5.4 l -5 -2.6 l -5 2.6 l 1 -5.4 l -4 -3.8 l 5.5 -.6 Z" fill="#ffd23f" stroke="#5a3b2a" strokeWidth="2" strokeLinejoin="round" />
+                <path d="M 44 40 C 36 34 38 26 44 30 C 50 26 52 34 44 40 Z" fill="#ff6f91" stroke="#5a3b2a" strokeWidth="2" />
+              </svg>
+            </button>
+            <SoundControl />
+          </div>
         </div>
         {hint && <div className="tap-hint">Tap anything to see what happens!</div>}
         <div className={`transition-veil ${transition ?? ''}`} />
+        {drawingOpen && <DrawingBoard />}
+        {stickersOpen && <StickerBook />}
         {!introDone && <Intro />}
       </div>
       {portrait && !portraitDismissed && (

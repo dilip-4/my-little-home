@@ -210,6 +210,37 @@ hug. Each one cools down and then returns everyone to their normal activity.
 11. Build a block tower (3+ blocks) and then wind up the toy car: monster-truck crash.
 12. Blow bubbles: sometimes one is a rainbow bubble. Pop it for magic.
 
+### Your own name
+The first screen asks the child's name ("What's your name?"). Papa, Mummy and Biscuit use it
+everywhere ("{name}! You're back! I missed you!"). It is saved on the device; tap
+*Not {name}? Change name* on the title screen to change it.
+
+### Biscuit the puppy
+A puppy who follows the kid from room to room, wanders, naps, wags and reacts to the family (barks
+at a ball fight, jumps when the tower crashes, spins at dance parties).
+* Tap him: petting with hearts, roll-over trick, fetch with the ball, puppy kisses. If he's
+  napping, the kid tiptoes over and he wakes up wagging.
+* Tap his **bowl** (Mummy's room): the kid pours food and Biscuit races in to munch.
+* Family moment: Biscuit steals Papa's sock and the kid chases him to get it back.
+* Secret: tap him 6 times quickly and he chases his own tail.
+
+### Dress-up
+The **costume chest** in Mummy's room: superhero cape, crown, pirate hat, dino hood, chef hat, and
+back to normal. Each costume has its own lines from the kid and Mummy, and the outfit is
+remembered next time.
+
+### Drawing that stays
+Tap the **easel** in Papa's office to open a crayon board (10 colours, 3 sizes, star and heart
+stamps, eraser). *Hang it up!* shows the picture to Papa, who hangs it in the frame on his wall.
+The newest drawing stays on the wall and the easel between visits.
+
+### Sticker book and daily surprise
+* The book button (top right) opens **My Sticker Book**: one sticker for every secret and
+  costume found, with gentle hints for grown-ups reading along. No points.
+* Every day a **surprise box** waits on Papa's sofa. Opening it gives a balloon that the kid
+  carries all day.
+* Returning players are greeted by name.
+
 ### New toys
 * **Building blocks** (Papa's rug): each tap stacks one block. Tall towers wobble, and one block
   too many sends them tumbling. Papa cheers on the builder.
@@ -253,7 +284,8 @@ start something on their own. Any tap cancels it at once, so the child stays in 
 ## Test results
 
 * `npm run build`: type-check and production build pass.
-* `npm test`: 18/18 unit tests pass (family memory tiers, moment eligibility by time of day,
+* `npm test`: 22/22 unit tests pass (player name in dialogue, outfits, puppy and sticker
+  wiring, family memory tiers, moment eligibility by time of day,
   the new toys, three-tap FSM including timeouts, day periods, 12:00
   detection, cooldowns, tap windows, non-repeating dialogue, interaction locking and priorities,
   cooldown enforcement, unique event ids, and the catalogue size).

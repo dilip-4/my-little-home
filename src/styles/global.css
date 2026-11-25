@@ -328,3 +328,122 @@ body,
   border-radius: 8px;
   border: 2px solid var(--ink);
 }
+
+/* ---------------- name entry ---------------- */
+.intro.intro-stay { animation: none; cursor: default; }
+.name-card {
+  margin: 432px auto 0;
+  width: 760px;
+  padding: 14px 26px 18px;
+  border-radius: 28px;
+  background: rgba(255, 250, 242, 0.95);
+  border: 4px solid var(--ink);
+  box-shadow: 0 8px 0 rgba(90, 59, 42, 0.3);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px 16px;
+  animation: fade-in 500ms ease-out;
+}
+.name-card label { grid-column: 1 / -1; text-align: center; }
+.name-card label { font-size: 34px; font-weight: 600; }
+.name-card input {
+  font: inherit;
+  font-size: 40px;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+  padding: 10px 18px;
+  border-radius: 18px;
+  border: 4px solid var(--ink);
+  background: #fff;
+  color: var(--ink);
+  outline: none;
+  user-select: text;
+  -webkit-user-select: text;
+}
+.name-card input:focus { border-color: #e2705c; box-shadow: 0 0 0 5px rgba(245, 195, 67, 0.55); }
+.go-btn { font-size: 32px; padding: 12px 36px; }
+.go-btn:disabled { opacity: 0.45; }
+.change-name {
+  display: block;
+  margin: 16px auto 0;
+  font: inherit;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 6px 18px;
+  cursor: pointer;
+}
+
+/* ---------------- drawing board + sticker book overlays ---------------- */
+.draw-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  background: rgba(59, 42, 34, 0.72);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  animation: fade-in 220ms ease-out;
+}
+.draw-panel {
+  display: flex;
+  gap: 18px;
+  padding: 18px;
+  border-radius: 28px;
+  background: #ffe7b8;
+  border: 4px solid var(--ink);
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.25);
+}
+.draw-tools { width: 230px; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+.crayons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.crayon {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 3px solid var(--ink); background: var(--c); cursor: pointer;
+  transition: transform 120ms;
+}
+.crayon.on { transform: scale(1.25); box-shadow: 0 0 0 4px #fff; }
+.tool-row { display: flex; gap: 8px; }
+.tool {
+  width: 50px; height: 50px; border-radius: 14px; border: 3px solid var(--ink);
+  background: #fffaf2; display: grid; place-items: center; cursor: pointer; padding: 4px;
+}
+.tool svg { width: 36px; height: 36px; }
+.tool.on { background: var(--accent); }
+.tool .dot { display: block; border-radius: 50%; background: var(--ink); }
+.draw-canvas {
+  width: 860px; height: 538px;
+  border-radius: 14px; border: 4px solid var(--ink); background: #fffdf7;
+  touch-action: none; cursor: crosshair;
+}
+.draw-actions { display: flex; gap: 18px; }
+.pill-btn.small { font-size: 18px; padding: 8px 18px; }
+.pill-btn.ghost { background: #fffaf2; }
+
+.sticker-book {
+  width: 1240px; max-height: 690px; overflow: auto;
+  padding: 20px 26px 26px; border-radius: 28px;
+  background: #fffaf2; border: 4px solid var(--ink);
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.25);
+}
+.sticker-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.sticker-head h2 { margin: 0; font-size: 40px; }
+.sticker-count { font-size: 28px; font-weight: 700; padding: 4px 18px; border-radius: 999px; background: var(--accent); border: 3px solid var(--ink); }
+.sticker-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.sticker {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 6px 6px 8px; border-radius: 18px; border: 3px dashed #d8c3ae; text-align: center;
+}
+.sticker svg { width: 78px; height: 78px; }
+.sticker span { font-size: 14px; line-height: 1.15; }
+.sticker.got { border: 3px solid var(--ink); background: #fff3cf; animation: pop-in 300ms ease-out; }
+.sticker.got span { font-size: 20px; font-weight: 700; }
+.sticker.locked span { color: #a08872; }
+.hud-right { display: flex; gap: 12px; }
+.hud-btn.book { background: #ffb3c1; }

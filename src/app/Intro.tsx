@@ -1,19 +1,44 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useGame } from '../state/gameStore';
 import { AudioManager } from '../engine/AudioManager';
 import { KidFigure } from '../characters/Kid';
 
-/** Short title card, then straight into Papa's office (tap to skip). */
+/**
+ * Title card. First visit: the child types their name (Papa and Mummy use it everywhere).
+ * Later visits: "Welcome back, <name>!" and straight in (tap to skip, or change the name).
+ */
 export function Intro() {
   const done = useGame((s) => s.setIntroDone);
+  const savedName = useGame((s) => s.settings.kidName);
+  const setKidName = useGame((s) => s.setKidName);
+  const [asking, setAsking] = useState(!savedName);
+  const [name, setName] = useState(savedName ?? '');
+  const inputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
+    if (asking) return;
     const t = setTimeout(done, 3400);
     return () => clearTimeout(t);
-  }, [done]);
+  }, [done, asking]);
+
+  useEffect(() => {
+    if (asking) setTimeout(() => inputRef.current?.focus(), 400);
+  }, [asking]);
+
+  const clean = name.replace(/[^\p{L}\p{N} '-]/gu, '').trim();
+  const start = () => {
+    if (!clean) return;
+    setKidName(clean);
+    AudioManager.unlock();
+    AudioManager.play('sparkle');
+    done();
+  };
+
   return (
     <div
-      className="intro"
+      className={asking ? 'intro intro-stay' : 'intro'}
       onPointerDown={() => {
+        if (asking) return;
         AudioManager.unlock();
         AudioManager.play('sparkle');
         done();
@@ -49,8 +74,46 @@ export function Intro() {
       </svg>
       <div className="intro-title">
         <h1>My Little Home</h1>
-        <p>A Little World. A Lot of Mischief.</p>
-        <span className="intro-tap">tap to come in</span>
+        {asking ? (
+          <form
+            className="name-card"
+            onSubmit={(e) => {
+              e.preventDefault();
+              start();
+            }}
+            onPointerDown={(e) => e.stopPropagation()}
+          >
+            <label htmlFor="kid-name">What's your name?</label>
+            <input
+              id="kid-name"
+              ref={inputRef}
+              value={name}
+              maxLength={16}
+              autoComplete="off"
+              autoCapitalize="words"
+              spellCheck={false}
+              placeholder="Type your name"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <button type="submit" className="pill-btn go-btn" disabled={!clean}>
+              Let's go!
+            </button>
+          </form>
+        ) : (
+          <>
+            <p>{savedName ? `Welcome back, ${savedName}!` : 'A Little World. A Lot of Mischief.'}</p>
+            <span className="intro-tap">tap to come in</span>
+            <button
+              className="change-name"
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                setAsking(true);
+              }}
+            >
+              Not {savedName}? Change name
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

@@ -5,6 +5,8 @@ import type { Expression } from '../../state/gameTypes';
 import { InteractionManager } from '../../engine/InteractionManager';
 import { KID_BED_SPOT, MUMMY_SPOTS as SP } from '../../data/spots';
 import { mummyToyDefs } from '../toys';
+import { pupInteractions } from '../pup';
+import { mummyExtraDefs } from '../extras';
 import { aside, commonDefs, isToy, kidDefs, kidHolding, kidPresent, parentHead, say, startHoldTimeout } from '../shared';
 
 const R = 'mummy-room' as const;
@@ -785,6 +787,8 @@ export const mummyRoomInteractions: InteractionDefinition[] = [
   },
 
   ...mummyToyDefs(),
+  ...mummyExtraDefs(),
+  ...pupInteractions(R),
 
   ...kidDefs(R, wakeKid),
 ];

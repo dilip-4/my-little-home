@@ -1,7 +1,10 @@
 import { memo } from 'react';
 import { useGame } from '../../state/gameStore';
 import { OUTLINE } from '../../data/characters';
-import { CAR_HOME, PAPA_SEAT, TOWER_BASE } from '../../data/spots';
+import { CAR_HOME, EASEL, GIFT_SPOT, PAPA_SEAT, TOWER_BASE } from '../../data/spots';
+import { ArtFrame, Easel, GiftBox } from '../../components/HomeExtras';
+import { PupActor } from '../../characters/Pup';
+import { todayKey } from '../../state/gameStore';
 import { BlockTower, ToyCarRunner } from '../../components/Toys';
 import { InteractiveObject as Hot } from '../../components/InteractiveObject';
 import { RoomShell, WindowView, Curtains, CeilingFan, Plant, LightSwitch, Frame, Outlet, FamilyMini } from '../../components/RoomParts';
@@ -79,6 +82,8 @@ export const PapaRoomScene = memo(function PapaRoomScene() {
   const phoneHome = papa.activity !== 'phone';
   const ringing = !!fx[R + ':phoneRing'];
   const monitorText = fx[R + ':monitor'] as string | undefined;
+  const giftDay = useGame((s) => s.lastGiftDay);
+  const giftHere = giftDay !== todayKey() || !!fx[R + ':giftOpen'];
 
   return (
     <svg className="scene-svg" viewBox="0 0 1440 810" preserveAspectRatio="xMidYMid meet">
@@ -105,6 +110,10 @@ export const PapaRoomScene = memo(function PapaRoomScene() {
             <path d="M 18 58 L 30 40 L 42 56 Z" fill="#fff" />
           </Frame>
         </g>
+      </Hot>
+
+      <Hot id="artwall" label="My drawing" hit={{ x: 970, y: 112, w: 150, h: 118 }}>
+        <ArtFrame x={978} y={126} w={134} h={98} glow={!!fx[R + ':artGlow']} />
       </Hot>
 
       <Hot id="clock" label="Wall clock" hit={{ x: 1150, y: 92, w: 120, h: 118 }}>
@@ -159,6 +168,10 @@ export const PapaRoomScene = memo(function PapaRoomScene() {
           <rect x={163} y={470} width={16} height={6} rx={2} fill="none" stroke={OUTLINE} strokeWidth={2} />
           <path d="M 160 500 L 182 500 M 160 510 L 176 510" stroke="#d9665b" strokeWidth={4} strokeLinecap="round" />
         </g>
+      </Hot>
+
+      <Hot id="easel" label="Drawing easel" hit={{ x: EASEL.x - 34, y: EASEL.y - 124, w: 68, h: 150 }}>
+        <Easel x={EASEL.x} y={EASEL.y} />
       </Hot>
 
       {/* ---------- bookshelf ---------- */}
@@ -381,6 +394,14 @@ export const PapaRoomScene = memo(function PapaRoomScene() {
         <rect x={CAR_HOME.x - 34} y={CAR_HOME.y - 34} width={68} height={52} fill="transparent" />
       </Hot>
       <ToyCarRunner room={R} homeX={CAR_HOME.x} y={CAR_HOME.y - 6} />
+
+      {giftHere && (
+        <Hot id="gift" label="Surprise gift" hit={{ x: GIFT_SPOT.x - 42, y: GIFT_SPOT.y - 96, w: 84, h: 100 }}>
+          <GiftBox x={GIFT_SPOT.x} y={GIFT_SPOT.y} open={!!fx[R + ':giftOpen']} />
+        </Hot>
+      )}
+      <PupActor room={R} />
+      {fx[R + ':pupHearts'] && <Hearts x={useGame.getState().pup.x} y={useGame.getState().pup.y - 110} />}
 
       <KidActor room={R} layer="front" />
 

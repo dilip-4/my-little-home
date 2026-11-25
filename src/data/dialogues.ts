@@ -1,7 +1,8 @@
 // All dialogue lives here, separate from components. Short, warm, funny and age-appropriate.
 // Papa: dry, busy, secretly a big softie. Mummy: warm, playful, organised, teasing.
 
-export const KID_NAME = 'Atharv';
+/** Placeholder replaced by the player's own name when a bubble is shown (see DialogueManager). */
+export const KID_NAME = '{name}';
 
 export const PAPA = {
   stage1: ["I'm working, beta. Please don't disturb me."],

@@ -176,3 +176,33 @@ describe('family memory, moments and new toys', () => {
     for (const t of ['blocks', 'car', 'bubbles']) expect(all.some((d) => d.target === t)).toBe(true);
   });
 });
+
+describe('name, outfits, puppy and stickers', () => {
+  it('puts the player name into every line', async () => {
+    const { withName } = await import('./DialogueManager');
+    useGame.setState({ ...createInitialState(), settings: { soundEnabled: true, kidName: 'Mira' } });
+    expect(withName('{name}! Come say hi to Papa!')).toBe('Mira! Come say hi to Papa!');
+    useGame.setState({ ...createInitialState(), settings: { soundEnabled: true } });
+    expect(withName('Hi, {name}!')).toBe('Hi, buddy!');
+  });
+
+  it('the costume chest cycles through every outfit and back', async () => {
+    const { OUTFIT_ORDER } = await import('../scenes/extras');
+    expect(new Set(OUTFIT_ORDER).size).toBe(OUTFIT_ORDER.length);
+    expect(OUTFIT_ORDER[OUTFIT_ORDER.length - 1]).toBe('none');
+  });
+
+  it('Biscuit can be tapped in both rooms and fed in Mummy’s room', () => {
+    const all = [...papaRoomInteractions, ...mummyRoomInteractions];
+    expect(all.some((d) => d.room === 'papa-room' && d.target === 'pup')).toBe(true);
+    expect(all.some((d) => d.room === 'mummy-room' && d.target === 'pup')).toBe(true);
+    expect(all.some((d) => d.target === 'bowl')).toBe(true);
+    for (const t of ['chest', 'easel', 'gift', 'artwall']) expect(all.some((d) => d.target === t)).toBe(true);
+  });
+
+  it('every sticker has a unique id', async () => {
+    const { STICKERS } = await import('../components/StickerBook');
+    const ids = STICKERS.map((s) => s.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+});

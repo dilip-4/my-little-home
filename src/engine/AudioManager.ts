@@ -9,7 +9,8 @@ export type SoundName =
   | 'meow' | 'quack' | 'pop' | 'yawn' | 'sparkle' | 'grunt' | 'robot' | 'jingle' | 'kiss'
   | 'snore' | 'alarm0' | 'alarm1' | 'alarm2' | 'alarm3' | 'birds' | 'crickets' | 'zip' | 'aww'
   | 'hmm' | 'disco' | 'pageFlip' | 'brush' | 'teddyDance'
-  | 'blow' | 'bubblePop' | 'block' | 'crash' | 'vroom' | 'crunch' | 'sing' | 'clap' | 'dance';
+  | 'blow' | 'bubblePop' | 'block' | 'crash' | 'vroom' | 'crunch' | 'sing' | 'clap' | 'dance'
+  | 'bark' | 'yip' | 'slurp' | 'pour' | 'tada' | 'unwrap' | 'scribble' | 'whine';
 
 export type GuitarTune = 'kid' | 'kid2' | 'papa' | 'funny';
 
@@ -287,6 +288,14 @@ class AudioManagerImpl {
       case 'sing': [67, 69, 71, 74, 71, 69, 67].forEach((n, i) => T(NOTE(n), i * 0.2, 0.22, { type: 'triangle', vol: 0.09, vibrato: 6 })); break;
       case 'clap': [0, 0.3, 0.6].forEach((st) => B(st, 0.05, { type: 'bandpass', freq: 1400, vol: 0.3, q: 1 })); break;
       case 'dance': [60, 64, 67, 64, 65, 69, 72, 69, 67, 64, 60, 64].forEach((n, i) => { T(NOTE(n), i * 0.2, 0.18, { type: 'triangle', vol: 0.09 }); if (i % 2 === 0) T(NOTE(n - 24), i * 0.2, 0.2, { vol: 0.12 }); }); break;
+      case 'bark': [0, 0.24].forEach((st) => { T(420, st, 0.13, { type: 'sawtooth', to: 260, vol: 0.18, filter: 900 }); B(st, 0.06, { type: 'bandpass', freq: 700, vol: 0.12, q: 2 }); }); break;
+      case 'yip': T(900, 0, 0.12, { type: 'sawtooth', to: 1300, vol: 0.1, filter: 1600 }); break;
+      case 'slurp': B(0, 0.35, { type: 'bandpass', freq: 1200, to: 2600, vol: 0.12, q: 3 }); T(500, 0.05, 0.25, { to: 900, vol: 0.06 }); break;
+      case 'pour': for (let i = 0; i < 10; i++) B(i * 0.05 + Math.random() * 0.02, 0.03, { type: 'bandpass', freq: 2500 + Math.random() * 1500, vol: 0.14, q: 4 }); break;
+      case 'tada': [60, 64, 67, 72].forEach((n, i) => T(NOTE(n), i * 0.1, i === 3 ? 0.9 : 0.15, { type: 'triangle', vol: 0.14 })); break;
+      case 'unwrap': B(0, 0.5, { type: 'highpass', freq: 2500, to: 5000, vol: 0.14 }); B(0.25, 0.3, { type: 'highpass', freq: 3000, vol: 0.1 }); break;
+      case 'scribble': for (let i = 0; i < 5; i++) B(i * 0.07, 0.06, { type: 'bandpass', freq: 3200, vol: 0.05, q: 2 }); break;
+      case 'whine': T(900, 0, 0.6, { type: 'sine', to: 650, vol: 0.08, vibrato: 7 }); break;
       case 'teddyDance': [72, 74, 76, 79, 76, 74, 72, 67].forEach((n, i) => T(NOTE(n), i * 0.18, 0.16, { type: 'triangle', vol: 0.1 })); break;
     }
   }

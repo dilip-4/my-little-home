@@ -44,6 +44,8 @@ export const PAPA_SPOTS = {
   hideDoor: { x: 290, y: 772, facing: -1 },
   blocks: { x: 612, y: 772, facing: -1 },
   car: { x: 1295, y: 778, facing: -1 },
+  easel: { x: 330, y: 772, facing: -1 },
+  gift: { x: 600, y: 772, facing: 1 },
 } satisfies Record<string, Spot>;
 
 export const MUMMY_SPOTS = {
@@ -71,9 +73,21 @@ export const MUMMY_SPOTS = {
   teddy: { x: 420, y: 772, facing: 1 },
   plant: { x: 1180, y: 772, facing: 1 },
   bubbles: { x: 630, y: 772, facing: 1 },
+  bowl: { x: 960, y: 772, facing: 1 },
+  chest: { x: 1110, y: 772, facing: 1 },
 } satisfies Record<string, Spot>;
 
 /** New toys: block tower base, toy-car parking spot, bubble bottle. */
 export const TOWER_BASE = { x: 535, y: 792 };
 export const CAR_HOME = { x: 1255, y: 787 };
 export const BUBBLE_BOTTLE = { x: 590, y: 794 };
+
+/** Biscuit's bowl and the costume chest (Mummy's room), easel + daily gift (Papa's office). */
+export const PUP_BOWL = { x: 1020, y: 796 };
+export const COSTUME_CHEST = { x: 1180, y: 798 };
+export const EASEL = { x: 222, y: 700 };
+export const GIFT_SPOT = { x: 646, y: 568 };
+export const PUP_FLOOR_Y = 792;
+/** Where Biscuit may wander in each room. */
+export const PUP_RANGE = { 'papa-room': [240, 1240], 'mummy-room': [520, 1230] } as const;
+export const DOOR_X = { 'papa-room': 130, 'mummy-room': 1330 } as const;

@@ -144,6 +144,34 @@ const papaMoments: FamilyMoment[] = [
     await c.say('papa', m(c, 'papaStretchEnd'));
   }),
 
+  (() => {
+    const m2 = moment('PUP_STEALS_PAPAS_SOCK', PR, 'here', 3, 4 * MIN, async (c) => {
+      // Biscuit sneaks under the desk and runs off with Papa's sock
+      await c.pupTo({ x: 1000, y: 792 }, { pose: 'sit' });
+      c.pup({ carry: 'sock', pose: 'wag', facing: -1 });
+      c.sound('yip');
+      await c.wait(400);
+      c.papa({ activity: 'lookBack', expr: 'surprised' });
+      await c.say('papa', 'Hey! Biscuit took my sock!');
+      void c.pupTo({ x: 330, y: 792 }, { run: true, pose: 'wag' });
+      c.kid({ expr: 'laugh' });
+      await c.say('kid', "I'll get it, Papa!", { ms: 1100 });
+      await c.kidTo({ x: 450, y: 772 }, { speed: 0.8 });
+      c.pup({ pose: 'roll' });
+      c.sound('boing');
+      await c.wait(900);
+      c.pup({ carry: null, pose: 'wag' });
+      c.kid({ pose: 'cheer', expr: 'laugh' });
+      await c.say('kid', 'Got it!', { ms: 900 });
+      await c.kidTo(PAPA_SPOTS.nearPapa);
+      c.papa({ activity: 'turned', expr: 'laugh' });
+      c.fx(PR + ':papaHearts', true);
+      await c.say('papa', 'Thank you, sock rescuer! Naughty Biscuit!');
+    }, (s) => s.pup.room === PR && s.pup.pose !== 'sleep');
+    m2.def.uses = ['papa', 'kid', 'pup'];
+    return m2;
+  })(),
+
   moment('PAPA_CALLS_KID', PR, 'away', 2, 2 * MIN, async (c) => {
     await callKid(c, 'papa');
     await c.kidTo(PAPA_SPOTS.nearPapa);

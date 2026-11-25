@@ -2,7 +2,7 @@
 
 export type RoomId = 'papa-room' | 'mummy-room';
 export type DayPeriod = 'morning' | 'afternoon' | 'evening' | 'night';
-export type CharacterId = 'papa' | 'mummy' | 'kid';
+export type CharacterId = 'papa' | 'mummy' | 'kid' | 'pup';
 export type ParentId = 'papa' | 'mummy';
 
 export type Expression =
@@ -150,6 +150,25 @@ export interface Dialogue {
 
 export interface Settings {
   soundEnabled: boolean;
+  /** The player's name – typed on the first screen, used by Papa and Mummy. */
+  kidName?: string;
+}
+
+/** Dress-up costumes from the costume chest (persisted). */
+export type Outfit = 'none' | 'cape' | 'crown' | 'pirate' | 'dino' | 'chef';
+
+export type PupPose = 'sit' | 'walk' | 'run' | 'sleep' | 'wag' | 'jump' | 'eat' | 'roll' | 'beg' | 'lick' | 'spin';
+
+/** Biscuit the puppy – follows the kid between rooms. */
+export interface PupState {
+  room: RoomId;
+  x: number;
+  y: number;
+  facing: 1 | -1;
+  pose: PupPose;
+  moveMs: number;
+  /** carrying something in his mouth */
+  carry: null | 'ball' | 'sock';
 }
 
 /** Short-lived visual effects keyed by name (e.g. "papa-room:ball"). */
@@ -168,4 +187,12 @@ export interface GameState {
   settings: Settings;
   discoveredEasterEggs: string[];
   introDone: boolean;
+  outfit: Outfit;
+  pup: PupState;
+  /** Colour of today's gift balloon tied to the kid (null = none). */
+  balloon: string | null;
+  /** yyyy-mm-dd of the last daily gift opened. */
+  lastGiftDay: string | null;
+  /** Bumps whenever a new drawing is hung on the wall. */
+  drawingVersion: number;
 }

@@ -7,7 +7,9 @@ import type {
   GameState,
   KidState,
   MummyRoomState,
+  Outfit,
   PapaRoomState,
+  PupState,
   ParentId,
   RoomId,
 } from './gameTypes';
@@ -50,6 +52,8 @@ export const initialKid: KidState = {
   moveMs: 0,
 };
 
+export const initialPup: PupState = { room: 'papa-room', x: 935, y: 790, facing: 1, pose: 'sleep', moveMs: 0, carry: null };
+
 export const defaultAdult = (): AdultState => ({ activity: 'typing', expr: 'focused', mood: 'busy' });
 
 export function createInitialState(now = new Date()): GameState {
@@ -66,6 +70,11 @@ export function createInitialState(now = new Date()): GameState {
     settings: { soundEnabled: true },
     discoveredEasterEggs: [],
     introDone: false,
+    outfit: 'none',
+    pup: { ...initialPup },
+    balloon: null,
+    lastGiftDay: null,
+    drawingVersion: 0,
   };
 }
 
@@ -74,7 +83,12 @@ interface Persisted {
   papaRoom?: Partial<PapaRoomState>;
   mummyRoom?: Partial<MummyRoomState>;
   discoveredEasterEggs?: string[];
+  outfit?: Outfit;
+  balloon?: string | null;
+  lastGiftDay?: string | null;
 }
+
+export const todayKey = (d = new Date()) => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 
 function loadPersisted(): Persisted {
   try {
@@ -99,6 +113,10 @@ function hydrate(base: GameState): GameState {
     papaRoom: { ...base.papaRoom, ...(p.papaRoom ?? {}), lightOn: true },
     mummyRoom: { ...base.mummyRoom, ...(p.mummyRoom ?? {}), lightOn: true },
     discoveredEasterEggs: Array.isArray(p.discoveredEasterEggs) ? p.discoveredEasterEggs : [],
+    outfit: p.outfit ?? 'none',
+    lastGiftDay: p.lastGiftDay ?? null,
+    // today's balloon stays for the day it was given
+    balloon: p.lastGiftDay === todayKey() ? (p.balloon ?? null) : null,
   };
 }
 
@@ -117,6 +135,12 @@ export interface GameActions {
   toggleSound: () => void;
   discoverEgg: (id: string) => boolean;
   setIntroDone: () => void;
+  setKidName: (name: string) => void;
+  setOutfit: (o: Outfit) => void;
+  setPup: (patch: Partial<PupState>) => void;
+  setBalloon: (color: string | null) => void;
+  markGiftOpened: () => void;
+  bumpDrawing: () => void;
   resetSession: () => void;
 }
 
@@ -159,7 +183,14 @@ export const useGame = create<Store>()((set, get) => ({
     return true;
   },
   setIntroDone: () => set({ introDone: true }),
-  resetSession: () => set({ ...createInitialState(), settings: get().settings, introDone: true }),
+  setKidName: (name) => set((s) => ({ settings: { ...s.settings, kidName: name.trim().slice(0, 16) } })),
+  setOutfit: (o) => set({ outfit: o }),
+  setPup: (patch) => set((s) => ({ pup: { ...s.pup, ...patch } })),
+  setBalloon: (color) => set({ balloon: color }),
+  markGiftOpened: () => set({ lastGiftDay: todayKey() }),
+  bumpDrawing: () => set((s) => ({ drawingVersion: s.drawingVersion + 1 })),
+  resetSession: () =>
+    set({ ...createInitialState(), settings: get().settings, outfit: get().outfit, balloon: get().balloon, lastGiftDay: get().lastGiftDay, introDone: true }),
 }));
 
 // Persist settings + durable room toggles (never transient dialogue / animation state).
@@ -169,7 +200,10 @@ useGame.subscribe((s, prev) => {
     s.settings === prev.settings &&
     s.papaRoom === prev.papaRoom &&
     s.mummyRoom === prev.mummyRoom &&
-    s.discoveredEasterEggs === prev.discoveredEasterEggs
+    s.discoveredEasterEggs === prev.discoveredEasterEggs &&
+    s.outfit === prev.outfit &&
+    s.balloon === prev.balloon &&
+    s.lastGiftDay === prev.lastGiftDay
   )
     return;
   clearTimeout(saveTimer);
@@ -180,6 +214,9 @@ useGame.subscribe((s, prev) => {
         papaRoom: s.papaRoom,
         mummyRoom: s.mummyRoom,
         discoveredEasterEggs: s.discoveredEasterEggs,
+        outfit: s.outfit,
+        balloon: s.balloon,
+        lastGiftDay: s.lastGiftDay,
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     } catch {
