@@ -158,7 +158,7 @@ export const IdleDirector = {
   tick() {
     if (typeof document !== 'undefined' && document.hidden) return;
     const s = getGame();
-    if (s.transitioning || !s.introDone || s.fx['ui:drawing'] || s.fx['ui:stickers']) return;
+    if (s.transitioning || !s.introDone || s.fx['ui:drawing'] || s.fx['ui:stickers'] || s.fx['ui:parent']) return;
     const now = Date.now();
     tickers.forEach((t) => t());
     // the kitchen has no parent at a desk: only the kid (and Biscuit) potter about there

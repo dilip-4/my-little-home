@@ -12,6 +12,7 @@ export const KidActor = memo(function KidActor({ room, layer }: { room: RoomId; 
   const name = useGame((s) => s.settings.kidName) || 'Kid';
   const outfit = useGame((s) => s.outfit);
   const balloon = useGame((s) => s.balloon);
+  const girl = useGame((s) => s.settings.kidGender === 'girl');
   if (k.room !== room || k.layer !== layer) return null;
   const lying = k.pose === 'sleep' || k.pose === 'lie';
   return (
@@ -19,7 +20,7 @@ export const KidActor = memo(function KidActor({ room, layer }: { room: RoomId; 
       {!lying && layer === 'front' && <ellipse cx={0} cy={2} rx={38} ry={8} fill="#000" opacity={0.14} />}
       <InteractiveObject id="kid" label={name} hit={lying ? { x: -230, y: -60, w: 240, h: 80 } : { x: -55, y: -230, w: 110, h: 232 }} origin="0px 0px">
         <g style={{ transform: `scaleX(${k.facing})`, transition: 'transform 160ms' }}>
-          <KidFigure pose={k.pose} expr={k.expr} prop={k.prop} holding={k.holding} talking={talking} hairFlat={hairFlat} outfit={outfit} balloon={balloon} />
+          <KidFigure pose={k.pose} expr={k.expr} prop={k.prop} holding={k.holding} talking={talking} hairFlat={hairFlat} outfit={outfit} balloon={balloon} girl={girl} />
         </g>
       </InteractiveObject>
     </g>

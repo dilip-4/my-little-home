@@ -24,6 +24,7 @@ class AudioManagerImpl {
   private ctx: AudioContext | null = null;
   private master: GainNode | null = null;
   private enabled = true;
+  private volume = 1;
   private lastPlayed = new Map<string, number>();
   private active = 0;
   private fanNode: { gain: GainNode } | null = null;
@@ -43,7 +44,7 @@ class AudioManagerImpl {
       comp.threshold.value = -18;
       comp.ratio.value = 6;
       this.master = this.ctx.createGain();
-      this.master.gain.value = this.enabled ? 0.55 : 0;
+      this.master.gain.value = this.enabled ? 0.55 * this.volume : 0;
       this.master.connect(comp).connect(this.ctx.destination);
       this.syncFan();
     }
@@ -56,7 +57,13 @@ class AudioManagerImpl {
 
   setEnabled(on: boolean) {
     this.enabled = on;
-    if (this.master && this.ctx) this.master.gain.setTargetAtTime(on ? 0.55 : 0, this.ctx.currentTime, 0.05);
+    if (this.master && this.ctx) this.master.gain.setTargetAtTime(on ? 0.55 * this.volume : 0, this.ctx.currentTime, 0.05);
+  }
+
+  /** Parent-corner volume (0..1), applied on top of mute. */
+  setVolume(v: number) {
+    this.volume = Math.max(0, Math.min(1, v));
+    this.setEnabled(this.enabled);
   }
 
   suspend() {

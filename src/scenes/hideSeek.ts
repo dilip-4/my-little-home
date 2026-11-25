@@ -180,7 +180,7 @@ const SEEK = {
   papaStart: ['Hide-and-seek? Okay! I\'ll count to ten. Go hide!', 'Papa is counting! Hide, quick!'],
   mummyStart: ['Let\'s play hide-and-seek! I\'m covering my eyes...', 'Mummy is counting! Go, go, hide!'],
   ready: ['Ready or not, here I come!', 'Coming to find you!'],
-  guess: ['Is he {place}? ...No!', 'Hmm, {place}? Nope!', 'Maybe {place}? Not there...'],
+  guess: ['Is {he} {place}? ...No!', 'Hmm, {place}? Nope!', 'Maybe {place}? Not there...'],
   giggle: ['Wait... I heard a giggle!', 'Shh... what was that giggle?'],
   found: ['FOUND YOU! You were {place}!', 'Aha! There you are, {place}!', 'Gotcha! Hiding {place}!'],
   again: ['Hiding {place} again? I know your favourite spot!', 'Ha! {place} again, just like last time!'],

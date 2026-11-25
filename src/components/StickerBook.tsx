@@ -32,7 +32,7 @@ export const STICKERS: { id: string; title: string; hint: string }[] = [
   { id: 'giggle-giveaway', title: 'Giggle gave it away', hint: 'Tap yourself while hiding...' },
   { id: 'found-biscuit', title: 'Found Biscuit', hint: 'Press the paw and look for his tail.' },
   { id: 'outfit-cape', title: 'Superhero', hint: 'Look in the costume chest.' },
-  { id: 'outfit-crown', title: 'King', hint: 'Look in the costume chest.' },
+  { id: 'outfit-crown', title: 'Royal crown', hint: 'Look in the costume chest.' },
   { id: 'outfit-pirate', title: 'Pirate', hint: 'Look in the costume chest.' },
   { id: 'outfit-dino', title: 'Dinosaur', hint: 'Look in the costume chest.' },
   { id: 'outfit-chef', title: 'Chef', hint: 'Look in the costume chest.' },

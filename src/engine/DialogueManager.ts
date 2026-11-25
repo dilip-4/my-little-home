@@ -24,7 +24,15 @@ export function readingTime(text: string): number {
 
 /** The player's name (falls back to a friendly word before one is typed). */
 export const kidName = () => getGame().settings.kidName?.trim() || 'buddy';
-export const withName = (text: string) => text.replace(/\{name\}/g, kidName());
+/** Words that follow the boy/girl choice. */
+const GENDER_WORDS: Record<'boy' | 'girl', Record<string, string>> = {
+  boy: { he: 'he', He: 'He', him: 'him', his: 'his', boy: 'boy', mister: 'mister', Mister: 'Mister', king: 'king', King: 'King', handsome: 'handsome' },
+  girl: { he: 'she', He: 'She', him: 'her', his: 'her', boy: 'girl', mister: 'missy', Mister: 'Missy', king: 'queen', King: 'Queen', handsome: 'pretty' },
+};
+export const withName = (text: string) => {
+  const words = GENDER_WORDS[getGame().settings.kidGender ?? 'boy'];
+  return text.replace(/\{name\}/g, kidName()).replace(/\{(he|He|him|his|boy|mister|Mister|king|King|handsome)\}/g, (_, w: string) => words[w]);
+};
 
 function show(p: Pending) {
   const id = nextId++;

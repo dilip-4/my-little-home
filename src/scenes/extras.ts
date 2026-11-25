@@ -11,7 +11,7 @@ export const OUTFIT_ORDER: Outfit[] = ['cape', 'crown', 'pirate', 'dino', 'chef'
 
 const OUTFIT_LINES: Record<Outfit, { kid: readonly string[]; mummy: readonly string[] }> = {
   cape: { kid: ['Super {name} to the rescue!', 'I can fly! Whoooosh!'], mummy: ['My superhero! Can you save me from emails?', 'Wow! Captain {name}!'] },
-  crown: { kid: ['I am the king of the house!', 'Bow down to King {name}!'], mummy: ['Yes, Your Majesty! Tea for the king?', 'So royal! Such a handsome king!'] },
+  crown: { kid: ['I am the {king} of the house!', 'Bow down to {King} {name}!'], mummy: ['Yes, Your Majesty! Tea for the {king}?', 'So royal! Such a {handsome} {king}!'] },
   pirate: { kid: ['Arrr! Where is the treasure?', 'Ahoy, Mummy! Arrr!'], mummy: ['Ahoy, Captain! The treasure is... a hug!', 'Arrr! A pirate in my bedroom!'] },
   dino: { kid: ['Raaawr! I\'m a dinosaur!', 'Stomp stomp! RAAAWR!'], mummy: ['Help! A dinosaur! ...A very cute one.', 'Ooh, scary! Do dinosaurs eat kisses?'] },
   chef: { kid: ['Chef {name} is cooking!', 'One pizza for Mummy, coming up!'], mummy: ['Chef! I\'ll have one chocolate pizza, please.', 'Mmm, what\'s on the menu today, chef?'] },

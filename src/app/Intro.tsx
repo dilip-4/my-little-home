@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useGame } from '../state/gameStore';
+import type { KidGender } from '../state/gameTypes';
 import { AudioManager } from '../engine/AudioManager';
 import { KidFigure } from '../characters/Kid';
 
@@ -11,6 +12,9 @@ export function Intro() {
   const done = useGame((s) => s.setIntroDone);
   const savedName = useGame((s) => s.settings.kidName);
   const setKidName = useGame((s) => s.setKidName);
+  const savedGender = useGame((s) => s.settings.kidGender);
+  const setKidGender = useGame((s) => s.setKidGender);
+  const [gender, setGender] = useState<KidGender | null>(savedGender ?? null);
   const [asking, setAsking] = useState(!savedName);
   const [name, setName] = useState(savedName ?? '');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -27,8 +31,9 @@ export function Intro() {
 
   const clean = name.replace(/[^\p{L}\p{N} '-]/gu, '').trim();
   const start = () => {
-    if (!clean) return;
+    if (!clean || !gender) return;
     setKidName(clean);
+    setKidGender(gender);
     AudioManager.unlock();
     AudioManager.play('sparkle');
     done();
@@ -68,7 +73,7 @@ export function Intro() {
           <circle cx="738" cy="565" r="6" fill="#f0c44c" />
           <path d="M 720 470 C 700 450 680 470 720 495 C 760 470 740 450 720 470 Z" fill="#ff6f91" stroke="#5a3b2a" strokeWidth="3" />
           <g transform="translate(638 500) scale(0.42)">
-            <KidFigure pose="wave" expr="happy" />
+            <KidFigure pose="wave" expr="happy" girl={savedGender === 'girl' || gender === 'girl'} />
           </g>
         </g>
       </svg>
@@ -95,7 +100,31 @@ export function Intro() {
               placeholder="Type your name"
               onChange={(e) => setName(e.target.value)}
             />
-            <button type="submit" className="pill-btn go-btn" disabled={!clean}>
+            <div className="gender-pick" role="radiogroup" aria-label="Boy or girl">
+              {(['boy', 'girl'] as const).map((g) => (
+                <button
+                  key={g}
+                  type="button"
+                  role="radio"
+                  aria-checked={gender === g}
+                  className={`gender-btn ${gender === g ? 'on' : ''}`}
+                  onPointerDown={(e) => {
+                    e.preventDefault();
+                    setGender(g);
+                    AudioManager.unlock();
+                    AudioManager.play('pop');
+                  }}
+                >
+                  <svg viewBox="-60 -150 120 130" aria-hidden>
+                    <g transform="translate(0 0) scale(0.7)">
+                      <KidFigure pose="stand" expr="happy" girl={g === 'girl'} />
+                    </g>
+                  </svg>
+                  <span>{g === 'boy' ? 'Boy' : 'Girl'}</span>
+                </button>
+              ))}
+            </div>
+            <button type="submit" className="pill-btn go-btn" disabled={!clean || !gender}>
               Let's go!
             </button>
           </form>

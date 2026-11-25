@@ -6,6 +6,7 @@ import type {
   Dialogue,
   GameState,
   KidState,
+  KidGender,
   KitchenState,
   MummyRoomState,
   Outfit,
@@ -141,6 +142,8 @@ export interface GameActions {
   discoverEgg: (id: string) => boolean;
   setIntroDone: () => void;
   setKidName: (name: string) => void;
+  setKidGender: (g: KidGender) => void;
+  setVolume: (v: number) => void;
   setOutfit: (o: Outfit) => void;
   setPup: (patch: Partial<PupState>) => void;
   setBalloon: (color: string | null) => void;
@@ -190,6 +193,8 @@ export const useGame = create<Store>()((set, get) => ({
   },
   setIntroDone: () => set({ introDone: true }),
   setKidName: (name) => set((s) => ({ settings: { ...s.settings, kidName: name.trim().slice(0, 16) } })),
+  setKidGender: (g) => set((s) => ({ settings: { ...s.settings, kidGender: g } })),
+  setVolume: (v) => set((s) => ({ settings: { ...s.settings, volume: Math.max(0, Math.min(1, v)) } })),
   setOutfit: (o) => set({ outfit: o }),
   setPup: (patch) => set((s) => ({ pup: { ...s.pup, ...patch } })),
   setBalloon: (color) => set({ balloon: color }),
@@ -201,7 +206,14 @@ export const useGame = create<Store>()((set, get) => ({
 
 // Persist settings + durable room toggles (never transient dialogue / animation state).
 let saveTimer: ReturnType<typeof setTimeout> | undefined;
+let savingStopped = false;
+/** Used by "Start over": stop writing so the erased data isn't saved again before reload. */
+export const stopSaving = () => {
+  savingStopped = true;
+  clearTimeout(saveTimer);
+};
 useGame.subscribe((s, prev) => {
+  if (savingStopped) return;
   if (
     s.settings === prev.settings &&
     s.papaRoom === prev.papaRoom &&

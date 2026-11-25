@@ -248,6 +248,19 @@ Two new buttons at the top right: the **peeking eyes** and the **paw**.
 * Papa and Mummy sometimes suggest either game themselves.
 * Three new stickers: hide-and-seek, giggle gave it away, and found Biscuit.
 
+### Grown-ups corner, privacy and installing
+* **Boy or girl:** chosen on the first screen next to the name. It changes a few words (he/she,
+  boy/girl, mister/missy, king/queen) and gives a girl pigtails and a bow.
+* **Grown-ups corner:** tap the house logo at the top left. A sum (for example 17 + 13) keeps
+  little fingers out. Inside: change the name or boy/girl, sound on/off and volume, full screen,
+  how to add the game to the home screen, the privacy note, and *Start over* (tap twice), which
+  erases the name, stickers, drawings and settings from the device.
+* **Privacy:** `/privacy.html`. Nothing is collected or sent anywhere, and there are no ads,
+  accounts, analytics or cookies.
+* **Install like an app:** a web app manifest, home-screen icons and a service worker
+  (`public/sw.js`). Added to the home screen, the game opens full screen in landscape and works
+  offline after the first visit. The service worker only runs in production builds.
+
 ### Your own name
 The first screen asks the child's name ("What's your name?"). Papa, Mummy and Biscuit use it
 everywhere ("{name}! You're back! I missed you!"). It is saved on the device; tap
@@ -322,7 +335,7 @@ start something on their own. Any tap cancels it at once, so the child stays in 
 ## Test results
 
 * `npm run build`: type-check and production build pass.
-* `npm test`: 26/26 unit tests pass (hide-and-seek spots and giveaways, kitchen wiring and snack delivery, player name in dialogue, outfits, puppy and sticker
+* `npm test`: 27/27 unit tests pass (boy/girl words with no leftover tokens, hide-and-seek spots and giveaways, kitchen wiring and snack delivery, player name in dialogue, outfits, puppy and sticker
   wiring, family memory tiers, moment eligibility by time of day,
   the new toys, three-tap FSM including timeouts, day periods, 12:00
   detection, cooldowns, tap windows, non-repeating dialogue, interaction locking and priorities,

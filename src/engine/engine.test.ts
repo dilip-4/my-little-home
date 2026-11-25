@@ -247,3 +247,24 @@ describe('hide-and-seek', () => {
     expect(tail.when!(base)).toBe(false);
   });
 });
+
+describe('boy/girl words', () => {
+  it('swaps every gendered word and never leaves a {token} behind', async () => {
+    const { withName } = await import('./DialogueManager');
+    const dlg = await import('../data/dialogues');
+    const all: string[] = [];
+    const walk = (v: unknown) => {
+      if (typeof v === 'string') all.push(v);
+      else if (Array.isArray(v)) v.forEach(walk);
+      else if (v && typeof v === 'object') Object.values(v).forEach(walk);
+    };
+    walk([dlg.PAPA, dlg.MUMMY, dlg.KID, dlg.REMEMBER, dlg.MOMENTS, dlg.STORIES, dlg.TOYS]);
+    for (const gender of ['boy', 'girl'] as const) {
+      useGame.setState({ ...createInitialState(), settings: { soundEnabled: true, kidName: 'Sam', kidGender: gender } });
+      // {n} and {place} are filled in by the interaction itself before the bubble is shown
+      for (const line of all) expect(withName(line).replace(/\{(n|place)\}/g, '')).not.toMatch(/[{}]/);
+    }
+    useGame.setState({ ...createInitialState(), settings: { soundEnabled: true, kidGender: 'girl' } });
+    expect(withName('Good {boy}! Is {he} hiding?')).toBe('Good girl! Is she hiding?');
+  });
+});

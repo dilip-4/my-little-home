@@ -162,7 +162,13 @@ export interface Settings {
   soundEnabled: boolean;
   /** The player's name – typed on the first screen, used by Papa and Mummy. */
   kidName?: string;
+  /** Changes a few words (he/she, boy/girl...) and the kid's hair. */
+  kidGender?: KidGender;
+  /** Master volume 0..1 (parent corner). */
+  volume?: number;
 }
+
+export type KidGender = 'boy' | 'girl';
 
 /** Dress-up costumes from the costume chest (persisted). */
 export type Outfit = 'none' | 'cape' | 'crown' | 'pirate' | 'dino' | 'chef';

@@ -62,7 +62,28 @@ export interface KidFigureProps {
   hairFlat?: boolean;
   outfit?: Outfit;
   balloon?: string | null;
+  girl?: boolean;
 }
+
+/** Two pigtails behind the head (drawn before the face). */
+const Pigtails = () => (
+  <g>
+    {[-1, 1].map((side) => (
+      <g key={side}>
+        <ellipse cx={side * 60} cy={16} rx={15} ry={22} fill={KID_SPEC.hair} stroke={OUTLINE} strokeWidth={3} transform={`rotate(${side * -18} ${side * 60} 16)`} />
+        <circle cx={side * 52} cy={-6} r={6} fill="#ff6f91" stroke={OUTLINE} strokeWidth={2} />
+      </g>
+    ))}
+  </g>
+);
+
+const Bow = () => (
+  <g transform="translate(26 -48) rotate(18)">
+    <path d="M 0 0 L -18 -10 L -18 10 Z" fill="#ff6f91" stroke={OUTLINE} strokeWidth={2.5} strokeLinejoin="round" />
+    <path d="M 0 0 L 18 -10 L 18 10 Z" fill="#ff6f91" stroke={OUTLINE} strokeWidth={2.5} strokeLinejoin="round" />
+    <circle r={5} fill="#ff9fb8" stroke={OUTLINE} strokeWidth={2} />
+  </g>
+);
 
 const O = { stroke: OUTLINE, strokeWidth: 3, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const };
 
@@ -118,7 +139,7 @@ const Cape = () => (
   </g>
 );
 
-export const KidFigure = memo(function KidFigure({ pose, expr, prop, holding, talking, hairFlat, outfit = 'none', balloon = null }: KidFigureProps) {
+export const KidFigure = memo(function KidFigure({ pose, expr, prop, holding, talking, hairFlat, outfit = 'none', balloon = null, girl = false }: KidFigureProps) {
   let def = POSES[pose] ?? POSES.stand;
   const carrying = holding && holding !== 'sunglasses' && holding !== 'mouse';
   if (carrying && (pose === 'stand' || pose === 'walk')) def = { ...def, l: POSES.hold.l, r: POSES.hold.r };
@@ -203,6 +224,7 @@ export const KidFigure = memo(function KidFigure({ pose, expr, prop, holding, ta
               <rect x={-9} y={-134} width={18} height={14} fill={SKIN} stroke={OUTLINE} strokeWidth={2.5} />
               <g transform="translate(0 -174)">
                 {outfit === 'dino' && <DinoHood />}
+                {girl && outfit !== 'dino' && <Pigtails />}
                 <circle cx={-49} cy={4} r={11} fill={SKIN} stroke={OUTLINE} strokeWidth={3} />
                 <circle cx={49} cy={4} r={11} fill={SKIN} stroke={OUTLINE} strokeWidth={3} />
                 <ellipse cx={0} cy={0} rx={50} ry={48} fill={SKIN} stroke={OUTLINE} strokeWidth={3} />
@@ -212,6 +234,7 @@ export const KidFigure = memo(function KidFigure({ pose, expr, prop, holding, ta
                 <g className={hairFlat ? 'tuft flat' : 'tuft'}>
                   <path d="M -4 -52 Q -10 -74 6 -78 Q 2 -66 12 -60 Q 18 -72 26 -68 Q 18 -58 14 -50 Z" fill={KID_SPEC.hair} stroke={OUTLINE} strokeWidth={3} strokeLinejoin="round" />
                 </g>
+                {girl && (outfit === 'none' || outfit === 'cape') && <Bow />}
                 {outfit !== 'none' && outfit !== 'cape' && <HeadCostume outfit={outfit} />}
                 {holding === 'sunglasses' && <g transform="translate(0 -2) scale(1.05)"><Sunglasses /></g>}
               </g>

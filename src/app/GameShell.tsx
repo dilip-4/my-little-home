@@ -17,6 +17,7 @@ import { SoundControl } from '../components/SoundControl';
 import { Intro } from './Intro';
 import { DrawingBoard } from '../components/DrawingBoard';
 import { StickerBook } from '../components/StickerBook';
+import { ParentCorner } from '../components/ParentCorner';
 import { welcomeDef } from '../scenes/extras';
 import { startFindBiscuit, startHideAndSeek } from '../scenes/hideSeek';
 
@@ -96,6 +97,7 @@ export function GameShell() {
   const [doorHint, setDoorHint] = useState(true);
   const drawingOpen = useGame((s) => !!s.fx['ui:drawing']);
   const stickersOpen = useGame((s) => !!s.fx['ui:stickers']);
+  const parentOpen = useGame((s) => !!s.fx['ui:parent']);
   const newStickers = useGame((s) => s.discoveredEasterEggs.length);
   const returning = useRef(!!getGame().settings.kidName);
 
@@ -139,6 +141,8 @@ export function GameShell() {
   }, []);
 
   useEffect(() => AudioManager.setEnabled(soundOn), [soundOn]);
+  const volume = useGame((s) => s.settings.volume ?? 1);
+  useEffect(() => AudioManager.setVolume(volume), [volume]);
   useEffect(() => AudioManager.setFan(fan), [fan]);
 
   // "Welcome back, <name>!" (or a first hello) right after the title card
@@ -185,14 +189,25 @@ export function GameShell() {
         {doorHint && introDone && <div className={`door-hint ${room}`} aria-hidden />}
 
         <div className="hud">
-          <div className="logo-pill" aria-label="My Little Home">
+          <button
+            className="logo-pill"
+            aria-label="My Little Home – grown-ups corner"
+            onPointerDown={(e) => {
+              e.stopPropagation();
+              AudioManager.unlock();
+              getGame().setFx('ui:parent', true);
+            }}
+          >
             <svg viewBox="0 0 64 64" width="34" height="34" aria-hidden>
               <path d="M8 30 L32 8 L56 30 L50 30 L50 56 L14 56 L14 30 Z" fill="#f5c343" stroke="#5a3b2a" strokeWidth="4" strokeLinejoin="round" />
               <rect x="26" y="38" width="12" height="18" rx="2" fill="#e2705c" stroke="#5a3b2a" strokeWidth="3" />
               <path d="M32 30 C26 24 20 30 32 36 C44 30 38 24 32 30 Z" fill="#ff6f91" />
             </svg>
             <span>My Little Home</span>
-          </div>
+            <svg className="gear" viewBox="0 0 24 24" width="22" height="22" aria-hidden>
+              <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm8.6 2.3-1.9-.3a7 7 0 0 0-.7-1.7l1.1-1.6-1.9-1.9-1.6 1.1a7 7 0 0 0-1.7-.7l-.3-1.9h-2.7l-.3 1.9a7 7 0 0 0-1.7.7L7.3 5.3 5.4 7.2l1.1 1.6a7 7 0 0 0-.7 1.7l-1.9.3v2.7l1.9.3c.2.6.4 1.2.7 1.7l-1.1 1.6 1.9 1.9 1.6-1.1c.5.3 1.1.5 1.7.7l.3 1.9h2.7l.3-1.9c.6-.2 1.2-.4 1.7-.7l1.6 1.1 1.9-1.9-1.1-1.6c.3-.5.5-1.1.7-1.7l1.9-.3Z" fill="#c9b8a6" />
+            </svg>
+          </button>
           <nav className="room-picker" aria-label="Rooms">
             {ROOMS.map((r) => (
               <button
@@ -274,6 +289,7 @@ export function GameShell() {
         <div className={`transition-veil ${transition ?? ''}`} />
         {drawingOpen && <DrawingBoard />}
         {stickersOpen && <StickerBook />}
+        {parentOpen && <ParentCorner />}
         {!introDone && <Intro />}
       </div>
       {portrait && !portraitDismissed && (
