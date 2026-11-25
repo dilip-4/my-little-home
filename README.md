@@ -255,6 +255,11 @@ Two new buttons at the top right: the **peeking eyes** and the **paw**.
   little fingers out. Inside: change the name or boy/girl, sound on/off and volume, full screen,
   how to add the game to the home screen, the privacy note, and *Start over* (tap twice), which
   erases the name, stickers, drawings and settings from the device.
+* **Full-screen button:** the expand icon at the top right, like on video sites. Tap it (or press
+  **F** on a keyboard) to go full screen; tap again or press **Esc** to leave. On Android it also
+  keeps the screen sideways. iPhone Safari doesn't allow full screen for websites, so there the
+  button explains how to add the game to the home screen. The button hides itself when the game
+  is opened from the home screen, since it is already full screen.
 * **Privacy:** `/privacy.html`. Nothing is collected or sent anywhere, and there are no ads,
   accounts, analytics or cookies.
 * **Install like an app:** a web app manifest, home-screen icons and a service worker

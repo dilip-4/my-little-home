@@ -14,6 +14,7 @@ import { getPapaTapState } from '../scenes/PapaRoom/interactions';
 import { PapaRoomScene } from '../scenes/PapaRoom/PapaRoomScene';
 import { DialogueLayer } from '../components/DialogueBubble';
 import { SoundControl } from '../components/SoundControl';
+import { FullscreenButton } from '../components/FullscreenButton';
 import { Intro } from './Intro';
 import { DrawingBoard } from '../components/DrawingBoard';
 import { StickerBook } from '../components/StickerBook';
@@ -283,6 +284,7 @@ export function GameShell() {
               </svg>
             </button>
             <SoundControl />
+            <FullscreenButton />
           </div>
         </div>
         {hint && <div className="tap-hint">Tap anything to see what happens!</div>}

@@ -3,6 +3,7 @@ import { useGame, getGame, stopSaving } from '../state/gameStore';
 import type { KidGender } from '../state/gameTypes';
 import { AudioManager } from '../engine/AudioManager';
 import { STICKERS } from './StickerBook';
+import { toggleFullscreen } from './FullscreenButton';
 
 const STORAGE_KEYS = ['my-little-home:v1', 'my-little-home:drawings'];
 
@@ -78,12 +79,7 @@ export function ParentCorner() {
     location.reload();
   };
 
-  const fullScreen = () => {
-    const el = document.documentElement as HTMLElement & { webkitRequestFullscreen?: () => void };
-    if (document.fullscreenElement) void document.exitFullscreen();
-    else if (el.requestFullscreen) void el.requestFullscreen().catch(() => {});
-    else el.webkitRequestFullscreen?.();
-  };
+  const fullScreen = toggleFullscreen;
 
   return (
     <div className="draw-overlay" onPointerDown={(e) => e.stopPropagation()}>
