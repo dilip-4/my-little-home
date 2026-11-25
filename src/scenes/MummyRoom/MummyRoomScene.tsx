@@ -4,6 +4,7 @@ import { OUTLINE } from '../../data/characters';
 import { BUBBLE_BOTTLE, COSTUME_CHEST, MUMMY_SEAT, PUP_BOWL } from '../../data/spots';
 import { CostumeChest, DogBowl } from '../../components/HomeExtras';
 import { PupActor } from '../../characters/Pup';
+import { BasketCover, HideMarkers } from '../../components/HideSeek';
 import { Bubbles } from '../../components/Toys';
 import { InteractiveObject as Hot } from '../../components/InteractiveObject';
 import { RoomShell, WindowView, Curtains, CeilingFan, Plant, LightSwitch, Frame, FamilyMini } from '../../components/RoomParts';
@@ -435,6 +436,9 @@ export const MummyRoomScene = memo(function MummyRoomScene() {
 
       <KidActor room={R} layer="front" />
 
+      {fx['hs:cover'] === 'chest' && <g pointerEvents="none"><CostumeChest x={COSTUME_CHEST.x} y={COSTUME_CHEST.y} open={false} /></g>}
+      {fx['hs:cover'] === 'basket' && <BasketCover />}
+      <HideMarkers room={R} />
       <Bubbles room={R} />
       <Projectile />
       <DiscoLights />

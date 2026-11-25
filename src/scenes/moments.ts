@@ -9,6 +9,7 @@ import type { GameState, ParentId, RoomId } from '../state/gameTypes';
 import { MOMENTS, STORIES } from '../data/dialogues';
 import { KID_BED_SPOT, MUMMY_SPOTS, PAPA_SPOTS } from '../data/spots';
 import { parentHead } from './shared';
+import { findBiscuitMomentRun, hideInviteMomentRun } from './hideSeek';
 
 type MomentKey = keyof typeof MOMENTS;
 const m = (c: Ctx, key: MomentKey) => c.pick('moment.' + key, MOMENTS[key]);
@@ -172,6 +173,9 @@ const papaMoments: FamilyMoment[] = [
     return m2;
   })(),
 
+  moment('PAPA_HIDE_AND_SEEK', PR, 'here', 2, 5 * MIN, hideInviteMomentRun('papa'), (s) => s.dayPeriod !== 'night'),
+  moment('PAPA_FIND_BISCUIT', PR, 'here', 2, 5 * MIN, findBiscuitMomentRun('papa'), (s) => s.pup.pose !== 'sleep'),
+
   moment('PAPA_CALLS_KID', PR, 'away', 2, 2 * MIN, async (c) => {
     await callKid(c, 'papa');
     await c.kidTo(PAPA_SPOTS.nearPapa);
@@ -282,6 +286,9 @@ const mummyMoments: FamilyMoment[] = [
     c.kid({ pose: 'cheer', expr: 'happy' });
     await c.wait(800);
   }, (s) => s.dayPeriod === 'morning'),
+
+  moment('MUMMY_HIDE_AND_SEEK', MR, 'here', 2, 5 * MIN, hideInviteMomentRun('mummy'), (s) => s.dayPeriod !== 'night'),
+  moment('MUMMY_FIND_BISCUIT', MR, 'here', 2, 5 * MIN, findBiscuitMomentRun('mummy'), (s) => s.pup.pose !== 'sleep'),
 
   moment('MUMMY_CALLS_KID', MR, 'away', 2, 2 * MIN, async (c) => {
     await callKid(c, 'mummy');

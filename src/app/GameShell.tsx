@@ -18,6 +18,7 @@ import { Intro } from './Intro';
 import { DrawingBoard } from '../components/DrawingBoard';
 import { StickerBook } from '../components/StickerBook';
 import { welcomeDef } from '../scenes/extras';
+import { startFindBiscuit, startHideAndSeek } from '../scenes/hideSeek';
 
 registerInteractions();
 
@@ -210,6 +211,45 @@ export function GameShell() {
             ))}
           </nav>
           <div className="hud-right">
+            <button
+              className="hud-btn seek"
+              aria-label="Play hide and seek"
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                AudioManager.unlock();
+                AudioManager.play('giggle');
+                startHideAndSeek();
+              }}
+            >
+              <svg viewBox="0 0 64 64" aria-hidden>
+                <path d="M 6 46 Q 6 14 32 14 Q 58 14 58 46 Z" fill="#9fc7e8" stroke="#5a3b2a" strokeWidth="4" strokeLinejoin="round" />
+                <ellipse cx="24" cy="34" rx="6" ry="8" fill="#fff" stroke="#5a3b2a" strokeWidth="3" />
+                <ellipse cx="40" cy="34" rx="6" ry="8" fill="#fff" stroke="#5a3b2a" strokeWidth="3" />
+                <circle cx="26" cy="36" r="3.5" fill="#5a3b2a" />
+                <circle cx="42" cy="36" r="3.5" fill="#5a3b2a" />
+                <path d="M 4 46 L 60 46" stroke="#5a3b2a" strokeWidth="5" strokeLinecap="round" />
+              </svg>
+            </button>
+            <button
+              className="hud-btn paw"
+              aria-label="Find Biscuit"
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                AudioManager.unlock();
+                AudioManager.play('yip');
+                startFindBiscuit();
+              }}
+            >
+              <svg viewBox="0 0 64 64" aria-hidden>
+                <g fill="#b5793f" stroke="#5a3b2a" strokeWidth="3">
+                  <ellipse cx="32" cy="42" rx="14" ry="12" />
+                  <circle cx="16" cy="26" r="6.5" />
+                  <circle cx="26" cy="17" r="6.5" />
+                  <circle cx="38" cy="17" r="6.5" />
+                  <circle cx="48" cy="26" r="6.5" />
+                </g>
+              </svg>
+            </button>
             <button
               className="hud-btn book"
               aria-label={`Sticker book, ${newStickers} stickers`}

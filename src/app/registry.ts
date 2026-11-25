@@ -2,6 +2,7 @@ import { InteractionManager } from '../engine/InteractionManager';
 import { papaRoomInteractions } from '../scenes/PapaRoom/interactions';
 import { mummyRoomInteractions } from '../scenes/MummyRoom/interactions';
 import { kitchenInteractions } from '../scenes/Kitchen/interactions';
+import { giggleDefs, tailFoundDefs } from '../scenes/hideSeek';
 import { eligibleMoments, pickMoment } from '../scenes/moments';
 import { IdleDirector } from '../engine/IdleDirector';
 import { getGame } from '../state/gameStore';
@@ -14,6 +15,9 @@ let done = false;
 export function registerInteractions() {
   if (done) return;
   done = true;
+  // hide-and-seek reactions come first: while hiding, they win over everything else
+  InteractionManager.register(giggleDefs);
+  InteractionManager.register(tailFoundDefs);
   InteractionManager.register(papaRoomInteractions);
   InteractionManager.register(mummyRoomInteractions);
   InteractionManager.register(kitchenInteractions);

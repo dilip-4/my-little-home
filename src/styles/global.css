@@ -477,3 +477,6 @@ body,
 .room-btn svg { width: 38px; height: 38px; }
 .room-btn.on { background: var(--accent); transform: scale(1.08); }
 .room-btn:active { transform: scale(0.94); }
+
+.hud-btn.seek { background: #bfe3f2; }
+.hud-btn.paw { background: #ffe0b3; }

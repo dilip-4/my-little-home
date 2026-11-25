@@ -225,3 +225,25 @@ describe('kitchen', () => {
     expect(papaRoomInteractions[0].when!({ ...holding, kid: { ...holding.kid, holding: 'robot' } })).toBe(false);
   });
 });
+
+describe('hide-and-seek', () => {
+  it('every room has at least two hiding spots with unique ids', async () => {
+    const { spotsIn } = await import('../scenes/hideSeek');
+    for (const room of ['papa-room', 'mummy-room', 'kitchen'] as const) {
+      const ids = spotsIn(room).map((s) => s.id);
+      expect(ids.length).toBeGreaterThanOrEqual(2);
+      expect(new Set(ids).size).toBe(ids.length);
+    }
+  });
+
+  it('a giggle only gives the kid away while he is hiding', async () => {
+    const { giggleDefs, tailFoundDefs } = await import('../scenes/hideSeek');
+    const base = createInitialState();
+    const papaGiggle = giggleDefs.find((d) => d.room === 'papa-room')!;
+    expect(papaGiggle.when!({ ...base, fx: {} })).toBe(false);
+    expect(papaGiggle.when!({ ...base, fx: { 'hs:hidden': 'sofa' } })).toBe(true);
+    const tail = tailFoundDefs.find((d) => d.room === 'papa-room')!;
+    expect(tail.when!({ ...base, pup: { ...base.pup, pose: 'hide' }, fx: { 'hs:pupHidden': 'desk' } })).toBe(true);
+    expect(tail.when!(base)).toBe(false);
+  });
+});

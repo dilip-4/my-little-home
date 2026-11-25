@@ -19,6 +19,17 @@ export const Sock = () => (
 
 /** Biscuit the puppy. Origin = between the paws on the floor, facing +x. */
 export const PupFigure = memo(function PupFigure({ pose, carry }: { pose: PupPose; carry: null | 'ball' | 'sock' }) {
+  if (pose === 'hide') {
+    return (
+      <g transform="scale(1.5)">
+        <g className="pup-tail fast" style={{ transformOrigin: '0px 0px' }}>
+          <path d="M 0 0 Q -14 -18 -6 -40" fill="none" stroke={OUTLINE} strokeWidth={11} strokeLinecap="round" />
+          <path d="M 0 0 Q -14 -18 -6 -40" fill="none" stroke={FUR} strokeWidth={7} strokeLinecap="round" />
+          <path d="M -9 -36 Q -6 -44 -2 -40" fill="none" stroke={FUR_DARK} strokeWidth={5} strokeLinecap="round" />
+        </g>
+      </g>
+    );
+  }
   if (pose === 'sleep') {
     return (
       <g>

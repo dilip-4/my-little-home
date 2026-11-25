@@ -232,6 +232,22 @@ follows him in.
   (cookie monster), tap the fruit bowl 3 times (juggling), drum on the table 6 times (kitchen
   band with Biscuit).
 
+### Hide-and-seek (two games)
+Two new buttons at the top right: the **peeking eyes** and the **paw**.
+* **You hide (peeking eyes):** Papa or Mummy covers their eyes and counts to ten. Glowing spots
+  appear, and the child taps where to hide: behind the sofa, behind Papa's desk or behind the plant
+  in the office; under the blanket, in the wardrobe, behind the costume chest or the toy basket in
+  the bedroom; under the table or behind the fridge in the kitchen. If nobody chooses, the kid
+  picks a spot himself. The seeker then guesses wrong places first ("Is he behind the plant?
+  ...No!"). **Tap the kid while he's hiding and he giggles, giving himself away.** Hide in the same
+  spot twice and they go straight there ("I know your favourite spot!"). In the kitchen, Biscuit
+  is the seeker and sniffs the kid out.
+* **Find Biscuit (paw):** Biscuit hides with just his wagging tail poking out. Tap the magnifier
+  spots to search ("Not here!"), or spot his tail and tap it. If nobody finds him, he gets bored
+  and pops out.
+* Papa and Mummy sometimes suggest either game themselves.
+* Three new stickers: hide-and-seek, giggle gave it away, and found Biscuit.
+
 ### Your own name
 The first screen asks the child's name ("What's your name?"). Papa, Mummy and Biscuit use it
 everywhere ("{name}! You're back! I missed you!"). It is saved on the device; tap
@@ -306,7 +322,7 @@ start something on their own. Any tap cancels it at once, so the child stays in 
 ## Test results
 
 * `npm run build`: type-check and production build pass.
-* `npm test`: 24/24 unit tests pass (kitchen wiring and snack delivery, player name in dialogue, outfits, puppy and sticker
+* `npm test`: 26/26 unit tests pass (hide-and-seek spots and giveaways, kitchen wiring and snack delivery, player name in dialogue, outfits, puppy and sticker
   wiring, family memory tiers, moment eligibility by time of day,
   the new toys, three-tap FSM including timeouts, day periods, 12:00
   detection, cooldowns, tap windows, non-repeating dialogue, interaction locking and priorities,

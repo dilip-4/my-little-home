@@ -28,6 +28,9 @@ export const STICKERS: { id: string; title: string; hint: string }[] = [
   { id: 'fruit-juggle', title: 'Juggler', hint: 'Tap the fruit bowl 3 times fast.' },
   { id: 'chef-cake', title: 'Chef’s cake', hint: 'Wear the chef hat and try the oven.' },
   { id: 'table-band', title: 'Kitchen band', hint: 'Drum on the kitchen table lots.' },
+  { id: 'hide-seek', title: 'Hide-and-seek', hint: 'Press the peeking eyes and hide!' },
+  { id: 'giggle-giveaway', title: 'Giggle gave it away', hint: 'Tap yourself while hiding...' },
+  { id: 'found-biscuit', title: 'Found Biscuit', hint: 'Press the paw and look for his tail.' },
   { id: 'outfit-cape', title: 'Superhero', hint: 'Look in the costume chest.' },
   { id: 'outfit-crown', title: 'King', hint: 'Look in the costume chest.' },
   { id: 'outfit-pirate', title: 'Pirate', hint: 'Look in the costume chest.' },
@@ -79,6 +82,12 @@ function Icon({ id }: { id: string }) {
       return <g transform="translate(0 6) scale(1.8)"><Cupcake candle /></g>;
     case 'table-band':
       return <g><ellipse cx={0} cy={8} rx={30} ry={14} fill="#e2483f" {...S} /><rect x={-30} y={-6} width={60} height={14} fill="#e2483f" stroke="none" /><ellipse cx={0} cy={-6} rx={30} ry={12} fill="#fff6e0" {...S} /><path d="M -30 -40 L -8 -10 M 30 -40 L 8 -10" stroke="#c48a56" strokeWidth={6} strokeLinecap="round" /></g>;
+    case 'hide-seek':
+      return <g><path d="M -34 20 Q -34 -24 0 -24 Q 34 -24 34 20 Z" fill="#9fc7e8" {...S} /><ellipse cx={-10} cy={4} rx={7} ry={9} fill="#fff" stroke={OUTLINE} strokeWidth={3} /><ellipse cx={10} cy={4} rx={7} ry={9} fill="#fff" stroke={OUTLINE} strokeWidth={3} /><circle cx={-8} cy={6} r={4} fill={OUTLINE} /><circle cx={12} cy={6} r={4} fill={OUTLINE} /></g>;
+    case 'giggle-giveaway':
+      return <g><circle r={28} fill="#d9a179" {...S} /><path d="M -14 -4 q 5 -6 10 0 M 4 -4 q 5 -6 10 0" stroke={OUTLINE} strokeWidth={4} fill="none" strokeLinecap="round" /><path d="M -10 8 Q 0 20 10 8" stroke={OUTLINE} strokeWidth={4} fill="#c8283a" /><text x={22} y={-20} fontSize={18} fontWeight={700} fill="#e2705c">hee</text></g>;
+    case 'found-biscuit':
+      return <g><path d="M -30 24 Q -40 -10 -24 -30" fill="none" stroke={OUTLINE} strokeWidth={13} strokeLinecap="round" /><path d="M -30 24 Q -40 -10 -24 -30" fill="none" stroke="#e8b77a" strokeWidth={8} strokeLinecap="round" /><circle cx={12} cy={0} r={20} fill="#d9f0ff" {...S} /><path d="M 26 14 L 40 28" stroke={OUTLINE} strokeWidth={7} strokeLinecap="round" /></g>;
     case 'outfit-cape':
       return <path d="M -16 -28 Q -40 0 -30 30 Q 0 38 30 30 Q 40 0 16 -28 Q 0 -22 -16 -28 Z" fill="#e2483f" {...S} />;
     case 'outfit-crown':

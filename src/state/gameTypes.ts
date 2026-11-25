@@ -47,7 +47,8 @@ export type AdultActivity =
   | 'catch'
   | 'throw'
   | 'holdTeddy'
-  | 'dizzy';
+  | 'dizzy'
+  | 'countEyes';
 
 export type KidPose =
   | 'stand'
@@ -166,7 +167,7 @@ export interface Settings {
 /** Dress-up costumes from the costume chest (persisted). */
 export type Outfit = 'none' | 'cape' | 'crown' | 'pirate' | 'dino' | 'chef';
 
-export type PupPose = 'sit' | 'walk' | 'run' | 'sleep' | 'wag' | 'jump' | 'eat' | 'roll' | 'beg' | 'lick' | 'spin';
+export type PupPose = 'sit' | 'walk' | 'run' | 'sleep' | 'wag' | 'jump' | 'eat' | 'roll' | 'beg' | 'lick' | 'spin' | 'hide';
 
 /** Biscuit the puppy – follows the kid between rooms. */
 export interface PupState {

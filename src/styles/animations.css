@@ -111,3 +111,5 @@
 .micro-spin { transform-box: fill-box; transform-origin: center; animation: micro-spin 0.5s linear infinite alternate; }
 .pop-corn { transform-box: fill-box; animation: pop-corn 0.9s ease-out infinite; }
 .juggle { animation: juggle 1.2s linear infinite; }
+@keyframes hs-marker { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+.hs-marker { animation: hs-marker 1.1s ease-in-out infinite; }

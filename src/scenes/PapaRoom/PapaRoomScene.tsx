@@ -4,6 +4,7 @@ import { OUTLINE } from '../../data/characters';
 import { CAR_HOME, EASEL, GIFT_SPOT, PAPA_SEAT, TOWER_BASE } from '../../data/spots';
 import { ArtFrame, Easel, GiftBox } from '../../components/HomeExtras';
 import { PupActor } from '../../characters/Pup';
+import { HideMarkers } from '../../components/HideSeek';
 import { todayKey } from '../../state/gameStore';
 import { BlockTower, ToyCarRunner } from '../../components/Toys';
 import { InteractiveObject as Hot } from '../../components/InteractiveObject';
@@ -409,6 +410,7 @@ export const PapaRoomScene = memo(function PapaRoomScene() {
         <Plant x={1392} y={800} s={0.95} pot="#5c8fb8" />
       </Hot>
 
+      <HideMarkers room={R} />
       <Projectile />
       <DiscoLights />
       <LightOverlay id="pr-light" darkness={darkness} period={period} glows={glows} windowRect={{ x: 430, y: 110, w: 260, h: 280 }} curtainsOpen={room.curtainsOpen} />

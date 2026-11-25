@@ -12,6 +12,7 @@ import { Banana, Cookie, Cupcake, JuiceBox, Sandwich } from '../../components/pr
 import { KidActor } from '../../characters/KidActor';
 import { PupActor } from '../../characters/Pup';
 import { latestDrawing } from '../../components/drawingStore';
+import { HideMarkers } from '../../components/HideSeek';
 
 const S = { stroke: OUTLINE, strokeWidth: 3, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const };
 const R = 'kitchen';
@@ -319,6 +320,9 @@ export const KitchenScene = memo(function KitchenScene() {
       )}
       {fx[R + ':hearts'] && <Hearts x={useGame.getState().kid.x} y={useGame.getState().kid.y - 260} />}
 
+      {fx['hs:cover'] === 'table' && <g pointerEvents="none"><Table /></g>}
+      {fx['hs:cover'] === 'fridge' && <g pointerEvents="none"><Fridge open={false} wink={false} art={art} /></g>}
+      <HideMarkers room={R} />
       <Bubbles room={R} />
       <Projectile />
       <LightOverlay id="kt-light" darkness={darkness} period={period} glows={glows} windowRect={{ x: 680, y: 120, w: 240, h: 210 }} curtainsOpen={room.curtainsOpen} />

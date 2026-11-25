@@ -34,7 +34,7 @@ const pupHere = (s: GameState) => s.pup.room === s.currentRoom;
 const ballSpot = (room: RoomId) => (room === 'papa-room' ? { x: 692, y: 758 } : room === 'mummy-room' ? { x: 496, y: 764 } : null);
 
 /** Biscuit runs in through the door of `room` (or just trots over if already there). */
-async function pupEnter(c: Ctx, room: RoomId) {
+export async function pupEnter(c: Ctx, room: RoomId) {
   if (c.s.pup.room === room) return;
   c.pup({ room, x: DOOR_X[room], y: PUP_FLOOR_Y, moveMs: 0, pose: 'run', facing: room === 'mummy-room' ? -1 : 1, carry: null });
   c.fx(room + ':doorOpen', true);

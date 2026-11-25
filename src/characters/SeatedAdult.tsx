@@ -62,6 +62,7 @@ const POSES: Record<AdultActivity, Pose> = {
   throw: { front: true, near: [-170, -30], far: [30, -20], turn: 0 },
   holdTeddy: { front: true, near: [-30, -100], far: [-30, -100], turn: 0, tilt: 6, prop: 'teddy' },
   dizzy: { front: true, near: [20, -10], far: [20, -10], turn: 0, headCls: 'head-wobble' },
+  countEyes: { front: true, near: [-28, -172], far: [-28, -172], turn: 0, tilt: 6 },
 };
 
 export interface SeatedAdultProps {
