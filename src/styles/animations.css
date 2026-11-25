@@ -99,3 +99,15 @@
 @media (prefers-reduced-motion: reduce) { .pup-tail, .pup-ear, .pup-breathe, .pup-walk, .pup-run { animation: none; } }
 @keyframes gift-bounce { 0%, 70%, 100% { transform: translateY(0) rotate(0); } 80% { transform: translateY(-14px) rotate(-4deg); } 90% { transform: translateY(0) rotate(3deg); } }
 .gift-bounce { animation: gift-bounce 2.4s ease-in-out infinite; }
+@keyframes flame { from { transform: scale(1, 1); } to { transform: scale(0.85, 1.15); } }
+.flame { transform-box: fill-box; transform-origin: center bottom; animation: flame 0.3s ease-in-out infinite alternate; }
+@keyframes water-run { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -24; } }
+@keyframes oven-glow { from { opacity: 0.25; } to { opacity: 0.7; } }
+@keyframes micro-spin { from { transform: scaleX(1); } to { transform: scaleX(-1); } }
+@keyframes pop-corn { 0% { transform: translate(0, 20px) scale(0.4); opacity: 0; } 30% { opacity: 1; } 100% { transform: translate(var(--dx), -70px) scale(1); opacity: 0; } }
+@keyframes juggle { 0% { transform: rotate(0deg) translateX(46px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(46px) rotate(-360deg); } }
+.water-run { stroke-dasharray: 10 4; animation: water-run 0.3s linear infinite; }
+.oven-glow { animation: oven-glow 0.8s ease-in-out infinite alternate; }
+.micro-spin { transform-box: fill-box; transform-origin: center; animation: micro-spin 0.5s linear infinite alternate; }
+.pop-corn { transform-box: fill-box; animation: pop-corn 0.9s ease-out infinite; }
+.juggle { animation: juggle 1.2s linear infinite; }

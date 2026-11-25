@@ -156,7 +156,7 @@ export function papaToyDefs(): InteractionDefinition[] {
 // ------------------------------------------------------------------ bubbles
 const MR = 'mummy-room' as const;
 
-function makeBubbles(from: { x: number; y: number }, rainbow: boolean): BubbleSpec[] {
+export function makeBubbles(from: { x: number; y: number }, rainbow: boolean): BubbleSpec[] {
   const n = 8;
   const rainbowAt = rainbow ? Math.floor(randBetween(2, n - 1)) : -1;
   return Array.from({ length: n }, (_, k) => ({
@@ -173,42 +173,42 @@ function makeBubbles(from: { x: number; y: number }, rainbow: boolean): BubbleSp
 }
 
 /** Keeps the bubbles alive and reacts to popping. Has no actors, so it never blocks anyone. */
-const bubbleWatch = (items: BubbleSpec[]): InteractionDefinition => ({
+export const bubbleWatch = (items: BubbleSpec[], room: 'mummy-room' | 'kitchen' = MR): InteractionDefinition => ({
   id: 'BUBBLES_FLOATING',
-  room: MR,
+  room,
   target: 'bubbles:watch',
   action: 'Bubbles float until popped',
   category: 'idle',
   priority: 0,
   run: async (c) => {
     const g = getGame();
-    g.clearFx(MR + ':rainbowPopped');
-    c.fx(MR + ':bubbleLeft', items.length);
-    c.fx(MR + ':bubblePops', 0);
-    c.fx(MR + ':bubbles', JSON.stringify({ id: Date.now(), items }));
+    g.clearFx(room + ':rainbowPopped');
+    c.fx(room + ':bubbleLeft', items.length);
+    c.fx(room + ':bubblePops', 0);
+    c.fx(room + ':bubbles', JSON.stringify({ id: Date.now(), items }));
     const end = Date.now() + 12500;
     let cheeredRainbow = false;
     while (Date.now() < end) {
       await c.wait(250);
       const s = getGame();
-      if (s.fx[MR + ':rainbowPopped'] && !cheeredRainbow) {
+      if (s.fx[room + ':rainbowPopped'] && !cheeredRainbow) {
         cheeredRainbow = true;
-        s.clearFx(MR + ':rainbowPopped');
-        parentAside('mummy', 'mummyRainbow');
+        s.clearFx(room + ':rainbowPopped');
+        if (room === MR) parentAside('mummy', 'mummyRainbow');
       }
-      if (((s.fx[MR + ':bubbleLeft'] as number | undefined) ?? 1) <= 0) break;
+      if (((s.fx[room + ':bubbleLeft'] as number | undefined) ?? 1) <= 0) break;
     }
-    const pops = (getGame().fx[MR + ':bubblePops'] as number | undefined) ?? 0;
+    const pops = (getGame().fx[room + ':bubblePops'] as number | undefined) ?? 0;
     if (pops === items.length) {
       // every single bubble popped
-      if (!busy('kid') && getGame().kid.room === MR) {
+      if (!busy('kid') && getGame().kid.room === room) {
         getGame().setKid({ pose: 'cheer', expr: 'laugh' });
         c.sound('giggle');
       }
       c.sound('clap');
-      parentAside('mummy', 'mummyAllPopped');
+      if (room === MR) parentAside('mummy', 'mummyAllPopped');
       await c.wait(1100);
-      if (!busy('kid') && getGame().kid.room === MR && getGame().kid.awake) getGame().setKid({ pose: 'stand', expr: 'happy' });
+      if (!busy('kid') && getGame().kid.room === room && getGame().kid.awake) getGame().setKid({ pose: 'stand', expr: 'happy' });
     }
   },
 });

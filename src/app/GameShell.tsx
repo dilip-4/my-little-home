@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useGame, getGame } from '../state/gameStore';
+import type { RoomId } from '../state/gameTypes';
 import { registerInteractions } from './registry';
 import { startClock } from '../engine/clock';
 import { familyMoments } from '../scenes/moments';
@@ -22,6 +23,44 @@ registerInteractions();
 
 const loadMummyRoom = () => import('../scenes/MummyRoom/MummyRoomScene');
 const MummyRoomScene = lazy(loadMummyRoom);
+const loadKitchen = () => import('../scenes/Kitchen/KitchenScene');
+const KitchenScene = lazy(loadKitchen);
+
+const ROOMS: { id: RoomId; label: string; icon: JSX.Element }[] = [
+  {
+    id: 'papa-room',
+    label: "Papa's office",
+    icon: (
+      <svg viewBox="0 0 64 64" aria-hidden>
+        <rect x="10" y="14" width="44" height="30" rx="4" fill="#2c3340" stroke="#5a3b2a" strokeWidth="4" />
+        <rect x="15" y="19" width="34" height="20" fill="#bfe3f2" />
+        <path d="M 6 50 L 58 50 L 54 44 L 10 44 Z" fill="#b7bec8" stroke="#5a3b2a" strokeWidth="4" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    id: 'mummy-room',
+    label: "Mummy's room",
+    icon: (
+      <svg viewBox="0 0 64 64" aria-hidden>
+        <rect x="6" y="30" width="52" height="16" rx="4" fill="#ffb3c1" stroke="#5a3b2a" strokeWidth="4" />
+        <rect x="8" y="20" width="20" height="12" rx="5" fill="#fff" stroke="#5a3b2a" strokeWidth="4" />
+        <path d="M 8 46 L 8 54 M 56 46 L 56 54 M 6 18 L 6 54" stroke="#5a3b2a" strokeWidth="5" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    id: 'kitchen',
+    label: 'Kitchen',
+    icon: (
+      <svg viewBox="0 0 64 64" aria-hidden>
+        <path d="M 14 30 L 50 30 L 46 54 L 18 54 Z" fill="#7fc8e8" stroke="#5a3b2a" strokeWidth="4" strokeLinejoin="round" />
+        <path d="M 10 32 Q 8 12 26 14 Q 32 4 40 14 Q 58 12 54 32 Z" fill="#ffb3d1" stroke="#5a3b2a" strokeWidth="4" strokeLinejoin="round" />
+        <circle cx="32" cy="10" r="5" fill="#e2483f" stroke="#5a3b2a" strokeWidth="3" />
+      </svg>
+    ),
+  },
+];
 
 function useStageScale() {
   const [scale, setScale] = useState(1);
@@ -47,7 +86,7 @@ export function GameShell() {
   const introDone = useGame((s) => s.introDone);
   const soundOn = useGame((s) => s.settings.soundEnabled);
   const transition = useGame((s) => s.fx.transition) as string | undefined;
-  const fan = useGame((s) => (s.currentRoom === 'papa-room' ? s.papaRoom.fanSpeed : s.mummyRoom.fanSpeed));
+  const fan = useGame((s) => (s.currentRoom === 'papa-room' ? s.papaRoom.fanSpeed : s.currentRoom === 'mummy-room' ? s.mummyRoom.fanSpeed : 0));
   const scale = useStageScale();
   const rootRef = useRef<HTMLDivElement>(null);
   const [hint, setHint] = useState(false);
@@ -80,7 +119,7 @@ export function GameShell() {
       running: () => InteractionManager.runningIds(),
       events: () => EventBus.recent(),
       papaTap: () => getPapaTapState(),
-      go: (r: 'papa-room' | 'mummy-room') => RoomManager.go(r),
+      go: (r: RoomId) => RoomManager.go(r),
       defs: () => InteractionManager.definitions().map((d) => `${d.room}:${d.target}:${d.id}`),
       moment: (id: string) => {
         const m = familyMoments.find((x) => x.def.id === id);
@@ -112,7 +151,10 @@ export function GameShell() {
     if (!introDone) return;
     setHint(true);
     const t = setTimeout(() => setHint(false), 6000);
-    const p = setTimeout(() => void loadMummyRoom(), 800); // preload second room in the background
+    const p = setTimeout(() => {
+      void loadMummyRoom(); // preload the other rooms in the background
+      void loadKitchen();
+    }, 800);
     return () => {
       clearTimeout(t);
       clearTimeout(p);
@@ -134,7 +176,7 @@ export function GameShell() {
             <PapaRoomScene />
           ) : (
             <Suspense fallback={<div className="room-loading" />}>
-              <MummyRoomScene />
+              {room === 'mummy-room' ? <MummyRoomScene /> : <KitchenScene />}
             </Suspense>
           )}
         </div>
@@ -150,6 +192,23 @@ export function GameShell() {
             </svg>
             <span>My Little Home</span>
           </div>
+          <nav className="room-picker" aria-label="Rooms">
+            {ROOMS.map((r) => (
+              <button
+                key={r.id}
+                className={`room-btn ${room === r.id ? 'on' : ''}`}
+                aria-label={r.label}
+                aria-current={room === r.id}
+                onPointerDown={(e) => {
+                  e.stopPropagation();
+                  AudioManager.unlock();
+                  if (room !== r.id) RoomManager.go(r.id);
+                }}
+              >
+                {r.icon}
+              </button>
+            ))}
+          </nav>
           <div className="hud-right">
             <button
               className="hud-btn book"

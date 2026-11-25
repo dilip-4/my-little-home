@@ -210,6 +210,28 @@ hug. Each one cools down and then returns everyone to their normal activity.
 11. Build a block tower (3+ blocks) and then wind up the toy car: monster-truck crash.
 12. Blow bubbles: sometimes one is a rainbow bubble. Pop it for magic.
 
+### The kitchen (third room)
+Reach it with the new **room buttons** at the top of the screen (office, bedroom, kitchen). Its
+door leads back to Papa's office. It is the kid's own room: no parent works there, but Biscuit
+follows him in.
+* **Fridge:** take a juice box, or peek inside ("Brrr!"). The kid's newest drawing is stuck on the
+  fridge door with magnets.
+* **Cookie jar:** sneak a cookie ("Shhh... just one").
+* **Fruit bowl:** take a banana.
+* **Sandwich board:** each tap adds a layer (bread, cheese, tomato, lettuce, bread), then the kid
+  picks it up.
+* **Microwave:** popcorn pops, then *ding!*
+* **Sink:** wash hands and pop the soap bubbles.
+* **Table:** drum on it, or eat a snack there while Biscuit begs.
+* **Oven:** wearing the **chef hat** from the costume chest, the kid bakes a cake that appears on
+  the table with candles. Without the hat he says he needs it first.
+* **Take snacks to Papa or Mummy:** carry any snack to their room and tap them. They stop, eat it,
+  and react ("A cookie? Shh, don't tell Mummy!"). Tap Biscuit while holding food and he sits pretty
+  for his own dog treat. If the kid waits too long, he eats the snack himself.
+* **Kitchen secrets:** open the fridge 5 times (the cheese winks), tap the cookie jar 5 times
+  (cookie monster), tap the fruit bowl 3 times (juggling), drum on the table 6 times (kitchen
+  band with Biscuit).
+
 ### Your own name
 The first screen asks the child's name ("What's your name?"). Papa, Mummy and Biscuit use it
 everywhere ("{name}! You're back! I missed you!"). It is saved on the device; tap
@@ -284,7 +306,7 @@ start something on their own. Any tap cancels it at once, so the child stays in 
 ## Test results
 
 * `npm run build`: type-check and production build pass.
-* `npm test`: 22/22 unit tests pass (player name in dialogue, outfits, puppy and sticker
+* `npm test`: 24/24 unit tests pass (kitchen wiring and snack delivery, player name in dialogue, outfits, puppy and sticker
   wiring, family memory tiers, moment eligibility by time of day,
   the new toys, three-tap FSM including timeouts, day periods, 12:00
   detection, cooldowns, tap windows, non-repeating dialogue, interaction locking and priorities,

@@ -15,7 +15,7 @@ import { DialogueManager, readingTime } from './DialogueManager';
 import { CooldownTracker, TapCounter } from './cooldowns';
 import { pickVaried } from './random';
 import { EventBus } from './EventManager';
-import { KID_BED_SPOT, MUMMY_SPOTS, PAPA_SPOTS, type Spot } from '../data/spots';
+import { KID_BED_SPOT, MUMMY_SPOTS, ROOM_DEFAULT, ROOM_DOOR, ROOM_ENTRY, type Spot } from '../data/spots';
 
 /**
  * Event-driven interaction pipeline:
@@ -393,7 +393,7 @@ function defaultReset(actor: CharacterId) {
     }
     const patch: Partial<KidState> = { pose: 'stand', expr: 'happy', prop: null, moveMs: 0 };
     if (k.layer !== 'front') {
-      const spot = k.room === 'papa-room' ? PAPA_SPOTS.default : MUMMY_SPOTS.default;
+      const spot = ROOM_DEFAULT[k.room];
       Object.assign(patch, { layer: 'front', x: spot.x, y: spot.y });
     }
     if (k.y < 700 && k.layer === 'front') {
@@ -426,13 +426,13 @@ export async function ensureKid(c: Ctx) {
     return;
   }
   // kid is in the other room – he comes running through the door
-  const door = room === 'papa-room' ? PAPA_SPOTS.door : MUMMY_SPOTS.door;
+  const door = ROOM_DOOR[room];
   const wasAsleep = !k.awake;
   c.kid({ room, awake: true, x: door.x, y: door.y, moveMs: 0, pose: 'walk', expr: 'happy', layer: 'front' });
   c.fx(room + ':doorOpen', true);
   c.sound('doorOpen');
   await c.wait(60);
-  const entry = room === 'papa-room' ? { x: 330, y: 772 } : { x: 1150, y: 772 };
+  const entry = ROOM_ENTRY[room];
   await c.kidTo(entry, { speed: 0.7 });
   c.unfx(room + ':doorOpen');
   c.sound('doorClose');

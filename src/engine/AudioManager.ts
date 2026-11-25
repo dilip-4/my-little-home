@@ -10,7 +10,8 @@ export type SoundName =
   | 'snore' | 'alarm0' | 'alarm1' | 'alarm2' | 'alarm3' | 'birds' | 'crickets' | 'zip' | 'aww'
   | 'hmm' | 'disco' | 'pageFlip' | 'brush' | 'teddyDance'
   | 'blow' | 'bubblePop' | 'block' | 'crash' | 'vroom' | 'crunch' | 'sing' | 'clap' | 'dance'
-  | 'bark' | 'yip' | 'slurp' | 'pour' | 'tada' | 'unwrap' | 'scribble' | 'whine';
+  | 'bark' | 'yip' | 'slurp' | 'pour' | 'tada' | 'unwrap' | 'scribble' | 'whine'
+  | 'drum' | 'hum' | 'splash' | 'birthday' | 'clink' | 'ding';
 
 export type GuitarTune = 'kid' | 'kid2' | 'papa' | 'funny';
 
@@ -296,6 +297,12 @@ class AudioManagerImpl {
       case 'unwrap': B(0, 0.5, { type: 'highpass', freq: 2500, to: 5000, vol: 0.14 }); B(0.25, 0.3, { type: 'highpass', freq: 3000, vol: 0.1 }); break;
       case 'scribble': for (let i = 0; i < 5; i++) B(i * 0.07, 0.06, { type: 'bandpass', freq: 3200, vol: 0.05, q: 2 }); break;
       case 'whine': T(900, 0, 0.6, { type: 'sine', to: 650, vol: 0.08, vibrato: 7 }); break;
+      case 'drum': [0, 0.18, 0.36, 0.45, 0.54].forEach((st, i) => { T(i % 2 ? 180 : 120, st, 0.12, { vol: 0.35, to: 60 }); B(st, 0.05, { type: 'bandpass', freq: i % 2 ? 2400 : 900, vol: 0.12, q: 2 }); }); break;
+      case 'hum': T(120, 0, 1.6, { type: 'sawtooth', vol: 0.03, filter: 300, attack: 0.1 }); T(240, 0, 1.6, { vol: 0.02 }); break;
+      case 'splash': B(0, 0.6, { type: 'bandpass', freq: 1800, to: 900, vol: 0.18, q: 0.8 }); break;
+      case 'birthday': [[67, 0], [67, 0.2], [69, 0.4], [67, 0.8], [72, 1.2], [71, 1.6]].forEach(([n, st]) => T(NOTE(n), st, 0.35, { type: 'triangle', vol: 0.12 })); break;
+      case 'clink': T(2600, 0, 0.25, { vol: 0.08 }); T(3400, 0.02, 0.2, { vol: 0.05 }); break;
+      case 'ding': T(1568, 0, 1.0, { vol: 0.15 }); T(3136, 0, 0.4, { vol: 0.04 }); break;
       case 'teddyDance': [72, 74, 76, 79, 76, 74, 72, 67].forEach((n, i) => T(NOTE(n), i * 0.18, 0.16, { type: 'triangle', vol: 0.1 })); break;
     }
   }

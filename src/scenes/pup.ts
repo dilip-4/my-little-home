@@ -9,7 +9,7 @@ import type { SoundName } from '../engine/AudioManager';
 import { getGame } from '../state/gameStore';
 import type { GameState, PupPose, RoomId } from '../state/gameTypes';
 import { DOOR_X, MUMMY_SPOTS, PUP_BOWL, PUP_FLOOR_Y, PUP_RANGE } from '../data/spots';
-import { kidPresent, parentOf } from './shared';
+import { isFood, kidHolding, kidPresent, parentOf } from './shared';
 
 export const PUP_NAME = 'Biscuit';
 
@@ -31,12 +31,12 @@ const PUP_LINES = {
 const pl = (key: keyof typeof PUP_LINES) => pickVaried('pup.' + key, PUP_LINES[key]);
 
 const pupHere = (s: GameState) => s.pup.room === s.currentRoom;
-const ballSpot = (room: RoomId) => (room === 'papa-room' ? { x: 692, y: 758 } : { x: 496, y: 764 });
+const ballSpot = (room: RoomId) => (room === 'papa-room' ? { x: 692, y: 758 } : room === 'mummy-room' ? { x: 496, y: 764 } : null);
 
 /** Biscuit runs in through the door of `room` (or just trots over if already there). */
 async function pupEnter(c: Ctx, room: RoomId) {
   if (c.s.pup.room === room) return;
-  c.pup({ room, x: DOOR_X[room], y: PUP_FLOOR_Y, moveMs: 0, pose: 'run', facing: room === 'papa-room' ? 1 : -1, carry: null });
+  c.pup({ room, x: DOOR_X[room], y: PUP_FLOOR_Y, moveMs: 0, pose: 'run', facing: room === 'mummy-room' ? -1 : 1, carry: null });
   c.fx(room + ':doorOpen', true);
   c.sound('yip');
   await c.wait(120);
@@ -51,7 +51,7 @@ async function kidToPup(c: Ctx) {
 }
 
 function pupDefs(room: RoomId): InteractionDefinition[] {
-  const parent = parentOf(room);
+  const parent = room === 'kitchen' ? null : parentOf(room);
   const [minX, maxX] = PUP_RANGE[room];
   return [
     {
@@ -73,6 +73,31 @@ function pupDefs(room: RoomId): InteractionDefinition[] {
         c.pup({ pose: 'wag' });
         c.sound('bark');
         await c.say('pup', pl('woof'), { ms: 1200 });
+      },
+    },
+    {
+      id: 'PUP_BEGS_FOR_FOOD',
+      room,
+      target: 'pup',
+      action: 'Holding a snack? Biscuit sits pretty and gets his own dog treat',
+      category: 'combo',
+      when: (s) => pupHere(s) && s.pup.pose !== 'sleep' && isFood(kidHolding(s)),
+      uses: ['pup', 'kid'],
+      priority: 3,
+      run: async (c) => {
+        await kidToPup(c);
+        c.pup({ pose: 'beg' });
+        c.sound('whine');
+        await c.wait(600);
+        await c.say('kid', 'This is not for puppies! Here, your own treat!', { ms: 1700 });
+        c.kid({ pose: 'crouch', expr: 'happy' });
+        c.pup({ pose: 'eat' });
+        c.sound('crunch');
+        await c.wait(700);
+        c.pup({ pose: 'wag' });
+        c.sound('bark');
+        c.kid({ pose: 'stand', expr: 'laugh' });
+        await c.say('pup', pl('happy'), { ms: 1000 });
       },
     },
     {
@@ -158,7 +183,8 @@ function pupDefs(room: RoomId): InteractionDefinition[] {
       uses: ['pup', 'kid'],
       priority: 2,
       run: async (c) => {
-        if (c.s.fx[room + ':ballAway']) {
+        const b = ballSpot(room);
+        if (!b || c.s.fx[room + ':ballAway']) {
           // ball is busy elsewhere – a quick jump-and-bark instead
           await kidToPup(c);
           c.pup({ pose: 'jump' });
@@ -166,7 +192,6 @@ function pupDefs(room: RoomId): InteractionDefinition[] {
           await c.say('pup', pl('woof'), { ms: 1100 });
           return;
         }
-        const b = ballSpot(room);
         await c.kidTo({ x: b.x - 30, y: 772, facing: 1 });
         c.kid({ pose: 'crouch', expr: 'happy' });
         await c.wait(250);

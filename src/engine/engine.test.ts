@@ -206,3 +206,22 @@ describe('name, outfits, puppy and stickers', () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 });
+
+describe('kitchen', () => {
+  it('has every kitchen object wired up', async () => {
+    const { kitchenInteractions } = await import('../scenes/Kitchen/interactions');
+    for (const t of ['fridge', 'cookies', 'fruit', 'sink', 'board', 'microwave', 'oven', 'table', 'door', 'switch', 'pup'])
+      expect(kitchenInteractions.some((d) => d.target === t)).toBe(true);
+    const ids = kitchenInteractions.map((d) => d.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('a snack carried to a parent wins over their other reactions', () => {
+    expect(papaRoomInteractions[0].id).toBe('SNACK_GIVEN_TO_PAPA');
+    expect(mummyRoomInteractions[0].id).toBe('SNACK_GIVEN_TO_MUMMY');
+    const base = { ...createInitialState(), currentRoom: 'papa-room' as const };
+    const holding = { ...base, kid: { ...base.kid, room: 'papa-room' as const, awake: true, holding: 'cookie' as const } };
+    expect(papaRoomInteractions[0].when!(holding)).toBe(true);
+    expect(papaRoomInteractions[0].when!({ ...holding, kid: { ...holding.kid, holding: 'robot' } })).toBe(false);
+  });
+});

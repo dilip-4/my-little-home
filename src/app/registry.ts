@@ -1,6 +1,7 @@
 import { InteractionManager } from '../engine/InteractionManager';
 import { papaRoomInteractions } from '../scenes/PapaRoom/interactions';
 import { mummyRoomInteractions } from '../scenes/MummyRoom/interactions';
+import { kitchenInteractions } from '../scenes/Kitchen/interactions';
 import { eligibleMoments, pickMoment } from '../scenes/moments';
 import { IdleDirector } from '../engine/IdleDirector';
 import { getGame } from '../state/gameStore';
@@ -15,6 +16,7 @@ export function registerInteractions() {
   done = true;
   InteractionManager.register(papaRoomInteractions);
   InteractionManager.register(mummyRoomInteractions);
+  InteractionManager.register(kitchenInteractions);
   IdleDirector.addTicker(pupTick);
   wirePupReactions();
   IdleDirector.setMomentPicker(() => {

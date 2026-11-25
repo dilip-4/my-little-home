@@ -6,6 +6,7 @@ import { initialPapaTap, PAPA_TAP_WINDOW_MS, resetPapaTap, tapPapa, type PapaTap
 import { PAPA_SPOTS as SP } from '../../data/spots';
 import { papaToyDefs } from '../toys';
 import { pupInteractions } from '../pup';
+import { snackToPapa } from '../snacks';
 import { papaExtraDefs } from '../extras';
 import { aside, commonDefs, isToy, kidDefs, kidHolding, kidPresent, line, parentHead, say, startHoldTimeout } from '../shared';
 
@@ -58,6 +59,7 @@ async function toyOnKeyboard(c: Ctx) {
 }
 
 export const papaRoomInteractions: InteractionDefinition[] = [
+  snackToPapa,
   ...commonDefs(R),
 
   // ------------------------------------------------------------------ Papa

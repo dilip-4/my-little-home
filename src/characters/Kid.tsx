@@ -3,7 +3,7 @@ import type { Expression, HeldItem, KidPose, KidProp, Outfit } from '../state/ga
 import { KID_SPEC, OUTLINE } from '../data/characters';
 import { Face, Hand, Limb, limbEnd } from './parts';
 import {
-  Apple, Ball, Barbell, Book, BubbleWand, Bottle, CurlRod, Dumbbell, Duck, Guitar, Hairbrush, Keys, Lollipop, OfficeMouse, Pillow, Robot, Sunglasses, Teddy, Zzz,
+  Apple, Ball, Barbell, Book, BubbleWand, Food, Bottle, CurlRod, Dumbbell, Duck, Guitar, Hairbrush, Keys, Lollipop, OfficeMouse, Pillow, Robot, Sunglasses, Teddy, Zzz,
 } from '../components/props';
 
 const P = KID_SPEC.palette;
@@ -168,6 +168,8 @@ export const KidFigure = memo(function KidFigure({ pose, expr, prop, holding, ta
     switch (holding) {
       case 'robot': return <g transform={`translate(${mid.x} ${mid.y + 14}) scale(0.7)`}><Robot /></g>;
       case 'teddy': return <g transform={`translate(${mid.x} ${mid.y + 22}) scale(0.62)`} className="teddy-held"><Teddy /></g>;
+      case 'cookie': case 'sandwich': case 'banana': case 'juice': case 'popcorn': case 'cupcake':
+        return <g transform={`translate(${mid.x} ${mid.y - 2})`}><Food item={holding} /></g>;
       case 'duck': return <g transform={`translate(${mid.x} ${mid.y + 4}) scale(0.85)`}><Duck /></g>;
       case 'pillow': return <g transform={`translate(${mid.x} ${mid.y}) scale(0.6)`}><Pillow /></g>;
       default: return null;

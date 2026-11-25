@@ -160,9 +160,10 @@ export const IdleDirector = {
     const s = getGame();
     if (s.transitioning || !s.introDone || s.fx['ui:drawing'] || s.fx['ui:stickers']) return;
     const now = Date.now();
-    const parent: ParentId = s.currentRoom === 'papa-room' ? 'papa' : 'mummy';
     tickers.forEach((t) => t());
-    if (momentPicker && now >= nextMomentAt) {
+    // the kitchen has no parent at a desk: only the kid (and Biscuit) potter about there
+    const parent: ParentId | null = s.currentRoom === 'papa-room' ? 'papa' : s.currentRoom === 'mummy-room' ? 'mummy' : null;
+    if (parent && momentPicker && now >= nextMomentAt) {
       const quiet = now - InteractionManager.lastUserAt > MOMENT_QUIET_MS;
       const free =
         InteractionManager.busyPriority(parent) <= 0 &&
@@ -182,7 +183,7 @@ export const IdleDirector = {
         nextMomentAt = now + 15000;
       }
     }
-    if (now >= nextAt[parent]) {
+    if (parent && now >= nextAt[parent]) {
       if (InteractionManager.isBusy(parent) || s.dialogues[parent]) nextAt[parent] = now + 3000;
       else {
         const act = weighted(parent === 'papa' ? PAPA_IDLE : MUMMY_IDLE);

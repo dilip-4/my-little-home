@@ -273,3 +273,67 @@ export const BubbleBottle = ({ wand = true }: { wand?: boolean }) => (
     )}
   </g>
 );
+
+// ------------------------------------------------------------------ kitchen food
+export const Cookie = () => (
+  <g>
+    <circle r={15} fill="#d9a05b" {...S} />
+    {[[-6, -5], [5, -7], [7, 5], [-4, 7], [0, 0]].map(([x, y], i) => (
+      <circle key={i} cx={x} cy={y} r={2.6} fill="#5a3b2a" />
+    ))}
+  </g>
+);
+
+export const Sandwich = ({ layers = 5 }: { layers?: number }) => (
+  <g>
+    {layers >= 1 && <path d="M -26 8 L 26 8 L 0 -18 Z" fill="#f3d39b" {...S} strokeWidth={2.5} />}
+    {layers >= 2 && <path d="M -22 2 L 22 2" stroke="#ffd23f" strokeWidth={6} strokeLinecap="round" />}
+    {layers >= 3 && <path d="M -18 -3 L 18 -3" stroke="#e2483f" strokeWidth={5} strokeLinecap="round" />}
+    {layers >= 4 && <path d="M -14 -8 Q 0 -4 14 -8" stroke="#6fbf4a" strokeWidth={5} strokeLinecap="round" fill="none" />}
+    {layers >= 5 && <path d="M -16 -6 L 16 -6 L 0 -26 Z" fill="#f3d39b" {...S} strokeWidth={2.5} />}
+  </g>
+);
+
+export const Banana = () => (
+  <g>
+    <path d="M -20 -6 Q 0 22 24 -10 Q 22 -2 12 6 Q -4 14 -20 -6 Z" fill="#ffd23f" {...S} strokeWidth={2.5} />
+    <path d="M 24 -10 l 4 -4" stroke="#5a3b2a" strokeWidth={4} strokeLinecap="round" />
+  </g>
+);
+
+export const JuiceBox = () => (
+  <g>
+    <rect x={-11} y={-20} width={22} height={30} rx={3} fill="#ff9f43" {...S} strokeWidth={2.5} />
+    <circle cx={0} cy={-4} r={6} fill="#ffd23f" stroke={OUTLINE} strokeWidth={1.5} />
+    <path d="M 5 -20 L 9 -32 L 15 -34" fill="none" stroke="#5fd4ff" strokeWidth={3} strokeLinecap="round" />
+  </g>
+);
+
+export const Popcorn = () => (
+  <g>
+    {[[-10, -18], [0, -22], [10, -18], [-5, -26], [6, -28]].map(([x, y], i) => (
+      <circle key={i} cx={x} cy={y} r={6} fill="#fff6d0" stroke={OUTLINE} strokeWidth={1.8} />
+    ))}
+    <path d="M -15 -14 L 15 -14 L 11 14 L -11 14 Z" fill="#fff" {...S} strokeWidth={2.5} />
+    <path d="M -8 -14 L -6 14 M 2 -14 L 2 14 M 10 -14 L 8 14" stroke="#e2483f" strokeWidth={4} />
+  </g>
+);
+
+export const Cupcake = ({ candle = false }: { candle?: boolean }) => (
+  <g>
+    <path d="M -14 0 L 14 0 L 10 18 L -10 18 Z" fill="#7fc8e8" {...S} strokeWidth={2.5} />
+    <path d="M -17 2 Q -20 -14 -6 -14 Q 0 -24 8 -14 Q 20 -14 17 2 Z" fill="#ffb3d1" {...S} strokeWidth={2.5} />
+    {candle ? (
+      <g>
+        <rect x={-2} y={-32} width={4} height={14} fill="#5fd4ff" stroke={OUTLINE} strokeWidth={1.5} />
+        <path d="M 0 -42 Q 5 -36 0 -33 Q -5 -36 0 -42 Z" fill="#ffb347" className="flame" />
+      </g>
+    ) : (
+      <circle cx={0} cy={-18} r={4.5} fill="#e2483f" stroke={OUTLINE} strokeWidth={1.5} />
+    )}
+  </g>
+);
+
+/** Renders any food item by name. */
+export const Food = ({ item }: { item: string }) =>
+  item === 'cookie' ? <Cookie /> : item === 'sandwich' ? <Sandwich /> : item === 'banana' ? <Banana /> : item === 'juice' ? <JuiceBox /> : item === 'popcorn' ? <Popcorn /> : item === 'cupcake' ? <Cupcake /> : null;

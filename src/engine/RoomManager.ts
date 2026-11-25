@@ -4,7 +4,7 @@ import { InteractionManager } from './InteractionManager';
 import { AudioManager } from './AudioManager';
 import { DialogueManager } from './DialogueManager';
 import { EventBus } from './EventManager';
-import { MUMMY_SPOTS, PAPA_SPOTS } from '../data/spots';
+import { ROOM_DOOR, ROOM_ENTRY } from '../data/spots';
 
 /**
  * Moves the player between rooms through the connecting door.
@@ -35,7 +35,7 @@ export const RoomManager = {
       s.setRoom(to);
       // the kid walks with the player if he is awake
       if (s.kid.awake && s.kid.room === from) {
-        const door = to === 'papa-room' ? PAPA_SPOTS.door : MUMMY_SPOTS.door;
+        const door = ROOM_DOOR[to];
         s.setKid({ room: to, x: door.x, y: door.y, moveMs: 0, layer: 'front', pose: 'walk', facing: door.facing as 1 | -1 });
       }
       s.setFx(to + ':doorOpen', true);
@@ -45,7 +45,7 @@ export const RoomManager = {
     later(1000, () => {
       const s = getGame();
       if (s.kid.awake && s.kid.room === to) {
-        const spot = to === 'papa-room' ? { x: 330, y: 772 } : { x: 1150, y: 772 };
+        const spot = ROOM_ENTRY[to];
         s.setKid({ x: spot.x, y: spot.y, moveMs: 650 });
       }
     });

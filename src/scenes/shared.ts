@@ -6,7 +6,7 @@ import { AudioManager } from '../engine/AudioManager';
 import { DialogueManager } from '../engine/DialogueManager';
 import { pickVaried } from '../engine/random';
 import { formatTime, isTwelveOClock } from '../engine/time';
-import type { GameState, ParentId, RoomId } from '../state/gameTypes';
+import type { FoodItem, GameState, ParentId, RoomId } from '../state/gameTypes';
 import { KID, MUMMY, PAPA, REMEMBER } from '../data/dialogues';
 import { FamilyMemory, repeatTier } from '../engine/FamilyMemory';
 import { MUMMY_SEAT, MUMMY_SPOTS, PAPA_SEAT, PAPA_SPOTS, type Spot } from '../data/spots';
@@ -56,6 +56,8 @@ export const aside = (who: 'papa' | 'mummy' | 'kid', key: string) => {
 export const kidPresent = (s: GameState) => s.kid.room === s.currentRoom && s.kid.awake;
 export const kidHolding = (s: GameState) => (kidPresent(s) ? s.kid.holding : null);
 export const isToy = (h: string | null) => h === 'robot' || h === 'duck' || h === 'teddy';
+export const FOODS = ['cookie', 'sandwich', 'banana', 'juice', 'popcorn', 'cupcake'] as const;
+export const isFood = (h: string | null): h is FoodItem => !!h && (FOODS as readonly string[]).includes(h);
 
 // --------------------------------------------------------------- hold timeout
 /** After carrying a toy for a while the kid plays with it and puts it back. Low priority: any action cancels it. */
@@ -71,6 +73,15 @@ const holdTimeout = (room: RoomId): InteractionDefinition => ({
     await c.wait(9000);
     const h = c.s.kid.holding;
     if (!h) return;
+    if (isFood(h)) {
+      // he got hungry waiting and ate it himself
+      c.kid({ pose: 'drink', expr: 'happy' });
+      c.sound(h === 'juice' ? 'gulp' : 'crunch');
+      await c.wait(900);
+      c.kid({ holding: null, pose: 'stand', expr: 'laugh' });
+      await c.say('kid', h === 'juice' ? 'Ahh! All gone!' : 'Oops, I ate it! Yummy!', { priority: 0, ms: 1400 });
+      return;
+    }
     c.kid({ pose: 'dance', expr: 'happy' });
     c.sound(h === 'duck' ? 'quack' : h === 'robot' ? 'robot' : 'squeak');
     await say(c, 'kid', h === 'duck' ? 'duck' : h === 'robot' ? 'robot' : 'teddy', { priority: 0 });

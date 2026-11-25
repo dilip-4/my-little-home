@@ -6,6 +6,7 @@ import { InteractionManager } from '../../engine/InteractionManager';
 import { KID_BED_SPOT, MUMMY_SPOTS as SP } from '../../data/spots';
 import { mummyToyDefs } from '../toys';
 import { pupInteractions } from '../pup';
+import { snackToMummy } from '../snacks';
 import { mummyExtraDefs } from '../extras';
 import { aside, commonDefs, isToy, kidDefs, kidHolding, kidPresent, parentHead, say, startHoldTimeout } from '../shared';
 
@@ -48,6 +49,7 @@ async function hopOutOfBed(c: Ctx) {
 }
 
 export const mummyRoomInteractions: InteractionDefinition[] = [
+  snackToMummy,
   ...commonDefs(R),
 
   // ------------------------------------------------------------------ Mummy

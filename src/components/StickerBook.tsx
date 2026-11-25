@@ -1,7 +1,7 @@
 import { useGame, getGame } from '../state/gameStore';
 import { AudioManager } from '../engine/AudioManager';
 import { OUTLINE } from '../data/characters';
-import { Dino, Guitar, Heart, Note, Phone, Teddy, ToyCar } from './props';
+import { Cookie, Cupcake, Dino, Food, Guitar, Heart, Note, Phone, Teddy, ToyCar } from './props';
 
 const S = { stroke: OUTLINE, strokeWidth: 4, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const };
 
@@ -21,6 +21,13 @@ export const STICKERS: { id: string; title: string; hint: string }[] = [
   { id: 'car-crash', title: 'Monster truck', hint: 'Build a tower, then drive the car.' },
   { id: 'rainbow-bubble', title: 'Rainbow bubble', hint: 'Pop every bubble – one may be magic.' },
   { id: 'pup-tail-chase', title: 'Tail chase', hint: 'Biscuit loves lots of quick pats.' },
+  { id: 'snack-papa', title: 'Snack for Papa', hint: 'Make something in the kitchen and take it to Papa.' },
+  { id: 'snack-mummy', title: 'Snack for Mummy', hint: 'Mummy would love a snack too.' },
+  { id: 'cookie-monster', title: 'Cookie monster', hint: 'The cookie jar likes lots of quick taps.' },
+  { id: 'cheese-wink', title: 'Winking cheese', hint: 'Open the fridge again and again.' },
+  { id: 'fruit-juggle', title: 'Juggler', hint: 'Tap the fruit bowl 3 times fast.' },
+  { id: 'chef-cake', title: 'Chef’s cake', hint: 'Wear the chef hat and try the oven.' },
+  { id: 'table-band', title: 'Kitchen band', hint: 'Drum on the kitchen table lots.' },
   { id: 'outfit-cape', title: 'Superhero', hint: 'Look in the costume chest.' },
   { id: 'outfit-crown', title: 'King', hint: 'Look in the costume chest.' },
   { id: 'outfit-pirate', title: 'Pirate', hint: 'Look in the costume chest.' },
@@ -58,6 +65,20 @@ function Icon({ id }: { id: string }) {
       return <g><circle r={28} fill="#ffd6f0" opacity={0.8} stroke="#ff9ad5" strokeWidth={4} /><path d="M -16 -6 A 18 18 0 0 1 -4 -18" stroke="#fff" strokeWidth={5} fill="none" strokeLinecap="round" /><circle cx={10} cy={10} r={5} fill="#c8f0ff" /></g>;
     case 'pup-tail-chase':
       return <g fill="#b5793f" {...S} strokeWidth={3}><ellipse cx={0} cy={10} rx={18} ry={15} /><circle cx={-18} cy={-12} r={8} /><circle cx={-6} cy={-22} r={8} /><circle cx={8} cy={-22} r={8} /><circle cx={20} cy={-12} r={8} /></g>;
+    case 'snack-papa':
+      return <g><g transform="translate(-8 4) scale(1.6)"><Food item="sandwich" /></g><g transform="translate(22 -22) scale(0.9)"><Heart /></g></g>;
+    case 'snack-mummy':
+      return <g><g transform="translate(-6 6) scale(1.5)"><Food item="juice" /></g><g transform="translate(22 -22) scale(0.9)"><Heart color="#e2705c" /></g></g>;
+    case 'cookie-monster':
+      return <g><g transform="translate(-12 6) scale(1.4)"><Cookie /></g><g transform="translate(14 -8) scale(1.2)"><Cookie /></g></g>;
+    case 'cheese-wink':
+      return <g><path d="M -34 16 L 34 16 L 34 -12 L -34 -24 Z" fill="#ffd23f" {...S} /><circle cx={-14} cy={-6} r={4} fill={OUTLINE} /><path d="M 4 -8 q 5 -5 10 0" stroke={OUTLINE} strokeWidth={4} fill="none" /><path d="M -12 6 q 8 6 16 0" stroke={OUTLINE} strokeWidth={4} fill="none" strokeLinecap="round" /></g>;
+    case 'fruit-juggle':
+      return <g><circle cx={-20} cy={10} r={13} fill="#e8483f" {...S} /><circle cx={0} cy={-18} r={13} fill="#ff9f43" {...S} /><g transform="translate(20 12) scale(0.8)"><Food item="banana" /></g></g>;
+    case 'chef-cake':
+      return <g transform="translate(0 6) scale(1.8)"><Cupcake candle /></g>;
+    case 'table-band':
+      return <g><ellipse cx={0} cy={8} rx={30} ry={14} fill="#e2483f" {...S} /><rect x={-30} y={-6} width={60} height={14} fill="#e2483f" stroke="none" /><ellipse cx={0} cy={-6} rx={30} ry={12} fill="#fff6e0" {...S} /><path d="M -30 -40 L -8 -10 M 30 -40 L 8 -10" stroke="#c48a56" strokeWidth={6} strokeLinecap="round" /></g>;
     case 'outfit-cape':
       return <path d="M -16 -28 Q -40 0 -30 30 Q 0 38 30 30 Q 40 0 16 -28 Q 0 -22 -16 -28 Z" fill="#e2483f" {...S} />;
     case 'outfit-crown':

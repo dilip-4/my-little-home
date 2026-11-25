@@ -6,6 +6,7 @@ import type {
   Dialogue,
   GameState,
   KidState,
+  KitchenState,
   MummyRoomState,
   Outfit,
   PapaRoomState,
@@ -38,6 +39,8 @@ export const initialMummyRoom: MummyRoomState = {
   alarmSound: 0,
 };
 
+export const initialKitchen: KitchenState = { lightOn: true, curtainsOpen: true, windowOpen: false };
+
 export const initialKid: KidState = {
   room: 'mummy-room',
   awake: false,
@@ -63,6 +66,7 @@ export function createInitialState(now = new Date()): GameState {
     dayPeriod: getDayPeriod(now),
     papaRoom: { ...initialPapaRoom },
     mummyRoom: { ...initialMummyRoom },
+    kitchen: { ...initialKitchen },
     characters: { papa: defaultAdult(), mummy: defaultAdult() },
     kid: { ...initialKid },
     dialogues: {},
@@ -126,6 +130,7 @@ export interface GameActions {
   setDayPeriod: (p: DayPeriod) => void;
   patchPapaRoom: (patch: Partial<PapaRoomState>) => void;
   patchMummyRoom: (patch: Partial<MummyRoomState>) => void;
+  patchKitchen: (patch: Partial<KitchenState>) => void;
   setAdult: (id: ParentId, patch: Partial<AdultState>) => void;
   setKid: (patch: Partial<KidState>) => void;
   showDialogue: (d: Dialogue) => void;
@@ -156,6 +161,7 @@ export const useGame = create<Store>()((set, get) => ({
   },
   patchPapaRoom: (patch) => set((s) => ({ papaRoom: { ...s.papaRoom, ...patch } })),
   patchMummyRoom: (patch) => set((s) => ({ mummyRoom: { ...s.mummyRoom, ...patch } })),
+  patchKitchen: (patch) => set((s) => ({ kitchen: { ...s.kitchen, ...patch } })),
   setAdult: (id, patch) =>
     set((s) => ({ characters: { ...s.characters, [id]: { ...s.characters[id], ...patch } } })),
   setKid: (patch) => set((s) => ({ kid: { ...s.kid, ...patch } })),

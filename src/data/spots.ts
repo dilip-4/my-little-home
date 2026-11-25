@@ -89,5 +89,37 @@ export const EASEL = { x: 222, y: 700 };
 export const GIFT_SPOT = { x: 646, y: 568 };
 export const PUP_FLOOR_Y = 792;
 /** Where Biscuit may wander in each room. */
-export const PUP_RANGE = { 'papa-room': [240, 1240], 'mummy-room': [520, 1230] } as const;
-export const DOOR_X = { 'papa-room': 130, 'mummy-room': 1330 } as const;
+export const PUP_RANGE = { 'papa-room': [240, 1240], 'mummy-room': [520, 1230], kitchen: [260, 1060] } as const;
+export const DOOR_X = { 'papa-room': 130, 'mummy-room': 1330, kitchen: 130 } as const;
+
+export const KITCHEN_SPOTS = {
+  door: { x: 120, y: 770, facing: 1 },
+  default: { x: 640, y: 772, facing: 1 },
+  fridge: { x: 440, y: 772, facing: -1 },
+  cookies: { x: 520, y: 772, facing: 1 },
+  fruit: { x: 610, y: 772, facing: 1 },
+  sink: { x: 790, y: 772, facing: 1 },
+  board: { x: 930, y: 772, facing: 1 },
+  microwave: { x: 1010, y: 772, facing: 1 },
+  oven: { x: 700, y: 772, facing: 1 },
+  table: { x: 1190, y: 772, facing: 1 },
+  chair: { x: 1300, y: 700, facing: -1 },
+  switch: { x: 230, y: 772, facing: -1 },
+} satisfies Record<string, Spot>;
+
+/** Per-room door, entry and resting spots (used when the kid moves between rooms). */
+export const ROOM_DOOR: Record<'papa-room' | 'mummy-room' | 'kitchen', Spot> = {
+  'papa-room': PAPA_SPOTS.door,
+  'mummy-room': MUMMY_SPOTS.door,
+  kitchen: KITCHEN_SPOTS.door,
+};
+export const ROOM_ENTRY: Record<'papa-room' | 'mummy-room' | 'kitchen', Spot> = {
+  'papa-room': { x: 330, y: 772 },
+  'mummy-room': { x: 1150, y: 772 },
+  kitchen: { x: 330, y: 772 },
+};
+export const ROOM_DEFAULT: Record<'papa-room' | 'mummy-room' | 'kitchen', Spot> = {
+  'papa-room': PAPA_SPOTS.default,
+  'mummy-room': MUMMY_SPOTS.default,
+  kitchen: KITCHEN_SPOTS.default,
+};

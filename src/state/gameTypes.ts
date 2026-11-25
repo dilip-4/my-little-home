@@ -1,6 +1,6 @@
 // Strongly typed game state for My Little Home.
 
-export type RoomId = 'papa-room' | 'mummy-room';
+export type RoomId = 'papa-room' | 'mummy-room' | 'kitchen';
 export type DayPeriod = 'morning' | 'afternoon' | 'evening' | 'night';
 export type CharacterId = 'papa' | 'mummy' | 'kid' | 'pup';
 export type ParentId = 'papa' | 'mummy';
@@ -77,7 +77,10 @@ export type KidPose =
   | 'peek'
   | 'yawn';
 
-export type HeldItem = null | 'robot' | 'teddy' | 'duck' | 'mouse' | 'sunglasses' | 'pillow';
+export type HeldItem = null | 'robot' | 'teddy' | 'duck' | 'mouse' | 'sunglasses' | 'pillow' | FoodItem;
+
+/** Snacks made in the kitchen – carry them to Papa or Mummy. */
+export type FoodItem = 'cookie' | 'sandwich' | 'banana' | 'juice' | 'popcorn' | 'cupcake';
 
 export type KidLayer = 'front' | 'back' | 'inside';
 
@@ -140,6 +143,12 @@ export interface MummyRoomState {
   alarmSound: number;
 }
 
+export interface KitchenState {
+  lightOn: boolean;
+  curtainsOpen: boolean;
+  windowOpen: boolean;
+}
+
 export interface Dialogue {
   id: number;
   speaker: CharacterId;
@@ -180,6 +189,7 @@ export interface GameState {
   dayPeriod: DayPeriod;
   papaRoom: PapaRoomState;
   mummyRoom: MummyRoomState;
+  kitchen: KitchenState;
   characters: { papa: AdultState; mummy: AdultState };
   kid: KidState;
   dialogues: Partial<Record<CharacterId, Dialogue>>;
