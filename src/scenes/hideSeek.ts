@@ -171,6 +171,23 @@ export const HIDE_SPOTS: HideSpot[] = [
     tail: { x: 420, y: 650 },
     ...crouchBehindCover('fridge', 236, 'peek', 1),
   },
+  // ---------------------------------------------------------------- garden
+  {
+    id: 'gbush',
+    room: 'garden',
+    place: 'behind the big bush',
+    marker: { x: 1360, y: 650 },
+    tail: { x: 1236, y: 790 },
+    ...crouchBehindCover('gbush', 1365, 'crouch', -1),
+  },
+  {
+    id: 'barrow',
+    room: 'garden',
+    place: 'behind the wheelbarrow',
+    marker: { x: 215, y: 680 },
+    tail: { x: 336, y: 790 },
+    ...crouchBehindCover('barrow', 215, 'crouch', 1),
+  },
 ];
 
 export const spotsIn = (room: RoomId) => HIDE_SPOTS.filter((s) => s.room === room);
@@ -332,7 +349,7 @@ function hideGame(room: RoomId): InteractionDefinition {
 }
 
 /** The kid can't keep quiet: tapping him while hidden makes him giggle (no actors – never blocks). */
-export const giggleDefs: InteractionDefinition[] = (['papa-room', 'mummy-room', 'kitchen'] as RoomId[]).map((room) => ({
+export const giggleDefs: InteractionDefinition[] = (['papa-room', 'mummy-room', 'kitchen', 'garden'] as RoomId[]).map((room) => ({
   id: 'HIDDEN_KID_GIGGLES',
   room,
   target: 'kid',
@@ -416,7 +433,7 @@ function findBiscuitGame(room: RoomId): InteractionDefinition {
 }
 
 /** Tapping Biscuit's tail while he hides finds him straight away. */
-export const tailFoundDefs: InteractionDefinition[] = (['papa-room', 'mummy-room', 'kitchen'] as RoomId[]).map((room) => ({
+export const tailFoundDefs: InteractionDefinition[] = (['papa-room', 'mummy-room', 'kitchen', 'garden'] as RoomId[]).map((room) => ({
   id: 'BISCUIT_TAIL_TAPPED',
   room,
   target: 'pup',

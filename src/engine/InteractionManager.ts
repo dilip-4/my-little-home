@@ -63,7 +63,7 @@ interface Running {
 
 export interface ProjectileFx {
   id: number;
-  kind: 'ball' | 'pillow' | 'book' | 'duck' | 'dino' | 'toy';
+  kind: 'ball' | 'pillow' | 'book' | 'duck' | 'dino' | 'toy' | 'mango';
   from: { x: number; y: number };
   to: { x: number; y: number };
   dur: number;

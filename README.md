@@ -211,7 +211,7 @@ hug. Each one cools down and then returns everyone to their normal activity.
 12. Blow bubbles: sometimes one is a rainbow bubble. Pop it for magic.
 
 ### The kitchen (third room)
-Reach it with the new **room buttons** at the top of the screen (office, bedroom, kitchen). Its
+Reach it with the **room buttons** at the top of the screen (office, bedroom, kitchen, garden). Its
 door leads back to Papa's office. It is the kid's own room: no parent works there, but Biscuit
 follows him in.
 * **Fridge:** take a juice box, or peek inside ("Brrr!"). The kid's newest drawing is stuck on the
@@ -231,6 +231,37 @@ follows him in.
 * **Kitchen secrets:** open the fridge 5 times (the cheese winks), tap the cookie jar 5 times
   (cookie monster), tap the fruit bowl 3 times (juggling), drum on the table 6 times (kitchen
   band with Biscuit).
+
+### The garden (fourth room)
+The sunflower button at the top. Its door leads back to the kitchen. No parent works out here;
+the kid and Biscuit play together. The sky follows the real time of day (sunset in the evening,
+stars and fireflies at night).
+* **Toy excavator:** tap the digger or the sandpit. The kid picks up the remote and the sandpit
+  glows: draw a road in the sand with a finger. The digger drives along it, leaving tread marks,
+  scoops sand, turns round and dumps it. Dumping in the same place builds a sand mountain. If
+  nobody draws, the kid makes up a twisty road himself.
+* **Feed the birds:** tap the seed bag on the tree stump. Sparrows, mynas and bulbuls (and
+  sometimes a green parrot) fly in, peck and hop. Tap a bird and the kid says what it is
+  ("A bulbul! It has a red bottom!"). Each kind is a sticker. Birds also drop by on the fence
+  now and then by themselves.
+* **Plants that grow:** a sunflower, a tomato plant and pink flowers, each with a seed-packet
+  sign. Water them with the watering can (or tap one plant). Each watering makes it grow one
+  stage about 15 seconds later: seed, sprout, bud, fully grown. Growth is saved, so the garden
+  is still there next time, and plants that were watered just before closing grow on return.
+  Pick a ripe tomato and carry it to Papa or Mummy like a snack.
+* **Dig with Biscuit:** tap the soft soil. Biscuit digs, dirt flies, and a treasure pops out
+  (a bone, a gold coin, a worm, an old key, a dino, a lost ball, a seashell). After three holes
+  the kid fills them in "before Mummy sees".
+* **Catch me if you can:** tap Biscuit in the garden. He play-bows and zooms around the lawn. Tap
+  him to make the kid dash after him: he dodges twice, then gets caught with a big lick. Then
+  they swap and Biscuit chases the kid round the garden.
+* **Also:** run through the sprinkler (it waters the plants too, with a rainbow in the day),
+  ride the swing on the mango tree (tap it 3 times quickly to swing super high), shake the tree
+  (a mango bonks the kid on the head), a butterfly lands on the kid's nose when tapped, sniff the
+  bush, push the wheelbarrow.
+* **Hide-and-seek** works in the garden too: behind the big bush or the wheelbarrow.
+* 13 new stickers: Digger driver, Green fingers, Little farmer, Sparrow, Myna, Bulbul, Parrot,
+  Treasure hunter, Catch me!, Splash!, Super swing, Butterfly friend.
 
 ### Hide-and-seek (two games)
 Two new buttons at the top right: the **peeking eyes** and the **paw**.
@@ -340,12 +371,12 @@ start something on their own. Any tap cancels it at once, so the child stays in 
 ## Test results
 
 * `npm run build`: type-check and production build pass.
-* `npm test`: 27/27 unit tests pass (boy/girl words with no leftover tokens, hide-and-seek spots and giveaways, kitchen wiring and snack delivery, player name in dialogue, outfits, puppy and sticker
+* `npm test`: 30/30 unit tests pass (garden wiring, plant growth timing, catch-me tap routing, boy/girl words with no leftover tokens, hide-and-seek spots and giveaways, kitchen wiring and snack delivery, player name in dialogue, outfits, puppy and sticker
   wiring, family memory tiers, moment eligibility by time of day,
   the new toys, three-tap FSM including timeouts, day periods, 12:00
   detection, cooldowns, tap windows, non-repeating dialogue, interaction locking and priorities,
   cooldown enforcement, unique event ids, and the catalogue size).
-* In-browser sweep: every object in both rooms was triggered through the game's own QA hook
+* In-browser sweep: every object in all four rooms was triggered through the game's own QA hook
   (`window.__mlh`). None got stuck and the console stayed clean.
 
 ## Known limitations
@@ -354,4 +385,5 @@ start something on their own. Any tap cancels it at once, so the child stays in 
   walks to objects.
 * Character turns are stylised 3/4 views (face features shift, the body swaps between side and
   front poses) rather than fully redrawn angles.
-* Only the two rooms from version 1.0 exist. The doors and `RoomManager` are ready for more rooms.
+* Four places so far: Papa's office, Mummy's room, the kitchen and the garden. The doors and
+  `RoomManager` are ready for more rooms.

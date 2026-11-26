@@ -226,10 +226,49 @@ describe('kitchen', () => {
   });
 });
 
+describe('garden', () => {
+  it('has every garden thing wired up, with unique event ids', async () => {
+    const { gardenInteractions } = await import('../scenes/Garden/interactions');
+    for (const t of ['digger', 'sandpit', 'can', 'plant-0', 'plant-1', 'plant-2', 'seeds', 'sprinkler', 'swing', 'tree', 'soil', 'bush', 'barrow', 'door', 'pup', 'kid'])
+      expect(gardenInteractions.some((d) => d.target === t)).toBe(true);
+    const ids = gardenInteractions.map((d) => d.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('a watered plant grows one stage after GROW_MS, and never past fully grown', async () => {
+    const { grownPlants, GROW_MS } = await import('../state/gameStore');
+    const t = 1_000_000;
+    const plants = [
+      { kind: 'sunflower' as const, stage: 0 as const, wateredAt: t },
+      { kind: 'tomato' as const, stage: 3 as const, wateredAt: t },
+      { kind: 'flower' as const, stage: 1 as const, wateredAt: null },
+    ];
+    expect(grownPlants(plants, t + GROW_MS - 1)).toBeNull();
+    const next = grownPlants(plants, t + GROW_MS)!;
+    expect(next.map((p) => p.stage)).toEqual([1, 3, 1]);
+    expect(next.every((p) => p.wateredAt === null || p.kind === 'flower')).toBe(true);
+  });
+
+  it('in the garden, tapping Biscuit starts catch-me (and catches during the game)', async () => {
+    const { gardenInteractions } = await import('../scenes/Garden/interactions');
+    const base = createInitialState();
+    const s = { ...base, currentRoom: 'garden' as const, pup: { ...base.pup, room: 'garden' as const, pose: 'sit' as const } };
+    const start = gardenInteractions.find((d) => d.id === 'CATCH_ME_STARTED')!;
+    const tap = gardenInteractions.find((d) => d.id === 'CATCH_TAP')!;
+    expect(start.when!(s)).toBe(true);
+    expect(tap.when!(s)).toBe(false);
+    const chasing = { ...s, fx: { 'garden:chase': 'run' } };
+    expect(start.when!(chasing)).toBe(false);
+    expect(tap.when!(chasing)).toBe(true);
+    // the catch tap comes before the starter, so it wins while a game is running
+    expect(gardenInteractions.indexOf(tap)).toBeLessThan(gardenInteractions.indexOf(start));
+  });
+});
+
 describe('hide-and-seek', () => {
   it('every room has at least two hiding spots with unique ids', async () => {
     const { spotsIn } = await import('../scenes/hideSeek');
-    for (const room of ['papa-room', 'mummy-room', 'kitchen'] as const) {
+    for (const room of ['papa-room', 'mummy-room', 'kitchen', 'garden'] as const) {
       const ids = spotsIn(room).map((s) => s.id);
       expect(ids.length).toBeGreaterThanOrEqual(2);
       expect(new Set(ids).size).toBe(ids.length);

@@ -2,6 +2,7 @@ import { InteractionManager } from '../engine/InteractionManager';
 import { papaRoomInteractions } from '../scenes/PapaRoom/interactions';
 import { mummyRoomInteractions } from '../scenes/MummyRoom/interactions';
 import { kitchenInteractions } from '../scenes/Kitchen/interactions';
+import { gardenInteractions, gardenTick } from '../scenes/Garden/interactions';
 import { giggleDefs, tailFoundDefs } from '../scenes/hideSeek';
 import { eligibleMoments, pickMoment } from '../scenes/moments';
 import { IdleDirector } from '../engine/IdleDirector';
@@ -21,7 +22,9 @@ export function registerInteractions() {
   InteractionManager.register(papaRoomInteractions);
   InteractionManager.register(mummyRoomInteractions);
   InteractionManager.register(kitchenInteractions);
+  InteractionManager.register(gardenInteractions);
   IdleDirector.addTicker(pupTick);
+  IdleDirector.addTicker(gardenTick);
   wirePupReactions();
   IdleDirector.setMomentPicker(() => {
     const m = pickMoment(eligibleMoments(getGame(), (id) => InteractionManager.cooldowns.isCooling(id)), lastMoment);

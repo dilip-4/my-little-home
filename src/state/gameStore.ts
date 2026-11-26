@@ -5,6 +5,8 @@ import type {
   DayPeriod,
   Dialogue,
   GameState,
+  GardenState,
+  PlantState,
   KidState,
   KidGender,
   KitchenState,
@@ -42,6 +44,31 @@ export const initialMummyRoom: MummyRoomState = {
 
 export const initialKitchen: KitchenState = { lightOn: true, curtainsOpen: true, windowOpen: false };
 
+/** A watered plant grows to its next stage this long after watering. */
+export const GROW_MS = 15000;
+export const initialPlants = (): PlantState[] => [
+  { kind: 'sunflower', stage: 0, wateredAt: null },
+  { kind: 'tomato', stage: 0, wateredAt: null },
+  { kind: 'flower', stage: 0, wateredAt: null },
+];
+export const initialGarden = (): GardenState => ({
+  plants: initialPlants(),
+  birds: [],
+  digger: { x: 700, y: 716, facing: 1, moveMs: 0, arm: 'rest', load: false },
+  heap: 0,
+  hole: 0,
+});
+/** Applies any growth that is due (also catches up after the game was closed). */
+export function grownPlants(plants: PlantState[], now = Date.now()): PlantState[] | null {
+  let changed = false;
+  const next = plants.map((p) => {
+    if (p.wateredAt === null || now - p.wateredAt < GROW_MS) return p;
+    changed = true;
+    return { ...p, stage: Math.min(3, p.stage + 1) as PlantState['stage'], wateredAt: null };
+  });
+  return changed ? next : null;
+}
+
 export const initialKid: KidState = {
   room: 'mummy-room',
   awake: false,
@@ -68,6 +95,7 @@ export function createInitialState(now = new Date()): GameState {
     papaRoom: { ...initialPapaRoom },
     mummyRoom: { ...initialMummyRoom },
     kitchen: { ...initialKitchen },
+    garden: initialGarden(),
     characters: { papa: defaultAdult(), mummy: defaultAdult() },
     kid: { ...initialKid },
     dialogues: {},
@@ -91,6 +119,7 @@ interface Persisted {
   outfit?: Outfit;
   balloon?: string | null;
   lastGiftDay?: string | null;
+  plants?: PlantState[];
 }
 
 export const todayKey = (d = new Date()) => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
@@ -119,6 +148,10 @@ function hydrate(base: GameState): GameState {
     mummyRoom: { ...base.mummyRoom, ...(p.mummyRoom ?? {}), lightOn: true },
     discoveredEasterEggs: Array.isArray(p.discoveredEasterEggs) ? p.discoveredEasterEggs : [],
     outfit: p.outfit ?? 'none',
+    garden: {
+      ...base.garden,
+      plants: Array.isArray(p.plants) && p.plants.length === 3 ? (grownPlants(p.plants) ?? p.plants) : base.garden.plants,
+    },
     lastGiftDay: p.lastGiftDay ?? null,
     // today's balloon stays for the day it was given
     balloon: p.lastGiftDay === todayKey() ? (p.balloon ?? null) : null,
@@ -132,6 +165,7 @@ export interface GameActions {
   patchPapaRoom: (patch: Partial<PapaRoomState>) => void;
   patchMummyRoom: (patch: Partial<MummyRoomState>) => void;
   patchKitchen: (patch: Partial<KitchenState>) => void;
+  patchGarden: (patch: Partial<GardenState>) => void;
   setAdult: (id: ParentId, patch: Partial<AdultState>) => void;
   setKid: (patch: Partial<KidState>) => void;
   showDialogue: (d: Dialogue) => void;
@@ -165,6 +199,7 @@ export const useGame = create<Store>()((set, get) => ({
   patchPapaRoom: (patch) => set((s) => ({ papaRoom: { ...s.papaRoom, ...patch } })),
   patchMummyRoom: (patch) => set((s) => ({ mummyRoom: { ...s.mummyRoom, ...patch } })),
   patchKitchen: (patch) => set((s) => ({ kitchen: { ...s.kitchen, ...patch } })),
+  patchGarden: (patch) => set((s) => ({ garden: { ...s.garden, ...patch } })),
   setAdult: (id, patch) =>
     set((s) => ({ characters: { ...s.characters, [id]: { ...s.characters[id], ...patch } } })),
   setKid: (patch) => set((s) => ({ kid: { ...s.kid, ...patch } })),
@@ -201,7 +236,7 @@ export const useGame = create<Store>()((set, get) => ({
   markGiftOpened: () => set({ lastGiftDay: todayKey() }),
   bumpDrawing: () => set((s) => ({ drawingVersion: s.drawingVersion + 1 })),
   resetSession: () =>
-    set({ ...createInitialState(), settings: get().settings, outfit: get().outfit, balloon: get().balloon, lastGiftDay: get().lastGiftDay, introDone: true }),
+    set({ ...createInitialState(), settings: get().settings, outfit: get().outfit, balloon: get().balloon, lastGiftDay: get().lastGiftDay, introDone: true, garden: { ...initialGarden(), plants: get().garden.plants } }),
 }));
 
 // Persist settings + durable room toggles (never transient dialogue / animation state).
@@ -221,7 +256,8 @@ useGame.subscribe((s, prev) => {
     s.discoveredEasterEggs === prev.discoveredEasterEggs &&
     s.outfit === prev.outfit &&
     s.balloon === prev.balloon &&
-    s.lastGiftDay === prev.lastGiftDay
+    s.lastGiftDay === prev.lastGiftDay &&
+    s.garden.plants === prev.garden.plants
   )
     return;
   clearTimeout(saveTimer);
@@ -235,6 +271,7 @@ useGame.subscribe((s, prev) => {
         outfit: s.outfit,
         balloon: s.balloon,
         lastGiftDay: s.lastGiftDay,
+        plants: s.garden.plants,
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     } catch {

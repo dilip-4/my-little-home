@@ -56,7 +56,7 @@ export const aside = (who: 'papa' | 'mummy' | 'kid', key: string) => {
 export const kidPresent = (s: GameState) => s.kid.room === s.currentRoom && s.kid.awake;
 export const kidHolding = (s: GameState) => (kidPresent(s) ? s.kid.holding : null);
 export const isToy = (h: string | null) => h === 'robot' || h === 'duck' || h === 'teddy';
-export const FOODS = ['cookie', 'sandwich', 'banana', 'juice', 'popcorn', 'cupcake'] as const;
+export const FOODS = ['cookie', 'sandwich', 'banana', 'juice', 'popcorn', 'cupcake', 'tomato'] as const;
 export const isFood = (h: string | null): h is FoodItem => !!h && (FOODS as readonly string[]).includes(h);
 
 // --------------------------------------------------------------- hold timeout

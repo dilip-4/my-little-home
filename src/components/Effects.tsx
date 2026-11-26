@@ -25,7 +25,12 @@ export const Projectile = memo(function Projectile() {
 
   if (!p) return null;
   const sprite =
-    p.kind === 'ball' ? <Ball r={18} /> : p.kind === 'pillow' ? <g transform="scale(0.7)"><Pillow /></g> : p.kind === 'book' ? <Book color="#d9665b" /> : p.kind === 'duck' ? <Duck /> : p.kind === 'dino' ? <Dino /> : <ToyCar />;
+    p.kind === 'ball' ? <Ball r={18} /> : p.kind === 'pillow' ? <g transform="scale(0.7)"><Pillow /></g> : p.kind === 'book' ? <Book color="#d9665b" /> : p.kind === 'duck' ? <Duck /> : p.kind === 'dino' ? <Dino /> : p.kind === 'mango' ? (
+      <g>
+        <ellipse rx={13} ry={17} fill="#ffb43f" stroke="#5a3b2a" strokeWidth={3} transform="rotate(-20)" />
+        <path d="M 2 -16 Q 10 -26 18 -20 Q 10 -14 2 -16 Z" fill="#6fbf4a" stroke="#5a3b2a" strokeWidth={2} />
+      </g>
+    ) : <ToyCar />;
   return (
     <g pointerEvents="none">
       <g ref={ref} style={{ transform: `translate(${p.from.x}px, ${p.from.y}px)` }}>

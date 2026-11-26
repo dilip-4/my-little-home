@@ -3,7 +3,7 @@ import type { Expression, HeldItem, KidPose, KidProp, Outfit } from '../state/ga
 import { KID_SPEC, OUTLINE } from '../data/characters';
 import { Face, Hand, Limb, limbEnd } from './parts';
 import {
-  Apple, Ball, Barbell, Book, BubbleWand, Food, Bottle, CurlRod, Dumbbell, Duck, Guitar, Hairbrush, Keys, Lollipop, OfficeMouse, Pillow, Robot, Sunglasses, Teddy, Zzz,
+  Apple, Ball, Barbell, Book, BubbleWand, Food, Bottle, CurlRod, Dumbbell, Duck, Guitar, Hairbrush, Keys, Lollipop, OfficeMouse, Pillow, Robot, Sunglasses, Teddy, Zzz, WateringCan, RemoteControl, SeedBag, Spade,
 } from '../components/props';
 
 const P = KID_SPEC.palette;
@@ -180,6 +180,10 @@ export const KidFigure = memo(function KidFigure({ pose, expr, prop, holding, ta
       case 'lollipop': return <g transform={`translate(${rHand.x} ${rHand.y - 10}) scale(0.8)`}><Lollipop /></g>;
       case 'apple': return <g transform={`translate(${rHand.x} ${rHand.y - 6}) scale(0.8)`}><Apple /></g>;
       case 'wand': return <g transform={`translate(${rHand.x} ${rHand.y}) rotate(${pose === 'drink' ? -70 : -20})`}><BubbleWand /></g>;
+      case 'can': return <g transform={`translate(${rHand.x} ${rHand.y + 10}) rotate(${pose === 'reach' ? 28 : 0}) scale(0.9)`}><WateringCan pouring={pose === 'reach'} /></g>;
+      case 'remote': return <g transform={`translate(${mid.x} ${mid.y - 4})`}><RemoteControl /></g>;
+      case 'seeds': return <g transform={`translate(${lHand.x} ${lHand.y + 6}) scale(0.9)`}><SeedBag /></g>;
+      case 'spade': return <g transform={`translate(${rHand.x} ${rHand.y}) rotate(${pose === 'crouch' ? 150 : 170})`}><Spade /></g>;
       case 'keys': return <g transform={`translate(${rHand.x} ${rHand.y}) scale(0.9)`}><g className="k-wiggle"><Keys /></g></g>;
       default: return null;
     }
@@ -189,7 +193,7 @@ export const KidFigure = memo(function KidFigure({ pose, expr, prop, holding, ta
     switch (holding) {
       case 'robot': return <g transform={`translate(${mid.x} ${mid.y + 14}) scale(0.7)`}><Robot /></g>;
       case 'teddy': return <g transform={`translate(${mid.x} ${mid.y + 22}) scale(0.62)`} className="teddy-held"><Teddy /></g>;
-      case 'cookie': case 'sandwich': case 'banana': case 'juice': case 'popcorn': case 'cupcake':
+      case 'cookie': case 'sandwich': case 'banana': case 'juice': case 'popcorn': case 'cupcake': case 'tomato':
         return <g transform={`translate(${mid.x} ${mid.y - 2})`}><Food item={holding} /></g>;
       case 'duck': return <g transform={`translate(${mid.x} ${mid.y + 4}) scale(0.85)`}><Duck /></g>;
       case 'pillow': return <g transform={`translate(${mid.x} ${mid.y}) scale(0.6)`}><Pillow /></g>;

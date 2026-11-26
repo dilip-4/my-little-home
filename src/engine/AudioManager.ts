@@ -11,7 +11,8 @@ export type SoundName =
   | 'hmm' | 'disco' | 'pageFlip' | 'brush' | 'teddyDance'
   | 'blow' | 'bubblePop' | 'block' | 'crash' | 'vroom' | 'crunch' | 'sing' | 'clap' | 'dance'
   | 'bark' | 'yip' | 'slurp' | 'pour' | 'tada' | 'unwrap' | 'scribble' | 'whine'
-  | 'drum' | 'hum' | 'splash' | 'birthday' | 'clink' | 'ding';
+  | 'drum' | 'hum' | 'splash' | 'birthday' | 'clink' | 'ding'
+  | 'sparrow' | 'myna' | 'bulbul' | 'parrot' | 'engine' | 'scoop' | 'dig' | 'spray' | 'grow' | 'buzz' | 'flap';
 
 export type GuitarTune = 'kid' | 'kid2' | 'papa' | 'funny';
 
@@ -309,6 +310,17 @@ class AudioManagerImpl {
       case 'splash': B(0, 0.6, { type: 'bandpass', freq: 1800, to: 900, vol: 0.18, q: 0.8 }); break;
       case 'birthday': [[67, 0], [67, 0.2], [69, 0.4], [67, 0.8], [72, 1.2], [71, 1.6]].forEach(([n, st]) => T(NOTE(n), st, 0.35, { type: 'triangle', vol: 0.12 })); break;
       case 'clink': T(2600, 0, 0.25, { vol: 0.08 }); T(3400, 0.02, 0.2, { vol: 0.05 }); break;
+      case 'sparrow': [0, 0.12, 0.24, 0.36].forEach((st) => T(4200 + Math.random() * 600, st, 0.06, { to: 3400, vol: 0.05 })); break;
+      case 'myna': T(1400, 0, 0.18, { type: 'sawtooth', to: 2200, vol: 0.05, filter: 2600 }); T(900, 0.22, 0.14, { type: 'square', to: 600, vol: 0.03, filter: 1800 }); T(2600, 0.42, 0.1, { to: 3200, vol: 0.05 }); break;
+      case 'bulbul': [[1900, 0], [2400, 0.14], [2100, 0.28], [2800, 0.4]].forEach(([f, st]) => T(f, st, 0.12, { to: f * 1.15, vol: 0.06, vibrato: 30 })); break;
+      case 'parrot': T(1600, 0, 0.25, { type: 'sawtooth', to: 2600, vol: 0.06, filter: 3000, vibrato: 40 }); T(2400, 0.3, 0.2, { type: 'sawtooth', to: 1500, vol: 0.05, filter: 2800 }); break;
+      case 'engine': T(70, 0, 1.0, { type: 'sawtooth', to: 85, vol: 0.06, filter: 380, vibrato: 18 }); B(0, 1.0, { freq: 200, vol: 0.04 }); break;
+      case 'scoop': B(0, 0.45, { type: 'bandpass', freq: 900, to: 400, vol: 0.2, q: 0.7 }); T(140, 0.05, 0.3, { type: 'square', to: 90, vol: 0.03, filter: 500 }); break;
+      case 'dig': [0, 0.16, 0.32, 0.48].forEach((st) => B(st + Math.random() * 0.04, 0.1, { type: 'bandpass', freq: 700 + Math.random() * 400, vol: 0.2, q: 0.8 })); break;
+      case 'spray': B(0, 1.4, { type: 'highpass', freq: 3000, vol: 0.08 }); for (let i = 0; i < 6; i++) B(i * 0.22, 0.08, { type: 'bandpass', freq: 2200, vol: 0.06, q: 2 }); break;
+      case 'grow': [60, 67, 72, 76, 79].forEach((n, i) => T(NOTE(n), i * 0.08, 0.3, { type: 'triangle', vol: 0.09, to: NOTE(n) * 1.03 })); break;
+      case 'buzz': T(220, 0, 0.9, { type: 'sawtooth', vol: 0.03, filter: 900, vibrato: 50 }); break;
+      case 'flap': [0, 0.08, 0.16, 0.24].forEach((st) => B(st, 0.05, { type: 'bandpass', freq: 600, vol: 0.12, q: 1 })); break;
       case 'ding': T(1568, 0, 1.0, { vol: 0.15 }); T(3136, 0, 0.4, { vol: 0.04 }); break;
       case 'teddyDance': [72, 74, 76, 79, 76, 74, 72, 67].forEach((n, i) => T(NOTE(n), i * 0.18, 0.16, { type: 'triangle', vol: 0.1 })); break;
     }

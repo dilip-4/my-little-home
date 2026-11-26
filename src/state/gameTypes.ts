@@ -1,6 +1,6 @@
 // Strongly typed game state for My Little Home.
 
-export type RoomId = 'papa-room' | 'mummy-room' | 'kitchen';
+export type RoomId = 'papa-room' | 'mummy-room' | 'kitchen' | 'garden';
 export type DayPeriod = 'morning' | 'afternoon' | 'evening' | 'night';
 export type CharacterId = 'papa' | 'mummy' | 'kid' | 'pup';
 export type ParentId = 'papa' | 'mummy';
@@ -81,7 +81,7 @@ export type KidPose =
 export type HeldItem = null | 'robot' | 'teddy' | 'duck' | 'mouse' | 'sunglasses' | 'pillow' | FoodItem;
 
 /** Snacks made in the kitchen – carry them to Papa or Mummy. */
-export type FoodItem = 'cookie' | 'sandwich' | 'banana' | 'juice' | 'popcorn' | 'cupcake';
+export type FoodItem = 'cookie' | 'sandwich' | 'banana' | 'juice' | 'popcorn' | 'cupcake' | 'tomato';
 
 export type KidLayer = 'front' | 'back' | 'inside';
 
@@ -121,7 +121,11 @@ export type KidProp =
   | 'lollipop'
   | 'keys'
   | 'apple'
-  | 'wand';
+  | 'wand'
+  | 'can'
+  | 'remote'
+  | 'seeds'
+  | 'spade';
 
 
 export interface PapaRoomState {
@@ -150,6 +154,43 @@ export interface KitchenState {
   windowOpen: boolean;
 }
 
+/** Garden plants grow one stage each time they are watered (after a short wait). Persisted. */
+export type PlantKind = 'sunflower' | 'tomato' | 'flower';
+export interface PlantState {
+  kind: PlantKind;
+  /** 0 seed · 1 sprout · 2 bud · 3 grown (flowers / tomatoes) */
+  stage: 0 | 1 | 2 | 3;
+  /** when it was last watered (ms) – it grows GROW_MS later */
+  wateredAt: number | null;
+}
+export type BirdKind = 'sparrow' | 'myna' | 'bulbul' | 'parrot';
+export interface Bird {
+  id: number;
+  kind: BirdKind;
+  x: number;
+  y: number;
+  facing: 1 | -1;
+  mode: 'fly' | 'peck' | 'hop';
+  moveMs: number;
+}
+export interface DiggerState {
+  x: number;
+  y: number;
+  facing: 1 | -1;
+  moveMs: number;
+  arm: 'rest' | 'dig' | 'lift' | 'dump';
+  load: boolean;
+}
+export interface GardenState {
+  plants: PlantState[];
+  birds: Bird[];
+  digger: DiggerState;
+  /** size of the sand heap the digger builds (0..4) */
+  heap: number;
+  /** how deep the dig patch hole is (0..3) */
+  hole: number;
+}
+
 export interface Dialogue {
   id: number;
   speaker: CharacterId;
@@ -173,7 +214,7 @@ export type KidGender = 'boy' | 'girl';
 /** Dress-up costumes from the costume chest (persisted). */
 export type Outfit = 'none' | 'cape' | 'crown' | 'pirate' | 'dino' | 'chef';
 
-export type PupPose = 'sit' | 'walk' | 'run' | 'sleep' | 'wag' | 'jump' | 'eat' | 'roll' | 'beg' | 'lick' | 'spin' | 'hide';
+export type PupPose = 'sit' | 'walk' | 'run' | 'sleep' | 'wag' | 'jump' | 'eat' | 'roll' | 'beg' | 'lick' | 'spin' | 'hide' | 'dig';
 
 /** Biscuit the puppy – follows the kid between rooms. */
 export interface PupState {
@@ -197,6 +238,7 @@ export interface GameState {
   papaRoom: PapaRoomState;
   mummyRoom: MummyRoomState;
   kitchen: KitchenState;
+  garden: GardenState;
   characters: { papa: AdultState; mummy: AdultState };
   kid: KidState;
   dialogues: Partial<Record<CharacterId, Dialogue>>;

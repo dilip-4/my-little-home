@@ -1,7 +1,8 @@
 import { useGame, getGame } from '../state/gameStore';
 import { AudioManager } from '../engine/AudioManager';
 import { OUTLINE } from '../data/characters';
-import { Cookie, Cupcake, Dino, Food, Guitar, Heart, Note, Phone, Teddy, ToyCar } from './props';
+import { Cookie, Cupcake, Dino, Food, Guitar, Heart, Note, Phone, Teddy, ToyCar, Tomato } from './props';
+import { BirdFigure } from '../characters/Bird';
 
 const S = { stroke: OUTLINE, strokeWidth: 4, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const };
 
@@ -31,6 +32,18 @@ export const STICKERS: { id: string; title: string; hint: string }[] = [
   { id: 'hide-seek', title: 'Hide-and-seek', hint: 'Press the peeking eyes and hide!' },
   { id: 'giggle-giveaway', title: 'Giggle gave it away', hint: 'Tap yourself while hiding...' },
   { id: 'found-biscuit', title: 'Found Biscuit', hint: 'Press the paw and look for his tail.' },
+  { id: 'garden-digger', title: 'Digger driver', hint: 'Draw a road in the sandpit for the digger.' },
+  { id: 'garden-grow', title: 'Green fingers', hint: 'Water a plant until it is all grown up.' },
+  { id: 'garden-tomato', title: 'Little farmer', hint: 'Grow a tomato plant, then pick a tomato.' },
+  { id: 'bird-sparrow', title: 'Sparrow', hint: 'Feed the birds, then tap a little brown bird.' },
+  { id: 'bird-myna', title: 'Myna', hint: 'Feed the birds, then tap the one with a yellow beak.' },
+  { id: 'bird-bulbul', title: 'Bulbul', hint: 'Feed the birds, then tap the one with a pointy hat.' },
+  { id: 'bird-parrot', title: 'Parrot', hint: 'A green parrot visits now and then...' },
+  { id: 'dig-treasure', title: 'Treasure hunter', hint: 'Dig in the soft soil with Biscuit.' },
+  { id: 'catch-me', title: 'Catch me!', hint: 'Tap Biscuit in the garden and catch him.' },
+  { id: 'sprinkler', title: 'Splash!', hint: 'Turn on the garden sprinkler.' },
+  { id: 'garden-swing', title: 'Super swing', hint: 'Tap the swing 3 times quickly.' },
+  { id: 'butterfly', title: 'Butterfly friend', hint: 'Tap a butterfly in the garden.' },
   { id: 'outfit-cape', title: 'Superhero', hint: 'Look in the costume chest.' },
   { id: 'outfit-crown', title: 'Royal crown', hint: 'Look in the costume chest.' },
   { id: 'outfit-pirate', title: 'Pirate', hint: 'Look in the costume chest.' },
@@ -88,6 +101,27 @@ function Icon({ id }: { id: string }) {
       return <g><circle r={28} fill="#d9a179" {...S} /><path d="M -14 -4 q 5 -6 10 0 M 4 -4 q 5 -6 10 0" stroke={OUTLINE} strokeWidth={4} fill="none" strokeLinecap="round" /><path d="M -10 8 Q 0 20 10 8" stroke={OUTLINE} strokeWidth={4} fill="#c8283a" /><text x={22} y={-20} fontSize={18} fontWeight={700} fill="#e2705c">hee</text></g>;
     case 'found-biscuit':
       return <g><path d="M -30 24 Q -40 -10 -24 -30" fill="none" stroke={OUTLINE} strokeWidth={13} strokeLinecap="round" /><path d="M -30 24 Q -40 -10 -24 -30" fill="none" stroke="#e8b77a" strokeWidth={8} strokeLinecap="round" /><circle cx={12} cy={0} r={20} fill="#d9f0ff" {...S} /><path d="M 26 14 L 40 28" stroke={OUTLINE} strokeWidth={7} strokeLinecap="round" /></g>;
+    case 'garden-digger':
+      return <g><rect x={-34} y={-2} width={52} height={18} rx={9} fill="#3b3f46" {...S} strokeWidth={3} /><rect x={-30} y={-22} width={40} height={22} rx={5} fill="#ffc021" {...S} strokeWidth={3} /><rect x={-14} y={-38} width={22} height={18} rx={3} fill="#bfe3f2" {...S} strokeWidth={3} /><path d="M 10 -14 L 30 -32 L 40 -8" fill="none" stroke="#e8a21a" strokeWidth={7} strokeLinecap="round" /><path d="M 34 -8 L 44 8 L 30 8 Z" fill="#7c8594" {...S} strokeWidth={2.5} /></g>;
+    case 'garden-grow':
+      return <g><path d="M 0 30 L 0 -6" stroke={OUTLINE} strokeWidth={7} strokeLinecap="round" /><path d="M 0 30 L 0 -6" stroke="#5aa83f" strokeWidth={4} strokeLinecap="round" />{[0, 45, 90, 135, 180, 225, 270, 315].map((a) => <ellipse key={a} cx={0} cy={-26} rx={6} ry={11} fill="#ffd23f" stroke={OUTLINE} strokeWidth={2} transform={`rotate(${a} 0 -12)`} />)}<circle cx={0} cy={-12} r={10} fill="#8a5a2e" {...S} strokeWidth={2.5} /><path d="M 0 18 Q 14 4 24 14 Q 12 24 0 18 Z" fill="#6fbf4a" stroke={OUTLINE} strokeWidth={2} /></g>;
+    case 'garden-tomato':
+      return <g transform="scale(2)"><Tomato /></g>;
+    case 'bird-sparrow':
+    case 'bird-myna':
+    case 'bird-bulbul':
+    case 'bird-parrot':
+      return <g transform="translate(-4 24) scale(1.6)"><BirdFigure kind={id.slice(5) as 'sparrow'} mode="hop" /></g>;
+    case 'dig-treasure':
+      return <g><ellipse cx={0} cy={20} rx={34} ry={10} fill="#8a5a32" {...S} strokeWidth={3} /><circle cx={0} cy={-4} r={18} fill="#ffd23f" {...S} /><text y={4} textAnchor="middle" fontSize={22} fontWeight={700} fill="#b07a1a">★</text></g>;
+    case 'catch-me':
+      return <g><path d="M -34 10 Q -20 -20 0 -4 Q 20 12 34 -14" fill="none" stroke="#ffb3c1" strokeWidth={6} strokeDasharray="6 6" strokeLinecap="round" /><g fill="#b5793f" {...S} strokeWidth={3} transform="translate(14 -14) scale(0.6)"><ellipse cx={0} cy={10} rx={18} ry={15} /><circle cx={-18} cy={-12} r={8} /><circle cx={-6} cy={-22} r={8} /><circle cx={8} cy={-22} r={8} /><circle cx={20} cy={-12} r={8} /></g></g>;
+    case 'sprinkler':
+      return <g><path d="M -36 18 Q 0 -54 36 18" fill="none" stroke="#5fb0e8" strokeWidth={6} strokeDasharray="4 8" strokeLinecap="round" /><path d="M -26 18 Q 0 -30 26 18" fill="none" stroke="#ffd23f" strokeWidth={5} opacity={0.8} /><rect x={-12} y={14} width={24} height={14} rx={4} fill="#9aa6b8" {...S} strokeWidth={3} /></g>;
+    case 'garden-swing':
+      return <g><path d="M -20 -40 L -20 16 M 20 -40 L 20 16" stroke="#8a6a4a" strokeWidth={5} /><rect x={-30} y={14} width={60} height={12} rx={5} fill="#e2705c" {...S} strokeWidth={3} /><path d="M -40 -40 L 40 -40" stroke="#a8743f" strokeWidth={9} strokeLinecap="round" /></g>;
+    case 'butterfly':
+      return <g transform="scale(1.4)"><path d="M 0 0 Q -22 -26 -26 -6 Q -24 6 0 0 Z M 0 0 Q 22 -26 26 -6 Q 24 6 0 0 Z" fill="#ffb43f" stroke={OUTLINE} strokeWidth={2} /><path d="M 0 0 Q -18 14 -12 20 Q -2 16 0 0 Z M 0 0 Q 18 14 12 20 Q 2 16 0 0 Z" fill="#9b7bff" stroke={OUTLINE} strokeWidth={2} /><ellipse rx={3} ry={11} fill={OUTLINE} /></g>;
     case 'outfit-cape':
       return <path d="M -16 -28 Q -40 0 -30 30 Q 0 38 30 30 Q 40 0 16 -28 Q 0 -22 -16 -28 Z" fill="#e2483f" {...S} />;
     case 'outfit-crown':

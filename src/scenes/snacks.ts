@@ -13,6 +13,7 @@ const REACT: Record<ParentId, Record<FoodItem, readonly string[]>> = {
     juice: ['Juice! Cheers, {name}!', 'Ahh, just what I needed. Thank you!'],
     popcorn: ['Popcorn? Is it movie time already?', 'Pop pop! Don\'t tell my boss.'],
     cupcake: ['A cupcake! Is it my birthday?', 'You baked this? Chef {name}, you are amazing!'],
+    tomato: ['You grew this tomato yourself? Farmer {name}!', 'A real garden tomato! So juicy!'],
   },
   mummy: {
     cookie: ['A cookie for me? Who\'s been in the cookie jar, hmm?', 'Thank you, sweetie! Half for you?'],
@@ -21,6 +22,7 @@ const REACT: Record<ParentId, Record<FoodItem, readonly string[]>> = {
     juice: ['Juice for Mummy? So thoughtful!', 'Cheers! Clink!'],
     popcorn: ['Popcorn! Shall we watch a movie later?', 'Mmm, crunchy! Thank you, baby.'],
     cupcake: ['A cupcake with love? My heart is full!', 'You baked this? Little master chef!'],
+    tomato: ["From your own plant? I'm so proud of you!", 'What a red, shiny tomato! Thank you, gardener!'],
   },
 };
 

@@ -50,8 +50,8 @@ export const PupFigure = memo(function PupFigure({ pose, carry }: { pose: PupPos
   }
   const sitting = pose === 'sit' || pose === 'beg' || pose === 'eat';
   const cls =
-    pose === 'walk' ? 'pup-walk' : pose === 'run' ? 'pup-run' : pose === 'jump' ? 'pup-jump' : pose === 'roll' ? 'pup-roll' : pose === 'spin' ? 'pup-spin' : pose === 'beg' ? 'pup-beg' : undefined;
-  const headDown = pose === 'eat';
+    pose === 'walk' ? 'pup-walk' : pose === 'run' ? 'pup-run' : pose === 'jump' ? 'pup-jump' : pose === 'roll' ? 'pup-roll' : pose === 'spin' ? 'pup-spin' : pose === 'beg' ? 'pup-beg' : pose === 'dig' ? 'pup-dig' : undefined;
+  const headDown = pose === 'eat' || pose === 'dig';
   const tongue = pose === 'lick' || pose === 'wag' || pose === 'run' || pose === 'jump' || pose === 'beg';
   return (
     <g>

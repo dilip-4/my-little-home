@@ -51,7 +51,7 @@ async function kidToPup(c: Ctx) {
 }
 
 function pupDefs(room: RoomId): InteractionDefinition[] {
-  const parent = room === 'kitchen' ? null : parentOf(room);
+  const parent = room === 'kitchen' || room === 'garden' ? null : parentOf(room);
   const [minX, maxX] = PUP_RANGE[room];
   return [
     {

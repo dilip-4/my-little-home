@@ -28,6 +28,8 @@ const loadMummyRoom = () => import('../scenes/MummyRoom/MummyRoomScene');
 const MummyRoomScene = lazy(loadMummyRoom);
 const loadKitchen = () => import('../scenes/Kitchen/KitchenScene');
 const KitchenScene = lazy(loadKitchen);
+const loadGarden = () => import('../scenes/Garden/GardenScene');
+const GardenScene = lazy(loadGarden);
 
 const ROOMS: { id: RoomId; label: string; icon: JSX.Element }[] = [
   {
@@ -60,6 +62,23 @@ const ROOMS: { id: RoomId; label: string; icon: JSX.Element }[] = [
         <path d="M 14 30 L 50 30 L 46 54 L 18 54 Z" fill="#7fc8e8" stroke="#5a3b2a" strokeWidth="4" strokeLinejoin="round" />
         <path d="M 10 32 Q 8 12 26 14 Q 32 4 40 14 Q 58 12 54 32 Z" fill="#ffb3d1" stroke="#5a3b2a" strokeWidth="4" strokeLinejoin="round" />
         <circle cx="32" cy="10" r="5" fill="#e2483f" stroke="#5a3b2a" strokeWidth="3" />
+      </svg>
+    ),
+  },
+  {
+    id: 'garden',
+    label: 'Garden',
+    icon: (
+      <svg viewBox="0 0 64 64" aria-hidden>
+        <path d="M 32 58 L 32 30" stroke="#5a3b2a" strokeWidth="7" strokeLinecap="round" />
+        <path d="M 32 58 L 32 30" stroke="#5aa83f" strokeWidth="3" strokeLinecap="round" />
+        <path d="M 32 44 Q 18 30 10 40 Q 20 50 32 44 Z" fill="#6fbf4a" stroke="#5a3b2a" strokeWidth="3" />
+        <g stroke="#5a3b2a" strokeWidth="3">
+          {[0, 60, 120, 180, 240, 300].map((a) => (
+            <ellipse key={a} cx="32" cy="10" rx="6" ry="9" fill="#ffd23f" transform={`rotate(${a} 32 20)`} />
+          ))}
+        </g>
+        <circle cx="32" cy="20" r="7" fill="#8a5a2e" stroke="#5a3b2a" strokeWidth="3" />
       </svg>
     ),
   },
@@ -160,6 +179,7 @@ export function GameShell() {
     const p = setTimeout(() => {
       void loadMummyRoom(); // preload the other rooms in the background
       void loadKitchen();
+      void loadGarden();
     }, 800);
     return () => {
       clearTimeout(t);
@@ -182,7 +202,7 @@ export function GameShell() {
             <PapaRoomScene />
           ) : (
             <Suspense fallback={<div className="room-loading" />}>
-              {room === 'mummy-room' ? <MummyRoomScene /> : <KitchenScene />}
+              {room === 'mummy-room' ? <MummyRoomScene /> : room === 'kitchen' ? <KitchenScene /> : <GardenScene />}
             </Suspense>
           )}
         </div>

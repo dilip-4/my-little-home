@@ -336,4 +336,62 @@ export const Cupcake = ({ candle = false }: { candle?: boolean }) => (
 
 /** Renders any food item by name. */
 export const Food = ({ item }: { item: string }) =>
-  item === 'cookie' ? <Cookie /> : item === 'sandwich' ? <Sandwich /> : item === 'banana' ? <Banana /> : item === 'juice' ? <JuiceBox /> : item === 'popcorn' ? <Popcorn /> : item === 'cupcake' ? <Cupcake /> : null;
+  item === 'cookie' ? <Cookie /> : item === 'sandwich' ? <Sandwich /> : item === 'banana' ? <Banana /> : item === 'juice' ? <JuiceBox /> : item === 'popcorn' ? <Popcorn /> : item === 'cupcake' ? <Cupcake /> : item === 'tomato' ? <Tomato /> : null;
+
+// ------------------------------------------------------------------ garden
+export const Tomato = () => (
+  <g>
+    <circle r={15} fill="#e8483f" {...S} />
+    <path d="M -8 -6 q -3 5 0 10" stroke="#fff" strokeWidth={3} strokeLinecap="round" opacity={0.5} fill="none" />
+    <path d="M 0 -14 L -8 -18 L -3 -12 L -10 -10 L 0 -10 L 6 -16 L 4 -10 L 11 -11 L 3 -13 Z" fill="#4f9d3a" stroke={OUTLINE} strokeWidth={1.5} strokeLinejoin="round" />
+  </g>
+);
+
+/** Little green watering can, spout pointing +x. */
+export const WateringCan = ({ pouring = false }: { pouring?: boolean }) => (
+  <g>
+    <path d="M -22 -26 L 18 -26 L 22 6 L -26 6 Z" fill="#5fbf8f" {...S} />
+    <path d="M 18 -18 L 44 -38" stroke={OUTLINE} strokeWidth={9} strokeLinecap="round" />
+    <path d="M 18 -18 L 44 -38" stroke="#5fbf8f" strokeWidth={5} strokeLinecap="round" />
+    <path d="M 40 -44 L 52 -34 L 46 -30 Z" fill="#4aa57a" stroke={OUTLINE} strokeWidth={2} strokeLinejoin="round" />
+    <path d="M -18 -26 Q -2 -50 14 -26" fill="none" stroke={OUTLINE} strokeWidth={5} />
+    <circle cx={-2} cy={-10} r={6} fill="#ffd23f" stroke={OUTLINE} strokeWidth={2} />
+    {pouring && (
+      <g className="can-drops">
+        {[0, 1, 2, 3].map((i) => (
+          <path key={i} d={`M ${50 + i * 4} ${-28 + i * 2} l 2 8`} stroke="#6cc4f0" strokeWidth={3} strokeLinecap="round" style={{ animationDelay: `${i * 90}ms` }} />
+        ))}
+      </g>
+    )}
+  </g>
+);
+
+/** Toy remote control with an antenna and two sticks. */
+export const RemoteControl = () => (
+  <g>
+    <path d="M 10 -18 L 18 -46" stroke={OUTLINE} strokeWidth={3} strokeLinecap="round" />
+    <circle cx={18} cy={-47} r={4} fill="#e2483f" stroke={OUTLINE} strokeWidth={1.5} />
+    <rect x={-20} y={-20} width={40} height={26} rx={8} fill="#ffcf3f" {...S} />
+    <circle cx={-9} cy={-7} r={5} fill="#3b3f46" stroke={OUTLINE} strokeWidth={1.5} />
+    <circle cx={9} cy={-7} r={5} fill="#3b3f46" stroke={OUTLINE} strokeWidth={1.5} />
+  </g>
+);
+
+export const SeedBag = () => (
+  <g>
+    <path d="M -16 4 L -14 -26 Q 0 -32 14 -26 L 16 4 Z" fill="#e8c48a" {...S} />
+    <path d="M -14 -26 Q -4 -36 0 -28 Q 6 -36 14 -26" fill="#d8ac66" {...S} strokeWidth={2.5} />
+    <circle cx={-4} cy={-10} r={3} fill="#9b6a2f" />
+    <circle cx={5} cy={-6} r={3} fill="#9b6a2f" />
+    <circle cx={0} cy={-16} r={3} fill="#9b6a2f" />
+  </g>
+);
+
+export const Spade = () => (
+  <g>
+    <path d="M 0 0 L 0 -40" stroke={OUTLINE} strokeWidth={7} strokeLinecap="round" />
+    <path d="M 0 0 L 0 -40" stroke="#c48a56" strokeWidth={4} strokeLinecap="round" />
+    <path d="M -8 -44 L 8 -44" stroke={OUTLINE} strokeWidth={6} strokeLinecap="round" />
+    <path d="M -10 0 L 10 0 L 8 18 Q 0 26 -8 18 Z" fill="#9aa6b8" {...S} />
+  </g>
+);
