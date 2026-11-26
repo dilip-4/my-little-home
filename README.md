@@ -260,7 +260,7 @@ stars and fireflies at night).
   (a mango bonks the kid on the head), a butterfly lands on the kid's nose when tapped, sniff the
   bush, push the wheelbarrow.
 * **Hide-and-seek** works in the garden too: behind the big bush or the wheelbarrow.
-* 13 new stickers: Digger driver, Green fingers, Little farmer, Sparrow, Myna, Bulbul, Parrot,
+* 12 new stickers: Digger driver, Green fingers, Little farmer, Sparrow, Myna, Bulbul, Parrot,
   Treasure hunter, Catch me!, Splash!, Super swing, Butterfly friend.
 
 ### Hide-and-seek (two games)
